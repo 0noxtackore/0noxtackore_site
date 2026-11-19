@@ -431,33 +431,18 @@ export function Site() {
             </div>
             <div className={styles.faqCta}>
               <p className={styles.faqCtaText}>
-                ¿Quieres conocernos o trabajar con nosotros? Escríbenos y te respondemos.
+                ¿Quieres conocernos mejor? Encuentra nuestras redes y síguenos para estar al tanto.
               </p>
               <div className={styles.faqCtaActions}>
-                <a
-                  className={`${styles.button} ${styles.buttonBlue}`}
-                  href="https://www.facebook.com/people/0noxtackore/61567098773222/"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <FacebookIcon />
-                  Facebook
-                </a>
-                <a
-                  className={`${styles.button} ${styles.buttonOutline}`}
-                  href="https://www.instagram.com/0noxtackore.dev/"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <InstagramIcon />
-                  Instagram
+                <a className={`${styles.button} ${styles.buttonBlue}`} href="#social">
+                  Ver nuestras redes
                 </a>
               </div>
             </div>
           </div>
         </section>
 
-        <section className={styles.social} aria-labelledby="social-title">
+        <section className={styles.social} id="social" aria-labelledby="social-title">
           <h2 id="social-title" className={styles.socialTitle}>
             Síguenos
           </h2>
