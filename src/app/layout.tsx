@@ -54,6 +54,38 @@ export const metadata: Metadata = {
   },
 };
 
+const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "0NOXTACKORE",
+  alternateName: "0noxtackore",
+  slogan: "BUILT FOR IMPACT",
+  url: siteUrl,
+  logo: `${siteUrl}/sites/0noxtackore/logo.webp`,
+  image: `${siteUrl}/opengraph-image.jpg`,
+  description,
+  inLanguage: "es",
+  sameAs: [
+    "https://www.facebook.com/people/0noxtackore/61567098773222/",
+    "https://www.instagram.com/0noxtackore.dev/",
+  ],
+};
+
+const websiteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "0NOXTACKORE — BUILT FOR IMPACT",
+  url: siteUrl,
+  inLanguage: "es",
+  publisher: { "@type": "Organization", name: "0NOXTACKORE", url: siteUrl },
+};
+
+// Escape "<" so the inline JSON can never break out of the <script> element.
+const structuredData = JSON.stringify([organizationJsonLd, websiteJsonLd]).replace(
+  /</g,
+  "\\u003c",
+);
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -61,7 +93,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" className="h-full antialiased">
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: structuredData }}
+        />
+        {children}
+      </body>
     </html>
   );
 }
