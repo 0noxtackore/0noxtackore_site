@@ -1,5 +1,6 @@
 export const siteUrl = "https://0noxtackore.makes.fyi";
 export const gaMeasurementId = "G-GF6XLVQRD1";
+export const indexNowKey = "78b8ca671862cf7827495cfa5d0eba98";
 
 export type Area = {
   slug: string;
