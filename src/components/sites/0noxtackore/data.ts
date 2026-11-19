@@ -1,4 +1,5 @@
 export const siteUrl = "https://0noxtackore.makes.fyi";
+export const gaMeasurementId = "G-GF6XLVQRD1";
 
 export type Area = {
   title: string;

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { faqs, siteUrl } from "@/components/sites/0noxtackore/data";
+import Script from "next/script";
+import { faqs, gaMeasurementId, siteUrl } from "@/components/sites/0noxtackore/data";
 import "./globals.css";
 
 const title = "0NOXTACKORE — BUILT FOR IMPACT";
@@ -111,6 +112,16 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: structuredData }}
         />
         {children}
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`}
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '${gaMeasurementId}', { anonymize_ip: true });`}
+        </Script>
       </body>
     </html>
   );
