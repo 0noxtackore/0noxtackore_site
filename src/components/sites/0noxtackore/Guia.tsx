@@ -148,7 +148,7 @@ export function Guia() {
               Estamos preparando una sección para que puedas ver directamente los equipos que
               cumplen estos criterios. Mientras tanto, puedes seguirnos para enterarte del lanzamiento.
             </p>
-            <Link className={`${styles.button} ${styles.buttonBlue}`} href="/#recomendaciones">
+            <Link className={`${styles.button} ${styles.buttonBlue}`} href="/recomendaciones">
               Ver recomendaciones en la web
             </Link>
           </section>

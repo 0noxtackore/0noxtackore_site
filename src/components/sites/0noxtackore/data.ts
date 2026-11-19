@@ -2,6 +2,7 @@ export const siteUrl = "https://0noxtackore.makes.fyi";
 export const gaMeasurementId = "G-GF6XLVQRD1";
 
 export type Area = {
+  slug: string;
   title: string;
   description: string;
   image: string;
@@ -55,6 +56,7 @@ export const brand = {
 
 export const areas: Area[] = [
   {
+    slug: "desarrollo-de-software",
     title: "Desarrollo de software",
     description:
       "Crear aplicaciones y herramientas que solucionen problemas cotidianos, técnicos y profesionales. Diseñamos cada solución pensando en su uso real, desde la primera idea hasta una versión que se mantiene y evoluciona con el tiempo.",
@@ -63,6 +65,7 @@ export const areas: Area[] = [
     blur: "data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACwAQCdASoQAAkABUB8JYwAAqHJ01LwAP5i72HoXooRcbmexz526J+maCeoOAAA",
   },
   {
+    slug: "ingenieria-open-source",
     title: "Ingeniería y evolución de proyectos open source",
     description:
       "Estudiar tecnologías existentes, adaptarlas, mejorarlas y distribuir versiones con valor añadido, respetando sus licencias y autores.",
@@ -71,6 +74,7 @@ export const areas: Area[] = [
     blur: "data:image/webp;base64,UklGRkIAAABXRUJQVlA4IDYAAADwAQCdASoQAAkABUB8JZQCw7EeXRIuCIAA/Zzehuh0dwkuC+pkRMPNLajGkyHpA2nz66qAAAA=",
   },
   {
+    slug: "tecnologias-e-integraciones",
     title: "Tecnologías e integraciones",
     description:
       "Desarrollar herramientas, SDK, sistemas e integraciones que faciliten el trabajo de desarrolladores y empresas.",
@@ -79,6 +83,7 @@ export const areas: Area[] = [
     blur: "data:image/webp;base64,UklGRjAAAABXRUJQVlA4ICQAAACQAQCdASoQAAkABUB8JYwCdADC5LAA/vDfemTiWm4Jtj34wAA=",
   },
   {
+    slug: "productos-tecnologicos",
     title: "Productos tecnológicos",
     description:
       "Comercializar software, ofrecer versiones especializadas y construir soluciones sostenibles. Buscamos que cada producto tenga un propósito claro, una experiencia cuidada y un modelo que pueda mantenerse a largo plazo.",
@@ -87,6 +92,7 @@ export const areas: Area[] = [
     blur: "data:image/webp;base64,UklGRjYAAABXRUJQVlA4ICoAAACwAQCdASoQAAkABUB8JQBOgBxbH6tAAP7qvFcB74lxhCcqQRiopj2AAAA=",
   },
   {
+    slug: "recomendacion-y-afiliacion",
     title: "Recomendación y afiliación tecnológica",
     description:
       "Seleccionar y recomendar equipos informáticos, especialmente laptops de fabricantes y proveedores chinos, evaluando sus especificaciones técnicas, rendimiento y relación calidad-precio.",
@@ -95,6 +101,7 @@ export const areas: Area[] = [
     blur: "data:image/webp;base64,UklGRjQAAABXRUJQVlA4ICgAAACwAQCdASoQAAkABUB8JZwAAn/eqmg4AP7ssS6uhk3ooFamAh9FhQAA",
   },
   {
+    slug: "consultoria-tecnica",
     title: "Consultoría técnica y acompañamiento",
     description:
       "Analizamos necesidades, definimos la arquitectura adecuada y acompañamos a los equipos durante la implementación y evolución de sus soluciones.",
@@ -141,35 +148,35 @@ export const values = [
 ];
 
 export const navLinks = [
-  { label: "Inicio", href: "#inicio" },
-  { label: "Áreas de actividad", href: "#areas" },
-  { label: "Filosofía", href: "#filosofia" },
-  { label: "Recomendaciones", href: "#recomendaciones" },
+  { label: "Inicio", href: "/" },
+  { label: "Áreas de actividad", href: "/areas" },
+  { label: "Filosofía", href: "/filosofia" },
+  { label: "Recomendaciones", href: "/recomendaciones" },
 ];
 
 export const megaGroups = [
   {
     title: "Qué hacemos",
     links: [
-      { label: "Desarrollo de software", href: "#areas" },
-      { label: "Ingeniería open source", href: "#areas" },
-      { label: "Tecnologías e integraciones", href: "#areas" },
+      { label: "Desarrollo de software", href: "/areas/desarrollo-de-software" },
+      { label: "Ingeniería open source", href: "/areas/ingenieria-open-source" },
+      { label: "Tecnologías e integraciones", href: "/areas/tecnologias-e-integraciones" },
     ],
   },
   {
     title: "Soluciones",
     links: [
-      { label: "Productos tecnológicos", href: "#areas" },
-      { label: "Recomendación y afiliación", href: "#recomendaciones" },
-      { label: "SDK e integraciones", href: "#areas" },
+      { label: "Productos tecnológicos", href: "/areas/productos-tecnologicos" },
+      { label: "Recomendación y afiliación", href: "/areas/recomendacion-y-afiliacion" },
+      { label: "SDK e integraciones", href: "/areas/tecnologias-e-integraciones" },
     ],
   },
   {
     title: "Compañía",
     links: [
-      { label: "Nuestra filosofía", href: "#filosofia" },
-      { label: "Construimos con propósito", href: "#filosofia" },
-      { label: "Contacto", href: "#contacto" },
+      { label: "Nuestra filosofía", href: "/filosofia" },
+      { label: "Construimos con propósito", href: "/confianza" },
+      { label: "Contacto", href: "/contacto" },
     ],
   },
 ];
@@ -178,33 +185,33 @@ export const footerGroups = [
   {
     title: "Compañía",
     links: [
-      { label: "Inicio", href: "#inicio" },
-      { label: "Áreas de actividad", href: "#areas" },
-      { label: "Nuestra filosofía", href: "#filosofia" },
+      { label: "Inicio", href: "/" },
+      { label: "Áreas de actividad", href: "/areas" },
+      { label: "Nuestra filosofía", href: "/filosofia" },
     ],
   },
   {
     title: "Servicios",
     links: [
-      { label: "Desarrollo de software", href: "#areas" },
-      { label: "Ingeniería open source", href: "#areas" },
-      { label: "Tecnologías e integraciones", href: "#areas" },
+      { label: "Desarrollo de software", href: "/areas/desarrollo-de-software" },
+      { label: "Ingeniería open source", href: "/areas/ingenieria-open-source" },
+      { label: "Tecnologías e integraciones", href: "/areas/tecnologias-e-integraciones" },
     ],
   },
   {
     title: "Productos",
     links: [
-      { label: "Productos tecnológicos", href: "#areas" },
-      { label: "Recomendación y afiliación", href: "#recomendaciones" },
-      { label: "Equipos y laptops", href: "#recomendaciones" },
+      { label: "Productos tecnológicos", href: "/areas/productos-tecnologicos" },
+      { label: "Recomendación y afiliación", href: "/recomendaciones" },
+      { label: "Equipos y laptops", href: "/recomendaciones" },
     ],
   },
   {
     title: "Enlaces",
     links: [
-      { label: "BUILT FOR IMPACT", href: "#inicio" },
-      { label: "Construimos tecnología con propósito", href: "#filosofia" },
-      { label: "Contacto", href: "#contacto" },
+      { label: "BUILT FOR IMPACT", href: "/" },
+      { label: "Construimos tecnología con propósito", href: "/confianza" },
+      { label: "Contacto", href: "/contacto" },
     ],
   },
 ];

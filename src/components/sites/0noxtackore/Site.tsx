@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import {
   BadgeCheck,
   Code2,
@@ -73,6 +74,43 @@ const areaIcons: Record<Area["icon"], LucideIcon> = {
 
 const trustIcons: LucideIcon[] = [ShieldCheck, BadgeCheck, Eye, Star];
 
+const sectionTargets: Record<string, string> = {
+  "/areas": "areas",
+  "/filosofia": "filosofia",
+  "/recomendaciones": "recomendaciones",
+  "/contacto": "contacto",
+  "/confianza": "confianza",
+  "/faq": "faq",
+  "/compartir": "compartir",
+  "/social": "social",
+};
+
+function useScrollToSection() {
+  const pathname = usePathname();
+
+  useEffect(() => {
+    const path = pathname.replace(/\/+$/, "") || "/";
+    let targetId: string | undefined;
+
+    if (path.startsWith("/areas/")) {
+      targetId = `area-${path.slice("/areas/".length)}`;
+    } else {
+      targetId = sectionTargets[path];
+    }
+
+    if (!targetId) return;
+
+    const timer = window.setTimeout(() => {
+      const element = document.getElementById(targetId);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }, 300);
+
+    return () => window.clearTimeout(timer);
+  }, [pathname]);
+}
+
 function BrandIntro({ text }: { text: string }) {
   const name = brand.name.toLowerCase();
   if (!text.toLowerCase().startsWith(name)) return <>{text}</>;
@@ -94,15 +132,15 @@ function SiteHeader() {
         <div className={styles.announceInner}>
           <span className={styles.announceStrong}>{brand.name}</span>
           <span>{brand.tagline}</span>
-          <a className={styles.announceLink} href="#filosofia">
+          <Link className={styles.announceLink} href="/filosofia">
             Conoce nuestra filosofía →
-          </a>
+          </Link>
         </div>
       </div>
 
       <header className={styles.header}>
         <div className={styles.headerInner}>
-          <a className={styles.logoLink} href="#inicio" aria-label={brand.name}>
+          <Link className={styles.logoLink} href="/" aria-label={brand.name}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               className={styles.logo}
@@ -112,7 +150,7 @@ function SiteHeader() {
               height={32}
               decoding="async"
             />
-          </a>
+          </Link>
 
           <nav className={styles.nav} aria-label="Navegación principal">
             {navLinks.map((link) => (
@@ -132,9 +170,9 @@ function SiteHeader() {
               {menuOpen ? <X size={18} aria-hidden="true" /> : <Menu size={18} aria-hidden="true" />}
               Todo <span className={styles.thinBrand}>{brand.name.toLowerCase()}</span>
             </button>
-            <a className={styles.contactButton} href="#contacto">
+            <Link className={styles.contactButton} href="/contacto">
               Contacto
-            </a>
+            </Link>
           </div>
         </div>
 
@@ -203,6 +241,8 @@ function SiteFooter() {
 }
 
 export function Site() {
+  useScrollToSection();
+
   return (
     <div className={styles.page}>
       <SiteHeader />
@@ -222,12 +262,12 @@ export function Site() {
                 <BrandIntro text={brand.intro} />
               </p>
               <div className={styles.heroActions}>
-                <a className={`${styles.button} ${styles.buttonBlue}`} href="#areas">
+                <Link className={`${styles.button} ${styles.buttonBlue}`} href="/areas">
                   Explorar áreas
-                </a>
-                <a className={`${styles.button} ${styles.buttonOutline}`} href="#filosofia">
+                </Link>
+                <Link className={`${styles.button} ${styles.buttonOutline}`} href="/filosofia">
                   Nuestra filosofía
-                </a>
+                </Link>
               </div>
             </div>
           </div>
@@ -246,7 +286,7 @@ export function Site() {
               {areas.map((area) => {
                 const Icon = areaIcons[area.icon];
                 return (
-                  <article key={area.title} className={styles.card}>
+                  <article key={area.title} id={`area-${area.slug}`} className={styles.card}>
                     <div
                       className={styles.cardMedia}
                       style={{
@@ -452,9 +492,9 @@ export function Site() {
                 ¿Quieres conocernos mejor? Encuentra nuestras redes y síguenos para estar al tanto.
               </p>
               <div className={styles.faqCtaActions}>
-                <a className={`${styles.button} ${styles.buttonBlue}`} href="#social">
+                <Link className={`${styles.button} ${styles.buttonBlue}`} href="/social">
                   Ver nuestras redes
-                </a>
+                </Link>
               </div>
             </div>
           </div>
