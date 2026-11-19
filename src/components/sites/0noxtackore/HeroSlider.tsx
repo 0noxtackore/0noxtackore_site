@@ -10,7 +10,6 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
   const [loaded, setLoaded] = useState<Set<number>>(
     () => new Set([0, slides.length > 1 ? 1 : 0]),
   );
-  const [shown, setShown] = useState<Set<number>>(() => new Set());
 
   useEffect(() => {
     if (slides.length < 2) return;
@@ -57,13 +56,13 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
       {slides.map((slide, index) => {
         const isActive = index === active;
         const shouldLoad = loaded.has(index);
-        const isShown = shown.has(index);
         return (
           <div
             key={slide.desktop}
             className={`${styles.slide} ${isActive ? styles.slideActive : ""}`}
             aria-hidden={!isActive}
             style={{
+              backgroundColor: "#e9edf2",
               backgroundImage: `url(${slide.blur})`,
               backgroundSize: "cover",
               backgroundPosition: "center",
@@ -80,19 +79,11 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
                   src={slide.desktop}
                   alt={slide.alt}
                   loading={index === 0 ? "eager" : "lazy"}
-                  fetchPriority={index === 0 ? "high" : "auto"}
-                  decoding="async"
-                  onLoad={() =>
-                    setShown((prev) => {
-                      if (prev.has(index)) return prev;
-                      const next = new Set(prev);
-                      next.add(index);
-                      return next;
-                    })
-                  }
+                  fetchPriority={isActive || index === 0 ? "high" : "auto"}
+                  decoding={isActive || index === 0 ? "sync" : "async"}
                   style={{
-                    opacity: isShown ? 1 : 0,
-                    transition: "opacity 0.6s ease, transform 6.5s linear",
+                    opacity: 1,
+                    transition: "transform 6.5s linear",
                   }}
                 />
               </picture>

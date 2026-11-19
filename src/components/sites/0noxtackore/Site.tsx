@@ -254,10 +254,7 @@ export function Site() {
                         decoding="async"
                         width={960}
                         height={536}
-                        onLoad={(e) => {
-                          e.currentTarget.style.opacity = "1";
-                        }}
-                        style={{ opacity: 0, transition: "opacity 0.45s ease, filter 0.25s ease, transform 0.25s ease" }}
+                        style={{ opacity: 1, transition: "filter 0.25s ease, transform 0.25s ease" }}
                       />
                       <span className={styles.cardIconBadge}>
                         <Icon size={22} strokeWidth={1.8} aria-hidden="true" />
@@ -346,10 +343,6 @@ export function Site() {
                     decoding="async"
                     width={960}
                     height={536}
-                    onLoad={(e) => {
-                      e.currentTarget.style.opacity = "1";
-                    }}
-                    style={{ opacity: 0, transition: "opacity 0.45s ease" }}
                   />
                 </div>
                 <p className={styles.disclaimer}>
