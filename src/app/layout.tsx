@@ -65,7 +65,7 @@ const organizationJsonLd = {
   alternateName: "0noxtackore",
   slogan: "BUILT FOR IMPACT",
   foundingDate: "2026",
-  areaServed: "Global",
+  areaServed: { "@type": "Place", name: "Global" },
   url: siteUrl,
   logo: `${siteUrl}/sites/0noxtackore/logo.webp`,
   image: `${siteUrl}/opengraph-image.jpg`,
