@@ -1,5 +1,5 @@
-import { Site } from "@/components/sites/0noxtackore/Site";
+import { redirect } from "next/navigation";
 
-export default function Home() {
-  return <Site />;
+export default function RootPage() {
+  redirect("/es");
 }

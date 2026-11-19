@@ -19,23 +19,12 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
-import {
-  areas,
-  brand,
-  faqs,
-  footerGroups,
-  heroSlides,
-  megaGroups,
-  navLinks,
-  philosophy,
-  recommendation,
-  trust,
-  values,
-  type Area,
-} from "./data";
+import { getContent } from "./content";
+import { siteUrl, type Area } from "./data";
 import { HeroSlider } from "./HeroSlider";
 import { ShareButtons } from "./ShareButtons";
 import styles from "./site.module.css";
+import type { Locale } from "@/lib/i18n";
 
 function FacebookIcon() {
   return (
@@ -89,7 +78,7 @@ function useScrollToSection() {
   const pathname = usePathname();
 
   useEffect(() => {
-    const path = pathname.replace(/\/+$/, "") || "/";
+    const path = pathname.replace(/\/(es|en)(?=\/|$)/, "").replace(/\/+$/, "") || "/";
     let targetId: string | undefined;
 
     if (path.startsWith("/areas/")) {
@@ -111,9 +100,9 @@ function useScrollToSection() {
   }, [pathname]);
 }
 
-function BrandIntro({ text }: { text: string }) {
-  const name = brand.name.toLowerCase();
-  if (!text.toLowerCase().startsWith(name)) return <>{text}</>;
+function BrandIntro({ text, name }: { text: string; name: string }) {
+  const lowerName = name.toLowerCase();
+  if (!text.toLowerCase().startsWith(lowerName)) return <>{text}</>;
 
   return (
     <>
@@ -123,24 +112,43 @@ function BrandIntro({ text }: { text: string }) {
   );
 }
 
-function SiteHeader() {
-  const [menuOpen, setMenuOpen] = useState(false);
+export function Site({ locale }: { locale: Locale }) {
+  useScrollToSection();
+  const content = getContent(locale);
+  const {
+    brand,
+    areas,
+    faqs,
+    footerGroups,
+    heroSlides,
+    megaGroups,
+    navLinks,
+    philosophy,
+    recommendation,
+    trust,
+    values,
+    testimonials,
+    ui,
+    share,
+  } = content;
+
+  const shareUrl = locale === "es" ? siteUrl : `${siteUrl}/en`;
 
   return (
-    <>
+    <div className={styles.page}>
       <div className={styles.announce}>
         <div className={styles.announceInner}>
           <span className={styles.announceStrong}>{brand.name}</span>
           <span>{brand.tagline}</span>
-          <Link className={styles.announceLink} href="/filosofia">
-            Conoce nuestra filosofía →
+          <Link className={styles.announceLink} href={`/${locale}/filosofia`}>
+            {ui.announce}
           </Link>
         </div>
       </div>
 
       <header className={styles.header}>
         <div className={styles.headerInner}>
-          <Link className={styles.logoLink} href="/" aria-label={brand.name}>
+          <Link className={styles.logoLink} href={`/${locale}`} aria-label={brand.name}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               className={styles.logo}
@@ -152,100 +160,22 @@ function SiteHeader() {
             />
           </Link>
 
-          <nav className={styles.nav} aria-label="Navegación principal">
+          <nav className={styles.nav} aria-label={locale === "es" ? "Navegación principal" : "Main navigation"}>
             {navLinks.map((link) => (
-              <a key={link.href} className={styles.navLink} href={link.href}>
+              <Link key={link.href} className={styles.navLink} href={link.href}>
                 {link.label}
-              </a>
+              </Link>
             ))}
           </nav>
 
           <div className={styles.actions}>
-            <button
-              type="button"
-              className={`${styles.navButton} ${menuOpen ? styles.navButtonOpen : ""}`}
-              aria-expanded={menuOpen}
-              onClick={() => setMenuOpen((open) => !open)}
-            >
-              {menuOpen ? <X size={18} aria-hidden="true" /> : <Menu size={18} aria-hidden="true" />}
-              Todo <span className={styles.thinBrand}>{brand.name.toLowerCase()}</span>
-            </button>
-            <Link className={styles.contactButton} href="/contacto">
-              Contacto
+            <NavButton label={ui.all} brandName={brand.name.toLowerCase()} groups={megaGroups} />
+            <Link className={styles.contactButton} href={`/${locale}/contacto`}>
+              {ui.contact}
             </Link>
           </div>
         </div>
-
-        {menuOpen && (
-          <div className={styles.mega}>
-            <div className={styles.megaGrid}>
-              {megaGroups.map((group) => (
-                <div key={group.title}>
-                  <div className={styles.megaTitle}>{group.title}</div>
-                  {group.links.map((link) => (
-                    <a key={link.label} className={styles.megaLink} href={link.href}>
-                      {link.label}
-                    </a>
-                  ))}
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
       </header>
-    </>
-  );
-}
-
-function SiteFooter() {
-  return (
-    <footer className={styles.footer} id="contacto">
-      <div className={styles.footerInner}>
-        <div className={styles.footerTop}>
-          <div className={styles.footerBrand}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              className={styles.footerLogo}
-              src="/sites/0noxtackore/logo.webp"
-              alt={brand.name}
-              width={32}
-              height={32}
-              loading="lazy"
-              decoding="async"
-            />
-            <p className={styles.footerTagline}>{brand.tagline}</p>
-            <p className={styles.footerIntro}>{brand.approach}</p>
-          </div>
-          <nav className={styles.footerGrid} aria-label="Enlaces del pie de página">
-            {footerGroups.map((group) => (
-              <div key={group.title}>
-                <h2 className={styles.footerGroupTitle}>{group.title}</h2>
-                {group.links.map((link) => (
-                  <a key={link.label} className={styles.footerLink} href={link.href}>
-                    {link.label}
-                  </a>
-                ))}
-              </div>
-            ))}
-          </nav>
-        </div>
-        <div className={styles.footerBottom}>
-          <span>
-            © 2026 <span className={styles.footerBrandName}>0NOXTACKORE</span> · BUILT FOR IMPACT
-          </span>
-          <span>Construimos tecnología con propósito.</span>
-        </div>
-      </div>
-    </footer>
-  );
-}
-
-export function Site() {
-  useScrollToSection();
-
-  return (
-    <div className={styles.page}>
-      <SiteHeader />
 
       <main>
         <section className={styles.hero} id="inicio" aria-labelledby="hero-title">
@@ -259,14 +189,14 @@ export function Site() {
                 {brand.tagline}
               </h1>
               <p className={styles.heroDescription}>
-                <BrandIntro text={brand.intro} />
+                <BrandIntro text={brand.intro} name={brand.name} />
               </p>
               <div className={styles.heroActions}>
-                <Link className={`${styles.button} ${styles.buttonBlue}`} href="/areas">
-                  Explorar áreas
+                <Link className={`${styles.button} ${styles.buttonBlue}`} href={`/${locale}/areas`}>
+                  {ui.heroExplore}
                 </Link>
-                <Link className={`${styles.button} ${styles.buttonOutline}`} href="/filosofia">
-                  Nuestra filosofía
+                <Link className={`${styles.button} ${styles.buttonOutline}`} href={`/${locale}/filosofia`}>
+                  {ui.heroPhilosophy}
                 </Link>
               </div>
             </div>
@@ -276,15 +206,15 @@ export function Site() {
         <section className={styles.section} id="areas" aria-labelledby="areas-title">
           <div className={styles.sectionInner}>
             <div className={styles.sectionHead}>
-              <div className={styles.sectionKicker}>Qué hacemos</div>
+              <div className={styles.sectionKicker}>{ui.areasKicker}</div>
               <h2 id="areas-title" className={styles.sectionTitle}>
-                Áreas de actividad
+                {ui.areasTitle}
               </h2>
               <p className={styles.sectionText}>{brand.approach}</p>
             </div>
             <div className={styles.cardGrid}>
               {areas.map((area) => {
-                const Icon = areaIcons[area.icon];
+                const Icon = areaIcons[area.icon as Area["icon"]];
                 return (
                   <article key={area.title} id={`area-${area.slug}`} className={styles.card}>
                     <div
@@ -325,15 +255,15 @@ export function Site() {
           <div className={styles.sectionInner}>
             <div className={styles.philosophyGrid}>
               <div className={styles.philosophyText}>
-                <div className={styles.sectionKicker}>Cómo pensamos</div>
+                <div className={styles.sectionKicker}>{ui.philosophyKicker}</div>
                 <h2 id="filosofia-title" className={styles.sectionTitle}>
-                  Nuestra filosofía
+                  {ui.philosophyTitle}
                 </h2>
                 {philosophy.paragraphs.map((paragraph) => (
                   <p key={paragraph}>{paragraph}</p>
                 ))}
               </div>
-              <aside className={styles.quote} aria-label="Frase destacada">
+              <aside className={styles.quote} aria-label={ui.quoteLabel}>
                 <div className={styles.quoteBar}>
                   <span className={styles.quoteDots} aria-hidden="true">
                     <i />
@@ -360,7 +290,7 @@ export function Site() {
           <div className={styles.sectionInner}>
             <div className={styles.recGrid}>
               <div className={styles.recText}>
-                <div className={styles.sectionKicker}>Tecnología útil</div>
+                <div className={styles.sectionKicker}>{ui.recKicker}</div>
                 <h2 id="rec-title" className={styles.sectionTitle}>
                   {recommendation.title}
                 </h2>
@@ -375,8 +305,8 @@ export function Site() {
                   ))}
                 </div>
                 <div className={styles.recActions}>
-                  <Link className={`${styles.button} ${styles.buttonBlue}`} href="/guia">
-                    Leer la guía completa
+                  <Link className={`${styles.button} ${styles.buttonBlue}`} href={`/${locale}/guia`}>
+                    {ui.readGuide}
                   </Link>
                 </div>
               </div>
@@ -393,17 +323,14 @@ export function Site() {
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src="/sites/0noxtackore/photos/recomendations.webp"
-                    alt="Portátil con gráficas de análisis en pantalla"
+                    alt={ui.recImageAlt}
                     loading="lazy"
                     decoding="async"
                     width={960}
                     height={536}
                   />
                 </div>
-                <p className={styles.disclaimer}>
-                  No actuamos como fabricantes ni vendedores directos de los equipos. Solo seleccionamos
-                  y recomendamos productos disponibles en plataformas comerciales.
-                </p>
+                <p className={styles.disclaimer}>{ui.disclaimer}</p>
               </aside>
             </div>
           </div>
@@ -412,9 +339,9 @@ export function Site() {
         <section className={styles.sectionTight} aria-labelledby="valores-title">
           <div className={styles.sectionInner}>
             <div className={styles.sectionHead}>
-              <div className={styles.sectionKicker}>Principios</div>
+              <div className={styles.sectionKicker}>{ui.valuesKicker}</div>
               <h2 id="valores-title" className={styles.sectionTitle}>
-                Lo que nos guía
+                {ui.valuesTitle}
               </h2>
             </div>
             <div className={styles.valueGrid}>
@@ -432,25 +359,22 @@ export function Site() {
         <section className={`${styles.section} ${styles.trust}`} id="confianza" aria-labelledby="confianza-title">
           <div className={styles.sectionInner}>
             <div className={styles.sectionHead}>
-              <div className={styles.sectionKicker}>Transparencia</div>
+              <div className={styles.sectionKicker}>{ui.trustKicker}</div>
               <h2 id="confianza-title" className={styles.sectionTitle}>
                 <span className={styles.trustHeading}>
-                  Por qué confiar en
+                  {ui.trustTitlePrefix}
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     className={styles.trustLogo}
                     src="/sites/0noxtackore/logo.webp"
-                    alt="0NOXTACKORE"
+                    alt={brand.name}
                     width={280}
                     height={87}
                     decoding="async"
                   />
                 </span>
               </h2>
-              <p className={styles.sectionText}>
-                Construimos tecnología con propósito, con criterios claros y una forma de trabajar
-                abierta y responsable.
-              </p>
+              <p className={styles.sectionText}>{ui.trustIntro}</p>
             </div>
             <div className={styles.trustGrid}>
               {trust.map((item, index) => {
@@ -469,12 +393,36 @@ export function Site() {
           </div>
         </section>
 
+        {testimonials.length > 0 && (
+          <section className={`${styles.section} ${styles.testimonials}`} id="testimonios" aria-labelledby="testimonios-title">
+            <div className={styles.sectionInner}>
+              <div className={styles.sectionHead}>
+                <div className={styles.sectionKicker}>{ui.testimonialsKicker}</div>
+                <h2 id="testimonios-title" className={styles.sectionTitle}>
+                  {ui.testimonialsTitle}
+                </h2>
+              </div>
+              <div className={styles.testimonialGrid}>
+                {testimonials.map((testimonial) => (
+                  <figure key={testimonial.name} className={styles.testimonialCard}>
+                    <blockquote className={styles.testimonialQuote}>“{testimonial.quote}”</blockquote>
+                    <figcaption className={styles.testimonialPerson}>
+                      <strong>{testimonial.name}</strong>
+                      <span>{testimonial.role}</span>
+                    </figcaption>
+                  </figure>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+
         <section className={`${styles.section} ${styles.faq}`} id="faq" aria-labelledby="faq-title">
           <div className={styles.sectionInner}>
             <div className={styles.sectionHead}>
-              <div className={styles.sectionKicker}>Preguntas frecuentes</div>
+              <div className={styles.sectionKicker}>{ui.faqKicker}</div>
               <h2 id="faq-title" className={styles.sectionTitle}>
-                Resuelve tus dudas
+                {ui.faqTitle}
               </h2>
             </div>
             <div className={styles.faqList}>
@@ -482,18 +430,16 @@ export function Site() {
                 <details key={faq.question} className={styles.faqItem}>
                   <summary className={styles.faqQuestion}>{faq.question}</summary>
                   <p className={styles.faqAnswer}>
-                    <BrandIntro text={faq.answer} />
+                    <BrandIntro text={faq.answer} name={brand.name} />
                   </p>
                 </details>
               ))}
             </div>
             <div className={styles.faqCta}>
-              <p className={styles.faqCtaText}>
-                ¿Quieres conocernos mejor? Encuentra nuestras redes y síguenos para estar al tanto.
-              </p>
+              <p className={styles.faqCtaText}>{ui.faqCta}</p>
               <div className={styles.faqCtaActions}>
-                <Link className={`${styles.button} ${styles.buttonBlue}`} href="/social">
-                  Ver nuestras redes
+                <Link className={`${styles.button} ${styles.buttonBlue}`} href={`/${locale}/social`}>
+                  {ui.socialTitle}
                 </Link>
               </div>
             </div>
@@ -503,21 +449,23 @@ export function Site() {
         <section className={`${styles.section} ${styles.share}`} id="compartir" aria-labelledby="compartir-title">
           <div className={styles.sectionInner}>
             <div className={styles.sectionHead}>
-              <div className={styles.sectionKicker}>Difunde</div>
+              <div className={styles.sectionKicker}>{ui.shareKicker}</div>
               <h2 id="compartir-title" className={styles.sectionTitle}>
-                ¿Te resultó útil? Compártelo
+                {ui.shareTitle}
               </h2>
-              <p className={styles.sectionText}>
-                Si conoces a alguien interesado en tecnología con propósito, ayúdanos a llegar hasta él.
-              </p>
+              <p className={styles.sectionText}>{ui.shareText}</p>
             </div>
-            <ShareButtons />
+            <ShareButtons
+              url={shareUrl}
+              text={share.defaultText}
+              labels={{ copy: share.labels.copy, copied: share.labels.copied, shareOn: share.labels.shareOn }}
+            />
           </div>
         </section>
 
         <section className={styles.social} id="social" aria-labelledby="social-title">
           <h2 id="social-title" className={styles.socialTitle}>
-            Síguenos
+            {ui.socialTitle}
           </h2>
           <div className={styles.socialLinks}>
             <a
@@ -542,7 +490,110 @@ export function Site() {
         </section>
       </main>
 
-      <SiteFooter />
+      <SiteFooter
+        brandName={brand.name}
+        tagline={brand.tagline}
+        approach={brand.approach}
+        groups={footerGroups}
+        claim={ui.footerClaim}
+      />
     </div>
+  );
+}
+
+function NavButton({
+  label,
+  brandName,
+  groups,
+}: {
+  label: string;
+  brandName: string;
+  groups: ReturnType<typeof getContent>["megaGroups"];
+}) {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  return (
+    <>
+      <button
+        type="button"
+        className={`${styles.navButton} ${menuOpen ? styles.navButtonOpen : ""}`}
+        aria-expanded={menuOpen}
+        onClick={() => setMenuOpen((open) => !open)}
+      >
+        {menuOpen ? <X size={18} aria-hidden="true" /> : <Menu size={18} aria-hidden="true" />}
+        {label} <span className={styles.thinBrand}>{brandName}</span>
+      </button>
+      {menuOpen && (
+        <div className={styles.mega}>
+          <div className={styles.megaGrid}>
+            {groups.map((group) => (
+              <div key={group.title}>
+                <div className={styles.megaTitle}>{group.title}</div>
+                {group.links.map((link) => (
+                  <Link key={link.label} className={styles.megaLink} href={link.href}>
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
+
+function SiteFooter({
+  brandName,
+  tagline,
+  approach,
+  groups,
+  claim,
+}: {
+  brandName: string;
+  tagline: string;
+  approach: string;
+  groups: ReturnType<typeof getContent>["footerGroups"];
+  claim: string;
+}) {
+  return (
+    <footer className={styles.footer} id="contacto">
+      <div className={styles.footerInner}>
+        <div className={styles.footerTop}>
+          <div className={styles.footerBrand}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              className={styles.footerLogo}
+              src="/sites/0noxtackore/logo.webp"
+              alt={brandName}
+              width={32}
+              height={32}
+              loading="lazy"
+              decoding="async"
+            />
+            <p className={styles.footerTagline}>{tagline}</p>
+            <p className={styles.footerIntro}>{approach}</p>
+          </div>
+          <nav className={styles.footerGrid} aria-label="Footer links">
+            {groups.map((group) => (
+              <div key={group.title}>
+                <h2 className={styles.footerGroupTitle}>{group.title}</h2>
+                {group.links.map((link) => (
+                  <Link key={link.label} className={styles.footerLink} href={link.href}>
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
+            ))}
+          </nav>
+        </div>
+        <div className={styles.footerBottom}>
+          <span>
+            © 2026 <span className={styles.footerBrandName}>{brandName}</span> · {tagline}
+          </span>
+          <span>{claim}</span>
+        </div>
+      </div>
+    </footer>
   );
 }

@@ -13,16 +13,17 @@ const nextConfig: NextConfig = {
       "compartir",
       "social",
     ];
-    return [
-      ...sections.map((section) => ({
-        source: `/${section}`,
-        destination: "/",
-      })),
-      {
-        source: "/areas/:slug",
-        destination: "/",
-      },
-    ];
+    const rewrites = [];
+    for (const locale of ["es", "en"]) {
+      for (const section of sections) {
+        rewrites.push({ source: `/${locale}/${section}`, destination: `/${locale}` });
+      }
+      rewrites.push({
+        source: `/${locale}/areas/:slug`,
+        destination: `/${locale}`,
+      });
+    }
+    return rewrites;
   },
 };
 

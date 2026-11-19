@@ -2,43 +2,9 @@
 
 import Link from "next/link";
 
-import { siteUrl } from "./data";
+import { getContent } from "./content";
 import styles from "./site.module.css";
-
-const aboutUrl = `${siteUrl}/acerca`;
-
-const projects = [
-  {
-    name: "Fluxckore",
-    description:
-      "Utilidad de limpieza y optimización para Windows, construida con una interfaz ligera y sin dependencias pesadas.",
-    url: "https://github.com/0noxtackore/Fluxckore",
-  },
-  {
-    name: "Netckore",
-    description:
-      "Herramienta de diagnóstico y reparación de conexión a internet, con interfaz autónoma y soporte multilenguaje.",
-    url: "https://github.com/0noxtackore/Netckore",
-  },
-  {
-    name: "Aguickore",
-    description:
-      "Protocolo y ecosistema de SDK para conectar agentes de IA con aplicaciones, mantenido como una evolución hardening de AG-UI.",
-    url: "https://github.com/0noxtackore/Aguickore",
-  },
-  {
-    name: "Ebenezer-Screen",
-    description:
-      "Aplicación web para el control de pantallas y gestión de contenido multimedia, desplegada en Netlify.",
-    url: "https://github.com/0noxtackore/Ebenezer-Screen",
-  },
-  {
-    name: "File-Host",
-    description:
-      "Aplicación ligera de alojamiento y compartición de archivos en la nube, optimizada para despliegue rápido.",
-    url: "https://github.com/0noxtackore/File-Host",
-  },
-];
+import type { Locale } from "@/lib/i18n";
 
 const officialLinks = [
   { label: "GitHub", url: "https://github.com/0noxtackore" },
@@ -49,24 +15,28 @@ const officialLinks = [
   { label: "Instagram", url: "https://www.instagram.com/0noxtackore.dev/" },
 ];
 
-const structuredData = JSON.stringify({
-  "@context": "https://schema.org",
-  "@type": "ProfilePage",
-  name: "Acerca de 0NOXTACKORE",
-  url: aboutUrl,
-  mainEntity: {
-    "@type": "Organization",
-    name: "0NOXTACKORE",
-    url: siteUrl,
-    logo: `${siteUrl}/sites/0noxtackore/logo.webp`,
-    foundingDate: "2026",
-    areaServed: { "@type": "Place", name: "Global" },
-    sameAs: officialLinks.map((l) => l.url),
-  },
-  inLanguage: "es",
-}).replace(/</g, "\\u003c");
+export function About({ locale }: { locale: Locale }) {
+  const content = getContent(locale);
+  const about = content.pages.acerca;
+  const aboutUrl = `${content.baseUrl}/acerca`;
 
-export function About() {
+  const structuredData = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    name: about.title,
+    url: aboutUrl,
+    mainEntity: {
+      "@type": "Organization",
+      name: content.brand.name,
+      url: content.baseUrl,
+      logo: `${content.baseUrl}/sites/0noxtackore/logo.webp`,
+      foundingDate: "2026",
+      areaServed: { "@type": "Place", name: "Global" },
+      sameAs: officialLinks.map((l) => l.url),
+    },
+    inLanguage: locale,
+  }).replace(/</g, "\\u003c");
+
   return (
     <div className={styles.page}>
       <script
@@ -76,33 +46,30 @@ export function About() {
 
       <header className={styles.guideHeader}>
         <div className={styles.guideHeaderInner}>
-          <Link className={styles.guideLogoLink} href="/" aria-label="0NOXTACKORE — Inicio">
+          <Link className={styles.guideLogoLink} href={`/${locale}`} aria-label={content.brand.name}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               className={styles.guideLogo}
               src="/sites/0noxtackore/logo.webp"
-              alt="0NOXTACKORE"
+              alt={content.brand.name}
               width={280}
               height={87}
               decoding="async"
             />
           </Link>
-          <Link className={styles.guideBack} href="/">
-            ← Volver al inicio
+          <Link className={styles.guideBack} href={`/${locale}`}>
+            {about.back}
           </Link>
         </div>
       </header>
 
       <section className={styles.guideHero}>
         <div className={styles.guideHeroInner}>
-          <div className={styles.guideKicker}>Sobre la marca</div>
-          <h1 className={styles.guideTitle}>Acerca de 0NOXTACKORE</h1>
-          <p className={styles.guideLead}>
-            Un estudio tecnológico independiente y una marca construida desde cero, con una sola
-            persona al frente: diseñar, programar y liderar al mismo tiempo.
-          </p>
+          <div className={styles.guideKicker}>{about.kicker}</div>
+          <h1 className={styles.guideTitle}>{about.title}</h1>
+          <p className={styles.guideLead}>{about.lead}</p>
           <p className={styles.guideMeta}>
-            <span className={styles.thinBrand}>0NOXTACKORE</span> · BUILT FOR IMPACT
+            <span className={styles.thinBrand}>{content.brand.name}</span> · {content.brand.tagline}
           </p>
         </div>
       </section>
@@ -110,29 +77,19 @@ export function About() {
       <div className={styles.guideLayout}>
         <main className={styles.guideMain}>
           <section className={styles.guideSection}>
-            <h2 className={styles.guideH2}>Quién hay detrás</h2>
-            <p className={styles.guideP}>
-              <span className={styles.thinBrand}>0noxtackore</span> es un estudio tecnológico indie
-              fundado por un único desarrollador con una visión clara: una persona que lidera,
-              programa y diseña al mismo tiempo. Como arquitecto de software, el foco está en
-              construir sistemas de alto rendimiento desde la base, priorizando la escalabilidad y
-              una ingeniería limpia.
-            </p>
-            <p className={styles.guideP}>
-              Esta web es el hogar oficial de la marca: aquí reunimos lo que hacemos, nuestra
-              filosofía y los productos y proyectos que desarrollamos. La tecnología con propósito
-              no es un eslogan: es la forma en que abordamos cada proyecto.
-            </p>
+            <h2 className={styles.guideH2}>{about.whoTitle}</h2>
+            {about.whoParagraphs.map((paragraph) => (
+              <p key={paragraph} className={styles.guideP}>
+                {paragraph}
+              </p>
+            ))}
           </section>
 
           <section className={styles.guideSection}>
-            <h2 className={styles.guideH2}>Qué construimos</h2>
-            <p className={styles.guideP}>
-              Parte de nuestro trabajo son productos y proyectos de código abierto que ya están
-              disponibles públicamente:
-            </p>
+            <h2 className={styles.guideH2}>{about.buildTitle}</h2>
+            <p className={styles.guideP}>{about.buildIntro}</p>
             <div className={styles.aboutProjects}>
-              {projects.map((project) => (
+              {about.projects.map((project) => (
                 <a
                   key={project.name}
                   className={styles.aboutProject}
@@ -148,20 +105,13 @@ export function About() {
           </section>
 
           <section className={styles.guideSection}>
-            <h2 className={styles.guideH2}>Filosofía</h2>
-            <p className={styles.guideP}>
-              No necesitamos inventar una tecnología completamente nueva cada vez. Aprovechamos los
-              avances existentes, aprendemos de ellos y aportamos mejoras que resuelven necesidades
-              reales, respetando siempre licencias y autores. Innovación responsable, colaboración,
-              transparencia y mejora continua.
-            </p>
+            <h2 className={styles.guideH2}>{about.philosophyTitle}</h2>
+            <p className={styles.guideP}>{about.philosophyText}</p>
           </section>
 
           <section className={styles.guideSection}>
-            <h2 className={styles.guideH2}>Presencia oficial</h2>
-            <p className={styles.guideP}>
-              Puedes encontrarnos y seguir nuestro trabajo en estos canales oficiales:
-            </p>
+            <h2 className={styles.guideH2}>{about.officialTitle}</h2>
+            <p className={styles.guideP}>{about.officialText}</p>
             <div className={styles.aboutLinks}>
               {officialLinks.map((link) => (
                 <a
@@ -180,16 +130,12 @@ export function About() {
 
         <aside className={styles.guideAside}>
           <div className={styles.guideToc}>
-            <div className={styles.guideTocTitle}>En esta página</div>
-            <Link className={styles.guideTocLink} href="/#confianza">
-              Por qué confiar en la marca
-            </Link>
-            <Link className={styles.guideTocLink} href="/#faq">
-              Preguntas frecuentes
-            </Link>
-            <Link className={styles.guideTocLink} href="/guia">
-              Guía para elegir una laptop
-            </Link>
+            <div className={styles.guideTocTitle}>{about.tocTitle}</div>
+            {about.toc.map((item) => (
+              <Link key={item.label} className={styles.guideTocLink} href={item.href}>
+                {item.label}
+              </Link>
+            ))}
           </div>
         </aside>
       </div>

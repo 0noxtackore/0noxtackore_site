@@ -2,30 +2,36 @@ import { siteUrl } from "@/components/sites/0noxtackore/data";
 
 const content = `# 0NOXTACKORE
 
-> Compañía tecnológica independiente enfocada en la ingeniería, desarrollo y evolución de soluciones de software, y en la selección y recomendación de productos tecnológicos. BUILT FOR IMPACT.
+> Independent technology company focused on software engineering, development and evolution, and the recommendation of technology products. BUILT FOR IMPACT.
 
-0NOXTACKORE construye tecnología con propósito. Trabajamos con tecnologías propias y proyectos de código abierto para crear herramientas, aplicaciones e integraciones que resuelven problemas reales, respetando licencias y autores. También seleccionamos y recomendamos equipos informáticos evaluando especificaciones técnicas, rendimiento y relación calidad-precio, sin actuar como fabricantes ni vendedores directos.
+## Español
 
-## Áreas de actividad
+0NOXTACKORE construye tecnología con propósito. Trabajamos con tecnologías propias y proyectos de código abierto para crear herramientas, aplicaciones e integraciones que resuelven problemas reales, respetando licencias y autores.
 
-- Desarrollo de software: aplicaciones y herramientas para problemas cotidianos, técnicos y profesionales.
-- Ingeniería y evolución de proyectos open source: adaptar, mejorar y distribuir versiones con valor añadido respetando licencias y autores.
-- Tecnologías e integraciones: herramientas, SDK, sistemas e integraciones para desarrolladores y empresas.
-- Productos tecnológicos: software, versiones especializadas y soluciones sostenibles.
-- Recomendación y afiliación tecnológica: laptops y equipos evaluados por especificaciones, rendimiento y calidad-precio.
-- Consultoría técnica y acompañamiento: análisis de necesidades, arquitectura e implementación.
+- [Inicio](${siteUrl}/es)
+- [Guía para elegir una laptop](${siteUrl}/es/guia)
+- [Acerca de](${siteUrl}/es/acerca)
 
-## Páginas principales
+## English
 
-- [Inicio](${siteUrl}/):Areas de actividad, filosofía, recomendaciones, valores y contacto.
-- [Guía para elegir una laptop](${siteUrl}/guia): criterios de procesador, memoria RAM, almacenamiento y checklist de compra.
+0NOXTACKORE builds technology with purpose. We work with our own technologies and open-source projects to create tools, applications and integrations that solve real problems, respecting licenses and authors.
 
-## Filosofía
+- [Home](${siteUrl}/en)
+- [Laptop buying guide](${siteUrl}/en/guia)
+- [About](${siteUrl}/en/acerca)
 
-No necesitamos inventar una tecnología completamente nueva cada vez. Aprovechamos los avances existentes, aprendemos de ellos y aportamos mejoras que resuelven necesidades reales. Innovación responsable, colaboración, transparencia y mejora continua.
+## Áreas de actividad / Areas of activity
 
-## Contacto
+- Software development
+- Open-source engineering and evolution
+- Technologies and integrations
+- Technology products
+- Technology recommendation and affiliation
+- Technical consulting and support
 
+## Contacto / Contact
+
+GitHub: https://github.com/0noxtackore
 Facebook: https://www.facebook.com/people/0noxtackore/61567098773222/
 Instagram: https://www.instagram.com/0noxtackore.dev/
 `;

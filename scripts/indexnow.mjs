@@ -16,7 +16,14 @@ const KEY = "78b8ca671862cf7827495cfa5d0eba98";
 const HOST = "0noxtackore.makes.fyi";
 const SITE = `https://${HOST}`;
 
-const DEFAULT_URLS = [`${SITE}/`, `${SITE}/guia`];
+const DEFAULT_URLS = [
+  `${SITE}/es`,
+  `${SITE}/es/guia`,
+  `${SITE}/es/acerca`,
+  `${SITE}/en`,
+  `${SITE}/en/guia`,
+  `${SITE}/en/acerca`,
+];
 
 const ENDPOINTS = [
   "https://www.bing.com/indexnow",

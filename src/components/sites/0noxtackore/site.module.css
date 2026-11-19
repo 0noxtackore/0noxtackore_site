@@ -692,6 +692,39 @@
   margin: 0;
 }
 
+/* ---------- Testimonials ---------- */
+.testimonials {
+  background: #fff;
+}
+.testimonialGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+.page .testimonialCard {
+  margin: 0;
+  padding: 28px;
+  border: 1px solid #e0e8f0;
+  border-radius: 12px;
+  background: #fbfdff;
+}
+.testimonialQuote {
+  font-size: 16px;
+  line-height: 26px;
+  color: var(--body);
+  margin: 0 0 20px;
+}
+.testimonialPerson {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 14px;
+  color: var(--muted);
+}
+.testimonialPerson strong {
+  color: var(--ink);
+}
+
 /* ---------- FAQ ---------- */
 .faq {
   background: var(--surface);
@@ -1196,7 +1229,8 @@
   .valueGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-  .trustGrid {
+  .trustGrid,
+  .testimonialGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .guideLayout {
@@ -1309,7 +1343,8 @@
   .valueGrid {
     grid-template-columns: 1fr;
   }
-  .trustGrid {
+  .trustGrid,
+  .testimonialGrid {
     grid-template-columns: 1fr;
   }
   .faqCta {

@@ -12,6 +12,11 @@ const defaultText =
 type ShareButtonsProps = {
   url?: string;
   text?: string;
+  labels?: {
+    copy: string;
+    copied: string;
+    shareOn: string;
+  };
 };
 
 function WhatsAppIcon() {
@@ -47,7 +52,11 @@ function FacebookIcon() {
   );
 }
 
-export function ShareButtons({ url = siteUrl, text = defaultText }: ShareButtonsProps) {
+export function ShareButtons({
+  url = siteUrl,
+  text = defaultText,
+  labels = { copy: "Copiar enlace", copied: "¡Enlace copiado!", shareOn: "Compartir en" },
+}: ShareButtonsProps) {
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
@@ -104,7 +113,7 @@ export function ShareButtons({ url = siteUrl, text = defaultText }: ShareButtons
           href={href}
           target="_blank"
           rel="noreferrer"
-          aria-label={`Compartir en ${label}`}
+          aria-label={`${labels.shareOn} ${label}`}
         >
           <Icon />
           <span>{label}</span>
@@ -114,11 +123,11 @@ export function ShareButtons({ url = siteUrl, text = defaultText }: ShareButtons
         type="button"
         className={`${styles.shareButton} ${styles.shareCopy}`}
         onClick={copyLink}
-        aria-label="Copiar enlace"
+        aria-label={labels.copy}
         aria-live="polite"
       >
         {copied ? <Check size={18} aria-hidden="true" /> : <Link2 size={18} aria-hidden="true" />}
-        <span>{copied ? "¡Enlace copiado!" : "Copiar enlace"}</span>
+        <span>{copied ? labels.copied : labels.copy}</span>
       </button>
     </div>
   );
