@@ -94,7 +94,14 @@ function SiteHeader() {
         <div className={styles.headerInner}>
           <a className={styles.logoLink} href="#inicio" aria-label={brand.name}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img className={styles.logo} src="/sites/0noxtackore/logo.png" alt={brand.name} />
+            <img
+              className={styles.logo}
+              src="/sites/0noxtackore/logo.webp"
+              alt={brand.name}
+              width={32}
+              height={32}
+              decoding="async"
+            />
           </a>
 
           <nav className={styles.nav} aria-label="Navegación principal">
@@ -149,7 +156,15 @@ function SiteFooter() {
         <div className={styles.footerTop}>
           <div className={styles.footerBrand}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img className={styles.footerLogo} src="/sites/0noxtackore/logo.png" alt={brand.name} />
+            <img
+              className={styles.footerLogo}
+              src="/sites/0noxtackore/logo.webp"
+              alt={brand.name}
+              width={32}
+              height={32}
+              loading="lazy"
+              decoding="async"
+            />
             <p className={styles.footerTagline}>{brand.tagline}</p>
             <p className={styles.footerIntro}>{brand.approach}</p>
           </div>
@@ -224,7 +239,7 @@ export function Site() {
                   <article key={area.title} className={styles.card}>
                     <div className={styles.cardMedia}>
                       {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img className={styles.cardImage} src={area.image} alt="" />
+                      <img className={styles.cardImage} src={area.image} alt="" loading="lazy" decoding="async" />
                       <span className={styles.cardIconBadge}>
                         <Icon size={22} strokeWidth={1.8} aria-hidden="true" />
                       </span>
@@ -298,8 +313,10 @@ export function Site() {
                 <div className={styles.recImage}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src="/sites/0noxtackore/photos/recomendations.jpg"
+                    src="/sites/0noxtackore/photos/recomendations.webp"
                     alt="Portátil con gráficas de análisis en pantalla"
+                    loading="lazy"
+                    decoding="async"
                   />
                 </div>
                 <p className={styles.disclaimer}>

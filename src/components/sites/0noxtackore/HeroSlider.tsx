@@ -27,8 +27,14 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
           aria-hidden={index !== active}
         >
           <picture>
-            <source media="(max-width: 860px)" srcSet={slide.mobile} />
-            <img src={slide.desktop} alt={slide.alt} />
+            <source media="(max-width: 860px)" srcSet={slide.mobile} type="image/webp" />
+            <img
+              src={slide.desktop}
+              alt={slide.alt}
+              loading={index === 0 ? "eager" : "lazy"}
+              fetchPriority={index === 0 ? "high" : "low"}
+              decoding="async"
+            />
           </picture>
         </div>
       ))}

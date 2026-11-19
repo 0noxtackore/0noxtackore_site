@@ -13,23 +13,23 @@ export type HeroSlide = {
 
 export const heroSlides: HeroSlide[] = [
   {
-    desktop: "/sites/0noxtackore/photos/hero-section/hero_i.jpg",
-    mobile: "/sites/0noxtackore/photos/hero-section/mobile/hero_i.jpg",
+    desktop: "/sites/0noxtackore/photos/hero-section/hero_i.webp",
+    mobile: "/sites/0noxtackore/photos/hero-section/mobile/hero_i.webp",
     alt: "Portátil con una escultura tridimensional en pantalla",
   },
   {
-    desktop: "/sites/0noxtackore/photos/hero-section/hero_ii.jpg",
-    mobile: "/sites/0noxtackore/photos/hero-section/mobile/hero_ii.jpg",
+    desktop: "/sites/0noxtackore/photos/hero-section/hero_ii.webp",
+    mobile: "/sites/0noxtackore/photos/hero-section/mobile/hero_ii.webp",
     alt: "Dispositivos móviles sobre un fondo gris",
   },
   {
-    desktop: "/sites/0noxtackore/photos/hero-section/hero_iii.jpg",
-    mobile: "/sites/0noxtackore/photos/hero-section/mobile/hero_iii.jpg",
+    desktop: "/sites/0noxtackore/photos/hero-section/hero_iii.webp",
+    mobile: "/sites/0noxtackore/photos/hero-section/mobile/hero_iii.webp",
     alt: "Visor de realidad virtual y controles sobre un fondo oscuro",
   },
   {
-    desktop: "/sites/0noxtackore/photos/hero-section/hero_iv.jpg",
-    mobile: "/sites/0noxtackore/photos/hero-section/mobile/hero_iv.jpg",
+    desktop: "/sites/0noxtackore/photos/hero-section/hero_iv.webp",
+    mobile: "/sites/0noxtackore/photos/hero-section/mobile/hero_iv.webp",
     alt: "Torre de ordenador con ventiladores RGB sobre un fondo oscuro",
   },
 ];
@@ -49,42 +49,42 @@ export const areas: Area[] = [
     title: "Desarrollo de software",
     description:
       "Crear aplicaciones y herramientas que solucionen problemas cotidianos, técnicos y profesionales.",
-    image: "/sites/0noxtackore/photos/area-software.jpg",
+    image: "/sites/0noxtackore/photos/area-software.webp",
     icon: "code",
   },
   {
     title: "Ingeniería y evolución de proyectos open source",
     description:
       "Estudiar tecnologías existentes, adaptarlas, mejorarlas y distribuir versiones con valor añadido, respetando sus licencias y autores.",
-    image: "/sites/0noxtackore/photos/area-opensource.jpg",
+    image: "/sites/0noxtackore/photos/area-opensource.webp",
     icon: "branch",
   },
   {
     title: "Tecnologías e integraciones",
     description:
       "Desarrollar herramientas, SDK, sistemas e integraciones que faciliten el trabajo de desarrolladores y empresas.",
-    image: "/sites/0noxtackore/photos/area-integrations.jpg",
+    image: "/sites/0noxtackore/photos/area-integrations.webp",
     icon: "plug",
   },
   {
     title: "Productos tecnológicos",
     description:
       "Comercializar software, ofrecer versiones especializadas y construir soluciones sostenibles.",
-    image: "/sites/0noxtackore/photos/area-products.jpg",
+    image: "/sites/0noxtackore/photos/area-products.webp",
     icon: "package",
   },
   {
     title: "Recomendación y afiliación tecnológica",
     description:
       "Seleccionar y recomendar equipos informáticos, especialmente laptops de fabricantes y proveedores chinos, evaluando sus especificaciones técnicas, rendimiento y relación calidad-precio.",
-    image: "/sites/0noxtackore/photos/area-recommendations.jpg",
+    image: "/sites/0noxtackore/photos/area-recommendations.webp",
     icon: "laptop",
   },
   {
     title: "Consultoría técnica y acompañamiento",
     description:
       "Analizamos necesidades, definimos la arquitectura adecuada y acompañamos a los equipos durante la implementación y evolución de sus soluciones.",
-    image: "/sites/0noxtackore/photos/area-consultoria.jpg",
+    image: "/sites/0noxtackore/photos/area-consultoria.webp",
     icon: "messages",
   },
 ];
