@@ -70,7 +70,6 @@ const organizationJsonLd = {
   logo: `${siteUrl}/sites/0noxtackore/logo.webp`,
   image: `${siteUrl}/opengraph-image.jpg`,
   description,
-  inLanguage: "es",
   sameAs: [
     "https://www.facebook.com/people/0noxtackore/61567098773222/",
     "https://www.instagram.com/0noxtackore.dev/",
