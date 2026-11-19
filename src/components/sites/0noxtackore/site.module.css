@@ -663,6 +663,18 @@
   justify-content: center;
   margin-bottom: 16px;
 }
+.trustHeading {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0 10px;
+}
+.trustLogo {
+  width: auto;
+  height: 0.82em;
+  max-width: 45%;
+  object-fit: contain;
+}
 .trustTitle {
   font-size: 17px;
   font-weight: 600;

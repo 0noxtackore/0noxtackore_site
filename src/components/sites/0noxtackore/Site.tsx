@@ -387,7 +387,18 @@ export function Site() {
             <div className={styles.sectionHead}>
               <div className={styles.sectionKicker}>Transparencia</div>
               <h2 id="confianza-title" className={styles.sectionTitle}>
-                Por qué confiar en <span className={styles.thinBrand}>0NOXTACKORE</span>
+                <span className={styles.trustHeading}>
+                  Por qué confiar en
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    className={styles.trustLogo}
+                    src="/sites/0noxtackore/logo.webp"
+                    alt="0NOXTACKORE"
+                    width={280}
+                    height={87}
+                    decoding="async"
+                  />
+                </span>
               </h2>
               <p className={styles.sectionText}>
                 Construimos tecnología con propósito, con criterios claros y una forma de trabajar
