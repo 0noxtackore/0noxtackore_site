@@ -237,9 +237,28 @@ export function Site() {
                 const Icon = areaIcons[area.icon];
                 return (
                   <article key={area.title} className={styles.card}>
-                    <div className={styles.cardMedia}>
+                    <div
+                      className={styles.cardMedia}
+                      style={{
+                        backgroundImage: `url(${area.blur})`,
+                        backgroundSize: "cover",
+                        backgroundPosition: "center",
+                      }}
+                    >
                       {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img className={styles.cardImage} src={area.image} alt="" loading="lazy" decoding="async" />
+                      <img
+                        className={styles.cardImage}
+                        src={area.image}
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
+                        width={960}
+                        height={536}
+                        onLoad={(e) => {
+                          e.currentTarget.style.opacity = "1";
+                        }}
+                        style={{ opacity: 0, transition: "opacity 0.45s ease, filter 0.25s ease, transform 0.25s ease" }}
+                      />
                       <span className={styles.cardIconBadge}>
                         <Icon size={22} strokeWidth={1.8} aria-hidden="true" />
                       </span>
@@ -310,13 +329,27 @@ export function Site() {
                 </div>
               </div>
               <aside className={styles.recAside}>
-                <div className={styles.recImage}>
+                <div
+                  className={styles.recImage}
+                  style={{
+                    backgroundImage:
+                      "url(data:image/webp;base64,UklGRjYAAABXRUJQVlA4ICoAAADQAQCdASoQAAkABUB8JZwC7ADM1D2IgAD+HVmUkq8pPEWWJ5q+z4BOAAA=)",
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                  }}
+                >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src="/sites/0noxtackore/photos/recomendations.webp"
                     alt="Portátil con gráficas de análisis en pantalla"
                     loading="lazy"
                     decoding="async"
+                    width={960}
+                    height={536}
+                    onLoad={(e) => {
+                      e.currentTarget.style.opacity = "1";
+                    }}
+                    style={{ opacity: 0, transition: "opacity 0.45s ease" }}
                   />
                 </div>
                 <p className={styles.disclaimer}>

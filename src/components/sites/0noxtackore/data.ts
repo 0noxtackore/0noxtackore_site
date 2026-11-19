@@ -3,12 +3,14 @@ export type Area = {
   description: string;
   image: string;
   icon: "code" | "branch" | "plug" | "package" | "laptop" | "messages";
+  blur: string;
 };
 
 export type HeroSlide = {
   desktop: string;
   mobile: string;
   alt: string;
+  blur: string;
 };
 
 export const heroSlides: HeroSlide[] = [
@@ -16,21 +18,25 @@ export const heroSlides: HeroSlide[] = [
     desktop: "/sites/0noxtackore/photos/hero-section/hero_i.webp",
     mobile: "/sites/0noxtackore/photos/hero-section/mobile/hero_i.webp",
     alt: "Portátil con una escultura tridimensional en pantalla",
+    blur: "data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAADQAQCdASoQAAkABUB8JZQAAuuGAU+hwAD9+v2gGnsggtTIyQKbtVIkJBOhQAAA",
   },
   {
     desktop: "/sites/0noxtackore/photos/hero-section/hero_ii.webp",
     mobile: "/sites/0noxtackore/photos/hero-section/mobile/hero_ii.webp",
     alt: "Dispositivos móviles sobre un fondo gris",
+    blur: "data:image/webp;base64,UklGRjgAAABXRUJQVlA4ICwAAADQAQCdASoQAAkABUB8JZwAArMmYBuYgAD43oV2MQ7E+ZOFLreEezsjwJ+gAA==",
   },
   {
     desktop: "/sites/0noxtackore/photos/hero-section/hero_iii.webp",
     mobile: "/sites/0noxtackore/photos/hero-section/mobile/hero_iii.webp",
     alt: "Visor de realidad virtual y controles sobre un fondo oscuro",
+    blur: "data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACQAQCdASoQAAkABUB8JZwAAhoFoAAA/vDfY8oYCaklGR9ik8/01eXqPjbPgcAA",
   },
   {
     desktop: "/sites/0noxtackore/photos/hero-section/hero_iv.webp",
     mobile: "/sites/0noxtackore/photos/hero-section/mobile/hero_iv.webp",
     alt: "Torre de ordenador con ventiladores RGB sobre un fondo oscuro",
+    blur: "data:image/webp;base64,UklGRjQAAABXRUJQVlA4ICgAAACwAQCdASoQAAkABUB8JZwAAptpzAQAAP7uoTkaADb0bUv8NjHQhQAA",
   },
 ];
 
@@ -51,6 +57,7 @@ export const areas: Area[] = [
       "Crear aplicaciones y herramientas que solucionen problemas cotidianos, técnicos y profesionales.",
     image: "/sites/0noxtackore/photos/area-software.webp",
     icon: "code",
+    blur: "data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACwAQCdASoQAAkABUB8JYwAAqHJ01LwAP5i72HoXooRcbmexz526J+maCeoOAAA",
   },
   {
     title: "Ingeniería y evolución de proyectos open source",
@@ -58,6 +65,7 @@ export const areas: Area[] = [
       "Estudiar tecnologías existentes, adaptarlas, mejorarlas y distribuir versiones con valor añadido, respetando sus licencias y autores.",
     image: "/sites/0noxtackore/photos/area-opensource.webp",
     icon: "branch",
+    blur: "data:image/webp;base64,UklGRkIAAABXRUJQVlA4IDYAAADwAQCdASoQAAkABUB8JZQCw7EeXRIuCIAA/Zzehuh0dwkuC+pkRMPNLajGkyHpA2nz66qAAAA=",
   },
   {
     title: "Tecnologías e integraciones",
@@ -65,6 +73,7 @@ export const areas: Area[] = [
       "Desarrollar herramientas, SDK, sistemas e integraciones que faciliten el trabajo de desarrolladores y empresas.",
     image: "/sites/0noxtackore/photos/area-integrations.webp",
     icon: "plug",
+    blur: "data:image/webp;base64,UklGRjAAAABXRUJQVlA4ICQAAACQAQCdASoQAAkABUB8JYwCdADC5LAA/vDfemTiWm4Jtj34wAA=",
   },
   {
     title: "Productos tecnológicos",
@@ -72,6 +81,7 @@ export const areas: Area[] = [
       "Comercializar software, ofrecer versiones especializadas y construir soluciones sostenibles.",
     image: "/sites/0noxtackore/photos/area-products.webp",
     icon: "package",
+    blur: "data:image/webp;base64,UklGRjYAAABXRUJQVlA4ICoAAACwAQCdASoQAAkABUB8JQBOgBxbH6tAAP7qvFcB74lxhCcqQRiopj2AAAA=",
   },
   {
     title: "Recomendación y afiliación tecnológica",
@@ -79,6 +89,7 @@ export const areas: Area[] = [
       "Seleccionar y recomendar equipos informáticos, especialmente laptops de fabricantes y proveedores chinos, evaluando sus especificaciones técnicas, rendimiento y relación calidad-precio.",
     image: "/sites/0noxtackore/photos/area-recommendations.webp",
     icon: "laptop",
+    blur: "data:image/webp;base64,UklGRjQAAABXRUJQVlA4ICgAAACwAQCdASoQAAkABUB8JZwAAn/eqmg4AP7ssS6uhk3ooFamAh9FhQAA",
   },
   {
     title: "Consultoría técnica y acompañamiento",
@@ -86,6 +97,7 @@ export const areas: Area[] = [
       "Analizamos necesidades, definimos la arquitectura adecuada y acompañamos a los equipos durante la implementación y evolución de sus soluciones.",
     image: "/sites/0noxtackore/photos/area-consultoria.webp",
     icon: "messages",
+    blur: "data:image/webp;base64,UklGRjwAAABXRUJQVlA4IDAAAACwAQCdASoQAAkABUB8JZQAAga16RUAAPzhs/tgqd2csXWH4e6X1Z7RNCWO8sAoAAA=",
   },
 ];
 
