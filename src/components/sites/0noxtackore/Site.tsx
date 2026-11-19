@@ -13,6 +13,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
+import { withBasePath } from "@/lib/basePath";
 import {
   areas,
   brand,
@@ -96,7 +97,7 @@ function SiteHeader() {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               className={styles.logo}
-              src="/sites/0noxtackore/logo.webp"
+              src={withBasePath("/sites/0noxtackore/logo.webp")}
               alt={brand.name}
               width={32}
               height={32}
@@ -158,7 +159,7 @@ function SiteFooter() {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               className={styles.footerLogo}
-              src="/sites/0noxtackore/logo.webp"
+              src={withBasePath("/sites/0noxtackore/logo.webp")}
               alt={brand.name}
               width={32}
               height={32}
@@ -337,7 +338,7 @@ export function Site() {
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src="/sites/0noxtackore/photos/recomendations.webp"
+                    src={withBasePath("/sites/0noxtackore/photos/recomendations.webp")}
                     alt="Portátil con gráficas de análisis en pantalla"
                     loading="lazy"
                     decoding="async"

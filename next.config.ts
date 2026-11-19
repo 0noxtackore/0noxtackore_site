@@ -1,8 +1,15 @@
 import type { NextConfig } from "next";
 
+const repoBasePath = "/0noxtackore_site";
+
 const nextConfig: NextConfig = {
-  /* config options here */
-  output: "standalone",
+  output: "export",
+  basePath: repoBasePath,
+  assetPrefix: repoBasePath,
+  trailingSlash: true,
+  images: {
+    unoptimized: true,
+  },
 };
 
 export default nextConfig;

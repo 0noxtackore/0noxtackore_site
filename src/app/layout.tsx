@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
-const siteUrl = "https://0noxtackore-site.vercel.app";
+const siteUrl = "https://0noxtackore.github.io/0noxtackore_site";
 const title = "0NOXTACKORE — BUILT FOR IMPACT";
 const description =
   "Compañía tecnológica independiente enfocada en la ingeniería, desarrollo y evolución de soluciones de software, y en la recomendación de productos tecnológicos.";
