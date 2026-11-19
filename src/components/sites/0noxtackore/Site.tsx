@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import {
   BadgeCheck,
@@ -332,6 +333,11 @@ export function Site() {
                       {item}
                     </span>
                   ))}
+                </div>
+                <div className={styles.recActions}>
+                  <Link className={`${styles.button} ${styles.buttonBlue}`} href="/guia">
+                    Leer la guía completa
+                  </Link>
                 </div>
               </div>
               <aside className={styles.recAside}>

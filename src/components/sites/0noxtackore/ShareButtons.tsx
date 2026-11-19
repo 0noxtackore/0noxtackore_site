@@ -6,39 +6,13 @@ import { Check, Link2 } from "lucide-react";
 import { siteUrl } from "./data";
 import styles from "./site.module.css";
 
-const shareTitle = "0NOXTACKORE — BUILT FOR IMPACT";
-const shareText =
+const defaultText =
   "Construimos tecnología con propósito. Descubre qué hacemos en 0NOXTACKORE.";
 
-const encodedUrl = encodeURIComponent(siteUrl);
-const encodedText = encodeURIComponent(`${shareTitle}. ${shareText}`);
-
-const links = [
-  {
-    label: "WhatsApp",
-    href: `https://wa.me/?text=${encodedText}%20${encodedUrl}`,
-    Icon: WhatsAppIcon,
-    className: "shareWhatsapp",
-  },
-  {
-    label: "X",
-    href: `https://twitter.com/intent/tweet?text=${encodedText}&url=${encodedUrl}`,
-    Icon: XIcon,
-    className: "shareX",
-  },
-  {
-    label: "LinkedIn",
-    href: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
-    Icon: LinkedInIcon,
-    className: "shareLinkedin",
-  },
-  {
-    label: "Facebook",
-    href: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
-    Icon: FacebookIcon,
-    className: "shareFacebook",
-  },
-];
+type ShareButtonsProps = {
+  url?: string;
+  text?: string;
+};
 
 function WhatsAppIcon() {
   return (
@@ -73,7 +47,7 @@ function FacebookIcon() {
   );
 }
 
-export function ShareButtons() {
+export function ShareButtons({ url = siteUrl, text = defaultText }: ShareButtonsProps) {
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
@@ -82,9 +56,39 @@ export function ShareButtons() {
     return () => window.clearTimeout(timer);
   }, [copied]);
 
+  const encodedUrl = encodeURIComponent(url);
+  const encodedText = encodeURIComponent(text);
+
+  const links = [
+    {
+      label: "WhatsApp",
+      href: `https://wa.me/?text=${encodedText}%20${encodedUrl}`,
+      Icon: WhatsAppIcon,
+      className: "shareWhatsapp",
+    },
+    {
+      label: "X",
+      href: `https://twitter.com/intent/tweet?text=${encodedText}&url=${encodedUrl}`,
+      Icon: XIcon,
+      className: "shareX",
+    },
+    {
+      label: "LinkedIn",
+      href: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
+      Icon: LinkedInIcon,
+      className: "shareLinkedin",
+    },
+    {
+      label: "Facebook",
+      href: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
+      Icon: FacebookIcon,
+      className: "shareFacebook",
+    },
+  ];
+
   async function copyLink() {
     try {
-      await navigator.clipboard.writeText(siteUrl);
+      await navigator.clipboard.writeText(url);
       setCopied(true);
     } catch {
       setCopied(false);
