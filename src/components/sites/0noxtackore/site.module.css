@@ -974,40 +974,8 @@
   padding: 72px 56px;
 }
 .guideHeroInner {
-  max-width: 1140px;
+  max-width: 900px;
   margin: 0 auto;
-}
-.guideHeroGrid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
-  gap: 48px;
-  align-items: center;
-}
-.guideFigure {
-  margin: 0;
-}
-.guideSection .guideFigure {
-  margin-top: 28px;
-}
-.guideFigureMedia {
-  position: relative;
-  aspect-ratio: 16 / 9;
-  border-radius: 12px;
-  overflow: hidden;
-  background: var(--ink);
-  box-shadow: 0 6px 20px rgba(14, 23, 38, 0.08);
-}
-.guideFigureMedia img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.guideCaption {
-  font-size: 13px;
-  line-height: 20px;
-  color: var(--muted);
-  margin: 10px 0 0;
 }
 .guideKicker {
   font-size: 13px;
@@ -1170,10 +1138,6 @@
     padding: 48px 40px;
     grid-template-columns: 1fr;
     gap: 40px;
-  }
-  .guideHeroGrid {
-    grid-template-columns: 1fr;
-    gap: 28px;
   }
   .guideAside {
     position: static;
