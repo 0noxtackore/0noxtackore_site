@@ -637,6 +637,127 @@
   margin: 0;
 }
 
+/* ---------- Trust ---------- */
+.trust {
+  background: #fff;
+}
+.trustGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
+}
+.trustItem {
+  padding: 28px;
+  border: 1px solid #e6e6e6;
+  border-radius: 12px;
+  background: #fbfdff;
+}
+.trustIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: #e8f4ff;
+  color: var(--blue);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+.trustTitle {
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 24px;
+  color: var(--ink);
+  margin: 0 0 10px;
+}
+.trustText {
+  font-size: 14px;
+  line-height: 23px;
+  color: var(--body);
+  margin: 0;
+}
+
+/* ---------- FAQ ---------- */
+.faq {
+  background: var(--surface);
+}
+.faqList {
+  max-width: 900px;
+}
+.faqItem {
+  border-bottom: 1px solid #d5d5d5;
+}
+.faqQuestion {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 22px 0;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 26px;
+  color: var(--ink);
+}
+.faqQuestion::-webkit-details-marker {
+  display: none;
+}
+.faqQuestion::after {
+  content: "+";
+  flex: 0 0 auto;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  background: #e8f4ff;
+  color: var(--blue);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 400;
+}
+.faqItem[open] .faqQuestion::after {
+  content: "\2212";
+}
+.faqAnswer {
+  padding: 0 0 22px;
+  font-size: 16px;
+  line-height: 27px;
+  color: var(--body);
+  margin: 0;
+}
+.faqCta {
+  margin-top: 40px;
+  padding: 28px 32px;
+  border-radius: 12px;
+  background: var(--ink);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.faqCtaText {
+  font-size: 17px;
+  line-height: 26px;
+  margin: 0;
+  max-width: 520px;
+}
+.faqCtaActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.faqCta .buttonOutline {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.55);
+}
+.faqCta .buttonOutline:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
 /* ---------- Social ---------- */
 .social {
   padding: 56px 24px;
@@ -769,6 +890,9 @@
   .valueGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+  .trustGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
   .philosophyGrid,
   .recGrid {
     gap: 40px;
@@ -864,6 +988,13 @@
   .cardGrid,
   .valueGrid {
     grid-template-columns: 1fr;
+  }
+  .trustGrid {
+    grid-template-columns: 1fr;
+  }
+  .faqCta {
+    flex-direction: column;
+    align-items: flex-start;
   }
   .megaGrid {
     grid-template-columns: 1fr;

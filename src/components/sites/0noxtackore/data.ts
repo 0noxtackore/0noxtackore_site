@@ -205,3 +205,52 @@ export const footerGroups = [
     ],
   },
 ];
+
+export const trust = [
+  {
+    title: "Independencia tecnológica",
+    description:
+      "Somos una compañía tecnológica independiente enfocada en la ingeniería, desarrollo y evolución de soluciones de software.",
+  },
+  {
+    title: "Código abierto con responsabilidad",
+    description:
+      "Estudiamos tecnologías existentes, las adaptamos y mejoramos, y distribuimos versiones con valor añadido respetando sus licencias y autores.",
+  },
+  {
+    title: "Transparencia comercial",
+    description:
+      "No actuamos como fabricantes ni vendedores directos de los equipos. Solo seleccionamos y recomendamos productos disponibles en plataformas comerciales.",
+  },
+  {
+    title: "Impacto y mejora continua",
+    description:
+      "Transparencia y evolución constante: cada solución debe generar un impacto positivo real. Construimos tecnología con propósito.",
+  },
+];
+
+export const faqs = [
+  {
+    question: "¿Qué es 0NOXTACKORE?",
+    answer: brand.intro,
+  },
+  {
+    question: "¿En qué áreas de actividad trabajan?",
+    answer:
+      "Desarrollo de software, ingeniería y evolución de proyectos open source, tecnologías e integraciones, productos tecnológicos, recomendación y afiliación tecnológica, y consultoría técnica y acompañamiento.",
+  },
+  {
+    question: "¿Trabajan con proyectos de código abierto?",
+    answer: areas[1].description,
+  },
+  {
+    question: "¿Venden equipos informáticos directamente?",
+    answer:
+      "No actuamos como fabricantes ni vendedores directos de los equipos. Solo seleccionamos y recomendamos productos disponibles en plataformas comerciales.",
+  },
+  {
+    question: "¿Cómo puedo contactar con 0NOXTACKORE?",
+    answer:
+      "Puedes encontrarnos y escribirnos a través de nuestro Facebook (facebook.com/people/0noxtackore/61567098773222/) y de nuestro Instagram (instagram.com/0noxtackore.dev/).",
+  },
+];

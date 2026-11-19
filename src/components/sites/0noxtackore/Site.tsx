@@ -2,13 +2,17 @@
 
 import { useState } from "react";
 import {
+  BadgeCheck,
   Code2,
+  Eye,
   GitBranch,
   Laptop,
   Menu,
   MessagesSquare,
   Package,
   Plug,
+  ShieldCheck,
+  Star,
   X,
   type LucideIcon,
 } from "lucide-react";
@@ -16,12 +20,14 @@ import {
 import {
   areas,
   brand,
+  faqs,
   footerGroups,
   heroSlides,
   megaGroups,
   navLinks,
   philosophy,
   recommendation,
+  trust,
   values,
   type Area,
 } from "./data";
@@ -62,6 +68,8 @@ const areaIcons: Record<Area["icon"], LucideIcon> = {
   laptop: Laptop,
   messages: MessagesSquare,
 };
+
+const trustIcons: LucideIcon[] = [ShieldCheck, BadgeCheck, Eye, Star];
 
 function BrandIntro({ text }: { text: string }) {
   const name = brand.name.toLowerCase();
@@ -370,6 +378,81 @@ export function Site() {
                   <p className={styles.valueText}>{value.description}</p>
                 </article>
               ))}
+            </div>
+          </div>
+        </section>
+
+        <section className={`${styles.section} ${styles.trust}`} id="confianza" aria-labelledby="confianza-title">
+          <div className={styles.sectionInner}>
+            <div className={styles.sectionHead}>
+              <div className={styles.sectionKicker}>Transparencia</div>
+              <h2 id="confianza-title" className={styles.sectionTitle}>
+                Por qué confiar en <span className={styles.thinBrand}>0NOXTACKORE</span>
+              </h2>
+              <p className={styles.sectionText}>
+                Construimos tecnología con propósito, con criterios claros y una forma de trabajar
+                abierta y responsable.
+              </p>
+            </div>
+            <div className={styles.trustGrid}>
+              {trust.map((item, index) => {
+                const Icon = trustIcons[index % trustIcons.length];
+                return (
+                  <article key={item.title} className={styles.trustItem}>
+                    <span className={styles.trustIcon}>
+                      <Icon size={20} strokeWidth={1.8} aria-hidden="true" />
+                    </span>
+                    <h3 className={styles.trustTitle}>{item.title}</h3>
+                    <p className={styles.trustText}>{item.description}</p>
+                  </article>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
+        <section className={`${styles.section} ${styles.faq}`} id="faq" aria-labelledby="faq-title">
+          <div className={styles.sectionInner}>
+            <div className={styles.sectionHead}>
+              <div className={styles.sectionKicker}>Preguntas frecuentes</div>
+              <h2 id="faq-title" className={styles.sectionTitle}>
+                Resuelve tus dudas
+              </h2>
+            </div>
+            <div className={styles.faqList}>
+              {faqs.map((faq) => (
+                <details key={faq.question} className={styles.faqItem}>
+                  <summary className={styles.faqQuestion}>{faq.question}</summary>
+                  <p className={styles.faqAnswer}>
+                    <BrandIntro text={faq.answer} />
+                  </p>
+                </details>
+              ))}
+            </div>
+            <div className={styles.faqCta}>
+              <p className={styles.faqCtaText}>
+                ¿Quieres conocernos o trabajar con nosotros? Escríbenos y te respondemos.
+              </p>
+              <div className={styles.faqCtaActions}>
+                <a
+                  className={`${styles.button} ${styles.buttonBlue}`}
+                  href="https://www.facebook.com/people/0noxtackore/61567098773222/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <FacebookIcon />
+                  Facebook
+                </a>
+                <a
+                  className={`${styles.button} ${styles.buttonOutline}`}
+                  href="https://www.instagram.com/0noxtackore.dev/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <InstagramIcon />
+                  Instagram
+                </a>
+              </div>
             </div>
           </div>
         </section>

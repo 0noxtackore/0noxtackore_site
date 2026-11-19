@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { faqs } from "@/components/sites/0noxtackore/data";
 import "./globals.css";
 
 const siteUrl = "https://0noxtackore.makes.fyi";
@@ -80,11 +81,23 @@ const websiteJsonLd = {
   publisher: { "@type": "Organization", name: "0NOXTACKORE", url: siteUrl },
 };
 
+// The questions and answers here must match the visible FAQ section exactly.
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((faq) => ({
+    "@type": "Question",
+    name: faq.question,
+    acceptedAnswer: { "@type": "Answer", text: faq.answer },
+  })),
+};
+
 // Escape "<" so the inline JSON can never break out of the <script> element.
-const structuredData = JSON.stringify([organizationJsonLd, websiteJsonLd]).replace(
-  /</g,
-  "\\u003c",
-);
+const structuredData = JSON.stringify([
+  organizationJsonLd,
+  websiteJsonLd,
+  faqJsonLd,
+]).replace(/</g, "\\u003c");
 
 export default function RootLayout({
   children,
