@@ -3,9 +3,9 @@ import Script from "next/script";
 import { faqs, gaMeasurementId, siteUrl } from "@/components/sites/0noxtackore/data";
 import "./globals.css";
 
-const title = "0NOXTACKORE — BUILT FOR IMPACT";
+const title = "0NOXTACKORE — Desarrollo de software y consultoría tecnológica";
 const description =
-  "Compañía tecnológica independiente enfocada en la ingeniería, desarrollo y evolución de soluciones de software, y en la recomendación de productos tecnológicos.";
+  "0NOXTACKORE es una compañía tecnológica independiente de desarrollo de software, ingeniería open source, integraciones, consultoría técnica y recomendación de laptops y equipos tecnológicos. Construimos tecnología con propósito.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -15,11 +15,14 @@ export const metadata: Metadata = {
   keywords: [
     "0NOXTACKORE",
     "desarrollo de software",
+    "desarrollo de software a medida",
     "ingeniería open source",
-    "integraciones",
-    "productos tecnológicos",
-    "recomendación tecnológica",
     "consultoría técnica",
+    "integraciones y SDK",
+    "recomendación de laptops",
+    "productos tecnológicos",
+    "relación calidad-precio",
+    "BUILT FOR IMPACT",
   ],
   authors: [{ name: "0NOXTACKORE" }],
   creator: "0NOXTACKORE",
@@ -61,6 +64,7 @@ const organizationJsonLd = {
   name: "0NOXTACKORE",
   alternateName: "0noxtackore",
   slogan: "BUILT FOR IMPACT",
+  foundingDate: "2026",
   url: siteUrl,
   logo: `${siteUrl}/sites/0noxtackore/logo.webp`,
   image: `${siteUrl}/opengraph-image.jpg`,
