@@ -189,6 +189,7 @@ export const footerGroups = [
       { label: "Inicio", href: "/" },
       { label: "Áreas de actividad", href: "/areas" },
       { label: "Nuestra filosofía", href: "/filosofia" },
+      { label: "Acerca de", href: "/acerca" },
     ],
   },
   {
