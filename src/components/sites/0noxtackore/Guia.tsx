@@ -2,9 +2,42 @@
 
 import Link from "next/link";
 
-import { siteUrl } from "./data";
+import { guideImages, siteUrl, type GuideImageData } from "./data";
 import { ShareButtons } from "./ShareButtons";
 import styles from "./site.module.css";
+
+function GuideImage({
+  image,
+  eager = false,
+}: {
+  image: GuideImageData;
+  eager?: boolean;
+}) {
+  return (
+    <figure className={styles.guideFigure}>
+      <div
+        className={styles.guideFigureMedia}
+        style={{
+          backgroundImage: `url(${image.blur})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={image.src}
+          alt={image.alt}
+          width={image.width}
+          height={image.height}
+          loading={eager ? "eager" : "lazy"}
+          fetchPriority={eager ? "high" : "auto"}
+          decoding="async"
+        />
+      </div>
+      <figcaption className={styles.guideCaption}>{image.caption}</figcaption>
+    </figure>
+  );
+}
 
 const guideUrl = `${siteUrl}/guia`;
 const guideTitle = "Cómo elegir una laptop con buena relación calidad-precio";
@@ -71,12 +104,17 @@ export function Guia() {
 
       <section className={styles.guideHero}>
         <div className={styles.guideHeroInner}>
-          <div className={styles.guideKicker}>Recomendación tecnológica</div>
-          <h1 className={styles.guideTitle}>{guideTitle}</h1>
-          <p className={styles.guideLead}>{guideDescription}</p>
-          <p className={styles.guideMeta}>
-            Por <span className={styles.thinBrand}>0NOXTACKORE</span> · Lectura de 4 min
-          </p>
+          <div className={styles.guideHeroGrid}>
+            <div>
+              <div className={styles.guideKicker}>Recomendación tecnológica</div>
+              <h1 className={styles.guideTitle}>{guideTitle}</h1>
+              <p className={styles.guideLead}>{guideDescription}</p>
+              <p className={styles.guideMeta}>
+                Por <span className={styles.thinBrand}>0NOXTACKORE</span> · Lectura de 4 min
+              </p>
+            </div>
+            <GuideImage image={guideImages.hero} eager />
+          </div>
         </div>
       </section>
 
@@ -117,10 +155,12 @@ export function Guia() {
               componente: busca al menos 512 GB. Prefiere paneles <strong>IPS</strong> y elige una
               batería acorde a cuántas horas estarás lejos del enchufe.
             </p>
+            <GuideImage image={guideImages.display} />
           </section>
 
           <section className={styles.guideSection} id="checklist">
             <h2 className={styles.guideH2}>5. Checklist antes de comprar</h2>
+            <GuideImage image={guideImages.checklist} />
             <ul className={styles.guideChecklist}>
               {checklist.map((item) => (
                 <li key={item}>{item}</li>

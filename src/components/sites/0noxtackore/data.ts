@@ -257,3 +257,39 @@ export const faqs = [
       "Puedes encontrarnos y escribirnos a través de nuestro Facebook (facebook.com/people/0noxtackore/61567098773222/) y de nuestro Instagram (instagram.com/0noxtackore.dev/).",
   },
 ];
+
+export type GuideImageData = {
+  src: string;
+  alt: string;
+  blur: string;
+  width: number;
+  height: number;
+  caption: string;
+};
+
+export const guideImages: Record<"hero" | "display" | "checklist", GuideImageData> = {
+  hero: {
+    src: "/sites/0noxtackore/photos/recomendations.webp",
+    alt: "Portátil con gráficas de análisis en pantalla",
+    blur: "data:image/webp;base64,UklGRjYAAABXRUJQVlA4ICoAAADQAQCdASoQAAkABUB8JZwC7ADM1D2IgAD+HVmUkq8pPEWWJ5q+z4BOAAA=",
+    width: 960,
+    height: 536,
+    caption: "Evaluamos especificaciones reales, no solo el diseño del equipo.",
+  },
+  display: {
+    src: "/sites/0noxtackore/photos/hero-section/hero_i.webp",
+    alt: "Portátil con una escultura tridimensional en pantalla",
+    blur: "data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAADQAQCdASoQAAkABUB8JZQAAuuGAU+hwAD9+v2gGnsggtTIyQKbtVIkJBOhQAAA",
+    width: 1920,
+    height: 1072,
+    caption: "La pantalla y el rendimiento gráfico importan tanto como el procesador.",
+  },
+  checklist: {
+    src: "/sites/0noxtackore/photos/area-recommendations.webp",
+    alt: "Equipo informático sobre un escritorio",
+    blur: "data:image/webp;base64,UklGRjQAAABXRUJQVlA4ICgAAACwAQCdASoQAAkABUB8JZwAAn/eqmg4AP7ssS6uhk3ooFamAh9FhQAA",
+    width: 960,
+    height: 536,
+    caption: "Una revisión rápida evita compras que no se ajustan a tu uso.",
+  },
+};
