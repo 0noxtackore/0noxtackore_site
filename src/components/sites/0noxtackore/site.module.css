@@ -802,26 +802,29 @@
   transform: translateY(-1px);
   text-decoration: none;
 }
-.shareWhatsapp {
+.page .shareButton.shareWhatsapp {
   background: #25d366;
   color: #fff;
 }
-.shareX {
+.page .shareButton.shareX {
   background: #15181c;
   color: #fff;
 }
-.shareLinkedin {
+.page .shareButton.shareLinkedin {
   background: #0a66c2;
   color: #fff;
 }
-.shareFacebook {
+.page .shareButton.shareFacebook {
   background: #1877f2;
   color: #fff;
 }
-.shareCopy {
-  background: #eef2f7;
-  color: var(--ink);
-  border-color: #d6dfe8;
+.page .shareButton.shareCopy {
+  background: var(--ink);
+  color: #fff;
+  border-color: var(--ink);
+}
+.page .shareButton svg {
+  color: inherit;
 }
 
 /* ---------- Social ---------- */

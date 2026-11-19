@@ -57,7 +57,7 @@ export const areas: Area[] = [
   {
     title: "Desarrollo de software",
     description:
-      "Crear aplicaciones y herramientas que solucionen problemas cotidianos, técnicos y profesionales.",
+      "Crear aplicaciones y herramientas que solucionen problemas cotidianos, técnicos y profesionales. Diseñamos cada solución pensando en su uso real, desde la primera idea hasta una versión que se mantiene y evoluciona con el tiempo.",
     image: "/sites/0noxtackore/photos/area-software.webp",
     icon: "code",
     blur: "data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACwAQCdASoQAAkABUB8JYwAAqHJ01LwAP5i72HoXooRcbmexz526J+maCeoOAAA",
@@ -81,7 +81,7 @@ export const areas: Area[] = [
   {
     title: "Productos tecnológicos",
     description:
-      "Comercializar software, ofrecer versiones especializadas y construir soluciones sostenibles.",
+      "Comercializar software, ofrecer versiones especializadas y construir soluciones sostenibles. Buscamos que cada producto tenga un propósito claro, una experiencia cuidada y un modelo que pueda mantenerse a largo plazo.",
     image: "/sites/0noxtackore/photos/area-products.webp",
     icon: "package",
     blur: "data:image/webp;base64,UklGRjYAAABXRUJQVlA4ICoAAACwAQCdASoQAAkABUB8JQBOgBxbH6tAAP7qvFcB74lxhCcqQRiopj2AAAA=",
