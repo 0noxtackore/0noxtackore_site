@@ -770,6 +770,57 @@
   background: rgba(255, 255, 255, 0.12);
 }
 
+/* ---------- Share ---------- */
+.share {
+  background: #fff;
+}
+.shareButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.page .shareButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 12px 22px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  cursor: pointer;
+  text-decoration: none !important;
+  transition: filter 0.2s ease, transform 0.2s ease;
+}
+.page .shareButton:hover {
+  filter: brightness(0.94);
+  transform: translateY(-1px);
+  text-decoration: none;
+}
+.shareWhatsapp {
+  background: #25d366;
+  color: #fff;
+}
+.shareX {
+  background: #15181c;
+  color: #fff;
+}
+.shareLinkedin {
+  background: #0a66c2;
+  color: #fff;
+}
+.shareFacebook {
+  background: #1877f2;
+  color: #fff;
+}
+.shareCopy {
+  background: #eef2f7;
+  color: var(--ink);
+  border-color: #d6dfe8;
+}
+
 /* ---------- Social ---------- */
 .social {
   padding: 56px 24px;

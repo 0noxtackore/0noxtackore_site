@@ -1,3 +1,5 @@
+export const siteUrl = "https://0noxtackore.makes.fyi";
+
 export type Area = {
   title: string;
   description: string;

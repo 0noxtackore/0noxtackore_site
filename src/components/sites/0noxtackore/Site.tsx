@@ -32,6 +32,7 @@ import {
   type Area,
 } from "./data";
 import { HeroSlider } from "./HeroSlider";
+import { ShareButtons } from "./ShareButtons";
 import styles from "./site.module.css";
 
 function FacebookIcon() {
@@ -450,6 +451,21 @@ export function Site() {
                 </a>
               </div>
             </div>
+          </div>
+        </section>
+
+        <section className={`${styles.section} ${styles.share}`} id="compartir" aria-labelledby="compartir-title">
+          <div className={styles.sectionInner}>
+            <div className={styles.sectionHead}>
+              <div className={styles.sectionKicker}>Difunde</div>
+              <h2 id="compartir-title" className={styles.sectionTitle}>
+                ¿Te resultó útil? Compártelo
+              </h2>
+              <p className={styles.sectionText}>
+                Si conoces a alguien interesado en tecnología con propósito, ayúdanos a llegar hasta él.
+              </p>
+            </div>
+            <ShareButtons />
           </div>
         </section>
 
