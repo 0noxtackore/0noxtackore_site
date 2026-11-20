@@ -13,6 +13,7 @@ Estos 4 puntos se revisaron (recomendaciones de auditoría externa) pero se deja
 - [ ] **Correo de contacto empresarial visible** — Falta definir y mostrar un email profesional en la web (sección de contacto y pie).
 - [ ] **Decisión sobre Aguickore** — ¿Archivar el repositorio o mantenerlo? Nota: es el repo más activo (push reciente, licencia MIT). El usuario decide.
 - [ ] **Páginas individuales por producto** — Crear una página propia por producto disponible (Fluxckore, Netckore, File-Host…) con documentación, licencia y estado.
+- [ ] **Arreglar Aguickore** — Ocultado con comentarios en `content.ts` (home es/en + /acerca es/en): aún quedan cosas por arreglar en esa app. Quitar comentarios cuando esté lista.
 
 ## 2. SEO y buscadores
 
