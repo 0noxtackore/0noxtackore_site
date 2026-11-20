@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
 
 import { getContent } from "@/components/sites/0noxtackore/content";
+import { siteUrl } from "@/components/sites/0noxtackore/data";
 import { isLocale, locales, type Locale } from "@/lib/i18n";
 
 export function generateStaticParams() {
@@ -22,6 +23,7 @@ export async function generateMetadata({
   const content = getContent(locale);
   const meta = content.metadata.home;
   const canonical = `/${locale}`;
+  const ogImagePath = locale === "es" ? "/sites/0noxtackore/og/og-es.jpg" : "/sites/0noxtackore/og/og-en.jpg";
 
   return {
     title: meta.title,
@@ -55,7 +57,7 @@ export async function generateMetadata({
       description: meta.description,
       images: [
         {
-          url: "/opengraph-image.jpg",
+          url: ogImagePath,
           width: 1200,
           height: 630,
           alt: `${content.brand.name} — ${content.brand.tagline}. ${locale === "es" ? "Tecnología con propósito." : "Technology with purpose."}`,
@@ -66,7 +68,7 @@ export async function generateMetadata({
       card: "summary_large_image",
       title: meta.title,
       description: meta.description,
-      images: ["/opengraph-image.jpg"],
+      images: [ogImagePath],
     },
     robots: { index: true, follow: true },
   };
@@ -82,6 +84,8 @@ export default async function LocaleLayout({
   const { locale: value } = await params;
   if (!isLocale(value)) notFound();
   const content = getContent(value);
+  const ogImagePath = value === "es" ? "/sites/0noxtackore/og/og-es.jpg" : "/sites/0noxtackore/og/og-en.jpg";
+  const ogImageUrl = new URL(ogImagePath, siteUrl).toString();
 
   const organizationJsonLd = {
     "@context": "https://schema.org",
@@ -93,7 +97,7 @@ export default async function LocaleLayout({
     areaServed: { "@type": "Place", name: "Global" },
     url: content.baseUrl,
     logo: `${content.baseUrl}/sites/0noxtackore/logo.webp`,
-    image: `${content.baseUrl}/opengraph-image.jpg`,
+    image: ogImageUrl,
     description: content.metadata.home.description,
     sameAs: [
       "https://github.com/0noxtackore",

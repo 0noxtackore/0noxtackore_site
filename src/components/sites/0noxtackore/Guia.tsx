@@ -17,7 +17,7 @@ export function Guia({ locale }: { locale: Locale }) {
     "@type": "Article",
     headline: guide.title,
     description: guide.description,
-    image: `${content.baseUrl}/opengraph-image.jpg`,
+    image: new URL(content.ogImage, content.baseUrl).toString(),
     author: { "@type": "Organization", name: content.brand.name, url: content.baseUrl },
     publisher: { "@type": "Organization", name: content.brand.name, url: content.baseUrl },
     datePublished: "2026-11-19",

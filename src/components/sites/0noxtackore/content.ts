@@ -38,6 +38,7 @@ export type Content = {
   footerGroups: LinkGroup[];
   testimonials: { quote: string; name: string; role: string }[];
   projects: Project[];
+  ogImage: string;
   ui: Record<string, string>;
   share: {
     defaultText: string;
@@ -413,6 +414,7 @@ const es: Content = {
       officialText: "Puedes encontrarnos y seguir nuestro trabajo en estos canales oficiales:",
     },
   },
+  ogImage: "/sites/0noxtackore/og/og-es.jpg",
   metadata: {
     home: {
       title: "0NOXTACKORE: software a medida, open source y consultoría",
@@ -668,6 +670,7 @@ const en: Content = {
       officialText: "You can find us and follow our work on these official channels:",
     },
   },
+  ogImage: "/sites/0noxtackore/og/og-en.jpg",
   metadata: {
     home: {
       title: "0NOXTACKORE: Custom software, open source and consulting",

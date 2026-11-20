@@ -12,7 +12,8 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale: value } = await params;
   const locale: Locale = isLocale(value) ? value : "es";
-  const meta = getContent(locale).metadata.guia;
+  const content = getContent(locale);
+  const meta = content.metadata.guia;
 
   return {
     title: `${meta.title} | 0NOXTACKORE`,
@@ -27,13 +28,13 @@ export async function generateMetadata({
       description: meta.description,
       url: `/${locale}/guia`,
       siteName: "0NOXTACKORE",
-      images: [{ url: "/opengraph-image.jpg", width: 1200, height: 630 }],
+      images: [{ url: content.ogImage, width: 1200, height: 630 }],
     },
     twitter: {
       card: "summary_large_image",
       title: `${meta.title} | 0NOXTACKORE`,
       description: meta.description,
-      images: ["/opengraph-image.jpg"],
+      images: [content.ogImage],
     },
   };
 }
