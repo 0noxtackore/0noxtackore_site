@@ -75,6 +75,12 @@ export type Content = {
       toc: { label: string; href: string }[];
       whoTitle: string;
       whoParagraphs: string[];
+      ceoTitle: string;
+      ceoName: string;
+      ceoRole: string;
+      ceoParagraphs: string[];
+      originTitle: string;
+      originParagraphs: string[];
       buildTitle: string;
       buildIntro: string;
       projects: { name: string; description: string; url: string }[];
@@ -391,6 +397,8 @@ const es: Content = {
       tocTitle: "En esta página",
       toc: [
         { label: "Por qué confiar en la marca", href: localizedHref("es", "/#confianza") },
+        { label: "Nuestro origen", href: localizedHref("es", "/acerca#origen") },
+        { label: "El CEO", href: localizedHref("es", "/acerca#ceo") },
         { label: "Preguntas frecuentes", href: localizedHref("es", "/#faq") },
         { label: "Guía para elegir una laptop", href: localizedHref("es", "/guia") },
       ],
@@ -398,6 +406,18 @@ const es: Content = {
       whoParagraphs: [
         "0noxtackore es un estudio tecnológico indie fundado por un único desarrollador con una visión clara: una persona que lidera, programa y diseña al mismo tiempo. Como arquitecto de software, el foco está en construir sistemas de alto rendimiento desde la base, priorizando la escalabilidad y una ingeniería limpia.",
         "Esta web es el hogar oficial de la marca: aquí reunimos lo que hacemos, nuestra filosofía y los productos y proyectos que desarrollamos. La tecnología con propósito no es un eslogan: es la forma en que abordamos cada proyecto.",
+      ],
+      ceoTitle: "El líder",
+      ceoName: "Angello Aponte",
+      ceoRole: "Fundador y CEO",
+      ceoParagraphs: [
+        "Angello Aponte es el fundador y CEO de 0NOXTACKORE. Ingeniero de software con una obsesión por resolver problemas reales con soluciones reales, antes de fundar la marca trabajó en el borde de la ingeniería: creó sus propios proyectos de código abierto y vivió de cerca las carencias que hoy son el corazón de 0noxtackore.",
+        "Su enfoque como CEO es claro y personal: liderar, programar y diseñar al mismo tiempo. Ninguna barrera lo separa de la ejecución, y ninguna decisión de la compañía pasa por un filtro más importante que este: ¿resuelve un problema real con propósito?",
+      ],
+      originTitle: "Nuestro origen",
+      originParagraphs: [
+        "0noxtackore nació como un proyecto personal: un desarrollador que quiso herramientas de software que resolvieran sus propios problemas, y que al ver el potencial abrió la puerta a otros.",
+        "Con cada proyecto open source publicado, la marca fue tomando forma. Hoy 0NOXTACKORE es el estudio que construyó las soluciones que él mismo quería tener.",
       ],
       buildTitle: "Qué construimos",
       buildIntro: "Parte de nuestro trabajo son productos y proyectos de código abierto que ya están disponibles públicamente:",
@@ -647,6 +667,8 @@ const en: Content = {
       tocTitle: "On this page",
       toc: [
         { label: "Why trust the brand", href: localizedHref("en", "/#confianza") },
+        { label: "Our origin", href: localizedHref("en", "/acerca#origen") },
+        { label: "The CEO", href: localizedHref("en", "/acerca#ceo") },
         { label: "Frequently asked questions", href: localizedHref("en", "/#faq") },
         { label: "Laptop buying guide", href: localizedHref("en", "/guia") },
       ],
@@ -654,6 +676,18 @@ const en: Content = {
       whoParagraphs: [
         "0noxtackore is an indie technology studio founded by a single developer with a clear vision: one person who leads, codes and designs at the same time. As a software architect, the focus is on building high-performance systems from the ground up, prioritizing scalability and clean engineering.",
         "This site is the official home of the brand: here we bring together what we do, our philosophy and the products and projects we develop. Technology with purpose is not a slogan: it is how we approach every project.",
+      ],
+      ceoTitle: "The leader",
+      ceoName: "Angello Aponte",
+      ceoRole: "Founder and CEO",
+      ceoParagraphs: [
+        "Angello Aponte is the founder and CEO of 0NOXTACKORE. A software engineer with an obsession for solving real problems with real solutions, he worked at the edge of engineering before founding the brand: he built his own open-source projects and saw firsthand the gaps that today sit at the heart of 0noxtackore.",
+        "His approach as CEO is simple and personal: lead, code and design at the same time. No barrier separates him from execution, and no decision made at the company goes through any filter more important than this one: does it solve a real problem with purpose?",
+      ],
+      originTitle: "Our origin",
+      originParagraphs: [
+        "0noxtackore was born as a personal project: a developer who wanted software tools that solved his own problems, and who, once he saw the potential, opened the door to others.",
+        "With each open-source project published, the brand took shape. Today 0NOXTACKORE is the studio that built the solutions he himself wanted to have.",
       ],
       buildTitle: "What we build",
       buildIntro: "Part of our work consists of products and open-source projects that are already publicly available:",

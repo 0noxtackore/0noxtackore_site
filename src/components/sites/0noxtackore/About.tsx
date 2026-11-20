@@ -33,6 +33,10 @@ export function About({ locale }: { locale: Locale }) {
       logo: `${content.baseUrl}/sites/0noxtackore/logo.webp`,
       foundingDate: "2026",
       areaServed: { "@type": "Place", name: "Global" },
+      founder: {
+        "@type": "Person",
+        name: about.ceoName,
+      },
       sameAs: officialLinks.map((l) => l.url),
     },
     inLanguage: locale,
@@ -77,10 +81,31 @@ export function About({ locale }: { locale: Locale }) {
 
       <div className={styles.guideLayout}>
         <main className={styles.guideMain}>
+          <section className={styles.guideSection} id="origen">
+            <h2 className={styles.guideH2}>{about.originTitle}</h2>
+            {about.originParagraphs.map((paragraph, index) => (
+              <p key={index} className={styles.guideP}>
+                {paragraph}
+              </p>
+            ))}
+          </section>
+
           <section className={styles.guideSection}>
             <h2 className={styles.guideH2}>{about.whoTitle}</h2>
             {about.whoParagraphs.map((paragraph) => (
               <p key={paragraph} className={styles.guideP}>
+                {paragraph}
+              </p>
+            ))}
+          </section>
+
+          <section className={styles.guideSection} id="ceo">
+            <h2 className={styles.guideH2}>{about.ceoTitle}</h2>
+            <p className={styles.guideMeta}>
+              <span className={styles.thinBrand}>{about.ceoName}</span> — {about.ceoRole}
+            </p>
+            {about.ceoParagraphs.map((paragraph, index) => (
+              <p key={index} className={styles.guideP}>
                 {paragraph}
               </p>
             ))}
