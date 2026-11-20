@@ -795,18 +795,6 @@
   font-size: 13px;
   color: var(--muted);
 }
-.projectChips {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-}
-.projectChip {
-  font-size: 12px;
-  color: var(--muted);
-  background: #eef4fa;
-  border-radius: 999px;
-  padding: 3px 10px;
-}
 
 /* ---------- FAQ ---------- */
 .faq {

@@ -183,7 +183,7 @@ const es: Content = {
   baseUrl: siteUrl,
   brand: {
     name: "0NOXTACKORE",
-    tagline: "CREADO PARA IMPACTAR",
+    tagline: "CREADO PARA EL IMPACTO",
     heroEyebrow: "TECNOLOGÍA CON ALMA",
     intro:
       "0noxtackore es una compañía tecnológica independiente enfocada en la ingeniería, desarrollo y evolución de soluciones de software, así como en la selección y recomendación de productos tecnológicos.",
@@ -288,7 +288,7 @@ const es: Content = {
       { label: "Equipos y laptops", href: localizedHref("es", "/recomendaciones") },
     ] },
     { title: "Enlaces", links: [
-      { label: "CREADO PARA IMPACTAR", href: localizedHref("es", "/") },
+      { label: "CREADO PARA EL IMPACTO", href: localizedHref("es", "/") },
       { label: "Proyectos y soluciones", href: localizedHref("es", "/proyectos") },
       { label: "Construimos tecnología con propósito", href: localizedHref("es", "/confianza") },
       { label: "Contacto", href: localizedHref("es", "/contacto") },
@@ -323,24 +323,6 @@ const es: Content = {
       updated: "Nov 2026",
       tech: ["TypeScript", "MIT"],
       url: "https://github.com/0noxtackore/Aguickore",
-    },
-    {
-      name: "File-Host",
-      description:
-        "Aplicación web ligera de alojamiento y compartición de archivos en la nube, optimizada para un despliegue rápido.",
-      status: "Activo",
-      updated: "Sep 2026",
-      tech: ["JavaScript", "MIT"],
-      url: "https://github.com/0noxtackore/File-Host",
-    },
-    {
-      name: "Ebenezer-Screen",
-      description:
-        "Aplicación web para el control de pantallas y la gestión de contenido multimedia, desplegada en Netlify.",
-      status: "Estable",
-      updated: "Ene 2026",
-      tech: ["JavaScript"],
-      url: "https://github.com/0noxtackore/Ebenezer-Screen",
     },
   ],
   ui: uiEs,
@@ -589,24 +571,6 @@ const en: Content = {
       updated: "Nov 2026",
       tech: ["TypeScript", "MIT"],
       url: "https://github.com/0noxtackore/Aguickore",
-    },
-    {
-      name: "File-Host",
-      description:
-        "Lightweight cloud file hosting and sharing web application, optimized for fast deployment.",
-      status: "Active",
-      updated: "Sep 2026",
-      tech: ["JavaScript", "MIT"],
-      url: "https://github.com/0noxtackore/File-Host",
-    },
-    {
-      name: "Ebenezer-Screen",
-      description:
-        "Web application for screen control and multimedia content management, deployed on Netlify.",
-      status: "Stable",
-      updated: "Jan 2026",
-      tech: ["JavaScript"],
-      url: "https://github.com/0noxtackore/Ebenezer-Screen",
     },
   ],
   ui: uiEn,

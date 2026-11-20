@@ -393,13 +393,6 @@ export function Site({ locale }: { locale: Locale }) {
                     <span className={styles.projectUpdated}>
                       {ui.projectsUpdated}: {project.updated}
                     </span>
-                    <div className={styles.projectChips}>
-                      {project.tech.map((tech) => (
-                        <span key={tech} className={styles.projectChip}>
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
                   </div>
                 </a>
               ))}
