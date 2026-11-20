@@ -23,7 +23,7 @@ export async function generateMetadata({
   const content = getContent(locale);
   const meta = content.metadata.home;
   const canonical = `/${locale}`;
-  const ogImagePath = locale === "es" ? "/sites/0noxtackore/og/og-es.jpg" : "/sites/0noxtackore/og/og-en.jpg";
+  const ogImagePath = content.ogImage;
 
   return {
     title: meta.title,
@@ -84,7 +84,7 @@ export default async function LocaleLayout({
   const { locale: value } = await params;
   if (!isLocale(value)) notFound();
   const content = getContent(value);
-  const ogImagePath = value === "es" ? "/sites/0noxtackore/og/og-es.jpg" : "/sites/0noxtackore/og/og-en.jpg";
+  const ogImagePath = content.ogImage;
   const ogImageUrl = new URL(ogImagePath, siteUrl).toString();
 
   const organizationJsonLd = {
