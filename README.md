@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="public/sites/0noxtackore/og/Branding_0noxtackore.png" alt="0NOXTACKORE" width="320">
+  <img src="public/sites/0noxtackore/Branding_0noxtackore.png" alt="0NOXTACKORE" width="320">
 </p>
 
 <p align="center">
@@ -121,7 +121,7 @@ This project is licensed under the [MIT License](LICENSE).
 ---
 
 <p align="center">
-  <img src="public/sites/0noxtackore/og/Branding_0noxtackore.png" alt="Branding 0noxtackore" width="100%"><br>
+  <img src="public/sites/0noxtackore/Branding_0noxtackore.png" alt="Branding 0noxtackore" width="100%"><br>
   <strong>This website is part of the 0noxtackore technology company.</strong>
 </p>
 
