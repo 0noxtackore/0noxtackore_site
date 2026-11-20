@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
 
 import { getContent } from "@/components/sites/0noxtackore/content";
@@ -7,6 +7,10 @@ import { isLocale, locales, type Locale } from "@/lib/i18n";
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
+
+export const viewport: Viewport = {
+  themeColor: "#0078d4",
+};
 
 export async function generateMetadata({
   params,
@@ -126,7 +130,7 @@ export default async function LocaleLayout({
   ]).replace(/</g, "\\u003c");
 
   return (
-    <html lang={value} className="h-full antialiased">
+    <html lang={value} dir="ltr" className="h-full antialiased">
       <body className="min-h-full flex flex-col">
         <script
           type="application/ld+json"
