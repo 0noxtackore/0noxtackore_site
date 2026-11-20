@@ -21,8 +21,8 @@ const DEFAULT_URLS = [
   `${SITE}/es/guia`,
   `${SITE}/es/acerca`,
   `${SITE}/en`,
-  `${SITE}/en/guia`,
-  `${SITE}/en/acerca`,
+  `${SITE}/en/guide`,
+  `${SITE}/en/about`,
 ];
 
 const ENDPOINTS = [

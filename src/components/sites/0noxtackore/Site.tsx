@@ -24,7 +24,7 @@ import { siteUrl, type Area } from "./data";
 import { HeroSlider } from "./HeroSlider";
 import { ShareButtons } from "./ShareButtons";
 import styles from "./site.module.css";
-import type { Locale } from "@/lib/i18n";
+import { getPagePath, type Locale } from "@/lib/i18n";
 
 function FacebookIcon() {
   return (
@@ -315,7 +315,7 @@ export function Site({ locale }: { locale: Locale }) {
                   ))}
                 </div>
                 <div className={styles.recActions}>
-                  <Link className={`${styles.button} ${styles.buttonBlue}`} href={`/${locale}/guia`}>
+                  <Link className={`${styles.button} ${styles.buttonBlue}`} href={getPagePath(locale, "guia")}>
                     {ui.readGuide}
                   </Link>
                 </div>

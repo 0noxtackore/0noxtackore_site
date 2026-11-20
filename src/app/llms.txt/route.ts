@@ -17,8 +17,8 @@ const content = `# 0NOXTACKORE
 0NOXTACKORE builds technology with purpose. We work with our own technologies and open-source projects to create tools, applications and integrations that solve real problems, respecting licenses and authors.
 
 - [Home](${siteUrl}/en)
-- [Laptop buying guide](${siteUrl}/en/guia)
-- [About](${siteUrl}/en/acerca)
+- [Laptop buying guide](${siteUrl}/en/guide)
+- [About](${siteUrl}/en/about)
 
 ## Áreas de actividad / Areas of activity
 

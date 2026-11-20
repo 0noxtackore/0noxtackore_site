@@ -5,13 +5,14 @@ import Link from "next/link";
 import { getContent } from "./content";
 import { ShareButtons } from "./ShareButtons";
 import styles from "./site.module.css";
-import type { Locale } from "@/lib/i18n";
+import { siteUrl } from "./data";
+import { getPagePath, type Locale } from "@/lib/i18n";
 
 export function Guia({ locale }: { locale: Locale }) {
   const content = getContent(locale);
   const guide = content.pages.guia;
   const { share } = content;
-  const guideUrl = locale === "es" ? `${content.baseUrl}/guia` : `${content.baseUrl}/guia`;
+  const guideUrl = `${siteUrl}${getPagePath(locale, "guia")}`;
   const structuredData = JSON.stringify({
     "@context": "https://schema.org",
     "@type": "Article",

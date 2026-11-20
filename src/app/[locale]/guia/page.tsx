@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
 import { Guia } from "@/components/sites/0noxtackore/Guia";
 import { getContent } from "@/components/sites/0noxtackore/content";
-import { isLocale, type Locale } from "@/lib/i18n";
+import { getPagePath, isLocale, type Locale } from "@/lib/i18n";
 
 export async function generateMetadata({
   params,
@@ -14,19 +14,24 @@ export async function generateMetadata({
   const locale: Locale = isLocale(value) ? value : "es";
   const content = getContent(locale);
   const meta = content.metadata.guia;
+  const canonical = getPagePath(locale, "guia");
 
   return {
     title: `${meta.title} | 0NOXTACKORE`,
     description: meta.description,
     alternates: {
-      canonical: `/${locale}/guia`,
-      languages: { es: "/es/guia", en: "/en/guia", "x-default": "/es/guia" },
+      canonical,
+      languages: {
+        es: getPagePath("es", "guia"),
+        en: getPagePath("en", "guia"),
+        "x-default": getPagePath("es", "guia"),
+      },
     },
     openGraph: {
       type: "article",
       title: `${meta.title} | 0NOXTACKORE`,
       description: meta.description,
-      url: `/${locale}/guia`,
+      url: canonical,
       siteName: "0NOXTACKORE",
       images: [{ url: content.ogImage, width: 1200, height: 630 }],
     },
@@ -46,5 +51,6 @@ export default async function GuiaPage({
 }) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
-  return <Guia locale={locale} />;
+  if (locale === "en") redirect(getPagePath("en", "guia"));
+  return <Guia locale="es" />;
 }

@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
 import { About } from "@/components/sites/0noxtackore/About";
 import { getContent } from "@/components/sites/0noxtackore/content";
-import { isLocale, type Locale } from "@/lib/i18n";
+import { getPagePath, isLocale, type Locale } from "@/lib/i18n";
 
 export async function generateMetadata({
   params,
@@ -14,19 +14,24 @@ export async function generateMetadata({
   const locale: Locale = isLocale(value) ? value : "es";
   const content = getContent(locale);
   const meta = content.metadata.acerca;
+  const canonical = getPagePath(locale, "acerca");
 
   return {
     title: `${meta.title} | 0NOXTACKORE`,
     description: meta.description,
     alternates: {
-      canonical: `/${locale}/acerca`,
-      languages: { es: "/es/acerca", en: "/en/acerca", "x-default": "/es/acerca" },
+      canonical,
+      languages: {
+        es: getPagePath("es", "acerca"),
+        en: getPagePath("en", "acerca"),
+        "x-default": getPagePath("es", "acerca"),
+      },
     },
     openGraph: {
       type: "profile",
       title: `${meta.title} | 0NOXTACKORE`,
       description: meta.description,
-      url: `/${locale}/acerca`,
+      url: canonical,
       siteName: "0NOXTACKORE",
       images: [{ url: content.ogImage, width: 1200, height: 630 }],
     },
@@ -46,5 +51,6 @@ export default async function AcercaPage({
 }) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
-  return <About locale={locale} />;
+  if (locale === "en") redirect(getPagePath("en", "acerca"));
+  return <About locale="es" />;
 }

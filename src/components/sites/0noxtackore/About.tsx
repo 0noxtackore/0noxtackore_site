@@ -4,7 +4,8 @@ import Link from "next/link";
 
 import { getContent } from "./content";
 import styles from "./site.module.css";
-import type { Locale } from "@/lib/i18n";
+import { siteUrl } from "./data";
+import { getPagePath, type Locale } from "@/lib/i18n";
 
 const officialLinks = [
   { label: "GitHub", url: "https://github.com/0noxtackore" },
@@ -19,7 +20,7 @@ const officialLinks = [
 export function About({ locale }: { locale: Locale }) {
   const content = getContent(locale);
   const about = content.pages.acerca;
-  const aboutUrl = `${content.baseUrl}/acerca`;
+  const aboutUrl = `${siteUrl}${getPagePath(locale, "acerca")}`;
 
   const structuredData = JSON.stringify({
     "@context": "https://schema.org",
