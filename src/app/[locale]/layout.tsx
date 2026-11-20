@@ -101,7 +101,8 @@ export default async function LocaleLayout({
   const websiteJsonLd = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: `${content.brand.name} — BUILT FOR IMPACT`,
+    name: content.brand.name,
+    alternateName: "0noxtackore",
     url: content.baseUrl,
     inLanguage: value,
     publisher: { "@type": "Organization", name: content.brand.name, url: content.baseUrl },
