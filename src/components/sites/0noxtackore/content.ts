@@ -416,7 +416,7 @@ const es: Content = {
   metadata: {
     home: {
       title: "0NOXTACKORE — Desarrollo de software y consultoría tecnológica",
-      description: "0NOXTACKORE es una compañía tecnológica independiente de desarrollo de software, ingeniería open source, integraciones, consultoría técnica y recomendación de laptops y equipos tecnológicos. Construimos tecnología con propósito.",
+      description: "0NOXTACKORE: desarrollo de software, ingeniería open source, integraciones, consultoría y recomendación de laptops. Construimos tecnología con propósito.",
     },
     guia: { title: "Guía para elegir una laptop con buena relación calidad-precio", description: "Guía práctica para evaluar procesador, memoria RAM, almacenamiento y batería antes de comprar una laptop." },
     acerca: { title: "Acerca de 0NOXTACKORE", description: "Conoce a 0NOXTACKORE: estudio tecnológico indie y arquitectura de software de alto rendimiento." },
@@ -671,7 +671,7 @@ const en: Content = {
   metadata: {
     home: {
       title: "0NOXTACKORE — Software development and technology consulting",
-      description: "0NOXTACKORE is an independent technology company for software development, open-source engineering, integrations, technical consulting and laptop recommendations. We build technology with purpose.",
+      description: "0NOXTACKORE: software development, open-source engineering, integrations, consulting and laptop recommendations. We build technology with purpose.",
     },
     guia: { title: "How to choose a laptop with good value for money", description: "A practical guide to evaluating processor, RAM, storage and battery before buying a laptop." },
     acerca: { title: "About 0NOXTACKORE", description: "Meet 0NOXTACKORE: an indie technology studio and high-performance software architecture." },
