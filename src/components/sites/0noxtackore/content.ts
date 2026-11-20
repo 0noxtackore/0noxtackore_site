@@ -414,7 +414,7 @@ const es: Content = {
       officialText: "Puedes encontrarnos y seguir nuestro trabajo en estos canales oficiales:",
     },
   },
-  ogImage: "/sites/0noxtackore/og/og-es.jpg",
+  ogImage: "/sites/0noxtackore/og/og-en.jpg",
   metadata: {
     home: {
       title: "0NOXTACKORE: software a medida, open source y consultoría",
