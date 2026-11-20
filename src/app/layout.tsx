@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { gaMeasurementId, siteUrl } from "@/components/sites/0noxtackore/data";
 import "./globals.css";
 
@@ -15,6 +16,7 @@ export default function RootLayout({
   return (
     <>
       {children}
+      <SpeedInsights />
       <Script
         src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`}
         strategy="afterInteractive"
