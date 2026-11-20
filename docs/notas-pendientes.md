@@ -16,7 +16,9 @@ Estos 4 puntos se revisaron (recomendaciones de auditoría externa) pero se deja
 
 ## 2. SEO y buscadores
 
-- [ ] **Verificar en ~3 días** (2026-11-22) que en Google: (a) aparece el **favicon** en los resultados para "0noxtackore", (b) el **título** muestra «0NOXTACKORE — Desarrollo de software y consultoría tecnológica» y no el dominio. Se pidió re-indexación de `/es` y `/en` el 2026-11-19 vía GSC.
+- [ ] **Verificar tras el próximo deploy que aparece `<link rel="apple-touch-icon">`** ✅ hecho (2026-11-20): `<link rel="apple-touch-icon" href="/apple-icon.png" sizes="180x180" type="image/png"/>` + `dir="ltr"` + `theme-color` adoptados de la auditoría Microsoft.
+- [x] **Revisión vs microsoft.com (2026-11-20)**: adoptado formato de title tipo `Marca: nichos` (`0NOXTACKORE: software a medida, open source y consultoría`), descripciones acortadas a ~150-160 car., imágenes OG por idioma (`og-es.jpg` / `og-en.jpg`), logo de apple touch. Nuestras etiquetas ya superaban a Microsoft en JSON-LD/OG/Twitter.
+- [ ] **Verificar en ~3 días** (2026-11-22) que en Google: (a) aparece el **favicon** en los resultados para "0noxtackore", (b) el **título** muestra el nuevo formato. Se pidió re-indexación de `/es` y `/en` el 2026-11-19 vía GSC.
 - [x] **Añadir el canal de YouTube al `sameAs`** — Hecho el 2026-11-19 (`fbdebed`): Organization schema, sección "Síguenos", FAQ y llms.txt. Canal: `https://www.youtube.com/@0noxtackore`.
 
 - [ ] **Confirmar en Google Search Console** que el sitemap con 6 URLs (es/en) se procesó bien tras el cambio de idiomas; pedir indexación de `/es` y `/en`.
