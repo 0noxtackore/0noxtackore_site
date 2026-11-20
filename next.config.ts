@@ -7,6 +7,7 @@ const nextConfig: NextConfig = {
       "areas",
       "filosofia",
       "recomendaciones",
+      "proyectos",
       "contacto",
       "confianza",
       "faq",

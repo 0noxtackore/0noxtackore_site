@@ -78,7 +78,7 @@ export const areas: Area[] = [
     slug: "tecnologias-e-integraciones",
     title: "Tecnologías e integraciones",
     description:
-      "Desarrollar herramientas, SDK, sistemas e integraciones que faciliten el trabajo de desarrolladores y empresas.",
+      "Desarrollar herramientas, SDKs, sistemas e integraciones que faciliten el trabajo de desarrolladores y empresas.",
     image: "/sites/0noxtackore/photos/area-integrations.webp",
     icon: "plug",
     blur: "data:image/webp;base64,UklGRjAAAABXRUJQVlA4ICQAAACQAQCdASoQAAkABUB8JYwCdADC5LAA/vDfemTiWm4Jtj34wAA=",
@@ -139,7 +139,7 @@ export const values = [
   {
     title: "Colaboración",
     description:
-      "Trabajamos con tecnologías propias y proyecto de código abierto para construir en comunidad.",
+      "Trabajamos con tecnologías propias y proyectos de código abierto para construir mediante la colaboración y el intercambio de conocimientos.",
   },
   {
     title: "Mejora continua",
@@ -169,7 +169,7 @@ export const megaGroups = [
     links: [
       { label: "Productos tecnológicos", href: "/areas/productos-tecnologicos" },
       { label: "Recomendación y afiliación", href: "/areas/recomendacion-y-afiliacion" },
-      { label: "SDK e integraciones", href: "/areas/tecnologias-e-integraciones" },
+      { label: "SDKs e integraciones", href: "/areas/tecnologias-e-integraciones" },
     ],
   },
   {

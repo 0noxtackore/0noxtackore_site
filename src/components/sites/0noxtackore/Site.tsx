@@ -67,6 +67,7 @@ const sectionTargets: Record<string, string> = {
   "/areas": "areas",
   "/filosofia": "filosofia",
   "/recomendaciones": "recomendaciones",
+  "/proyectos": "proyectos",
   "/contacto": "contacto",
   "/confianza": "confianza",
   "/faq": "faq",
@@ -128,6 +129,7 @@ export function Site({ locale }: { locale: Locale }) {
     trust,
     values,
     testimonials,
+    projects,
     ui,
     share,
   } = content;
@@ -351,6 +353,47 @@ export function Site({ locale }: { locale: Locale }) {
                   <h3 className={styles.valueTitle}>{value.title}</h3>
                   <p className={styles.valueText}>{value.description}</p>
                 </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className={styles.section} id="proyectos" aria-labelledby="proyectos-title">
+          <div className={styles.sectionInner}>
+            <div className={styles.sectionHead}>
+              <div className={styles.sectionKicker}>{ui.projectsKicker}</div>
+              <h2 id="proyectos-title" className={styles.sectionTitle}>
+                {ui.projectsTitle}
+              </h2>
+              <p className={styles.sectionText}>{ui.projectsText}</p>
+            </div>
+            <div className={styles.projectGrid}>
+              {projects.map((project) => (
+                <a
+                  key={project.name}
+                  className={styles.projectCard}
+                  href={project.url}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <div className={styles.projectTop}>
+                    <h3 className={styles.projectName}>{project.name} ↗</h3>
+                    <span className={styles.projectStatus}>{project.status}</span>
+                  </div>
+                  <p className={styles.projectText}>{project.description}</p>
+                  <div className={styles.projectMeta}>
+                    <span className={styles.projectUpdated}>
+                      {ui.projectsUpdated}: {project.updated}
+                    </span>
+                    <div className={styles.projectChips}>
+                      {project.tech.map((tech) => (
+                        <span key={tech} className={styles.projectChip}>
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </a>
               ))}
             </div>
           </div>

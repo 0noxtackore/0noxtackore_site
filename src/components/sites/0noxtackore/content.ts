@@ -7,6 +7,14 @@ type Link = { label: string; href: string };
 type LinkGroup = { title: string; links: Link[] };
 type TextBlock = { title: string; description: string };
 type Faq = { question: string; answer: string };
+type Project = {
+  name: string;
+  description: string;
+  status: string;
+  updated: string;
+  tech: string[];
+  url: string;
+};
 
 export type Content = {
   locale: Locale;
@@ -29,6 +37,7 @@ export type Content = {
   megaGroups: LinkGroup[];
   footerGroups: LinkGroup[];
   testimonials: { quote: string; name: string; role: string }[];
+  projects: Project[];
   ui: Record<string, string>;
   share: {
     defaultText: string;
@@ -96,7 +105,7 @@ const uiEs: Record<string, string> = {
   readGuide: "Leer la guía completa",
   recImageAlt: "Portátil con gráficas de análisis en pantalla",
   disclaimer:
-    "No actuamos como fabricantes ni vendedores directos de los equipos. Solo seleccionamos y recomendamos productos disponibles en plataformas comerciales.",
+    "Somos afiliados: podemos recibir una comisión por compras elegibles a través de nuestros enlaces, sin coste adicional para ti. No fabricamos ni vendemos directamente los equipos.",
   valuesKicker: "Principios",
   valuesTitle: "Lo que nos guía",
   trustKicker: "Transparencia",
@@ -114,6 +123,12 @@ const uiEs: Record<string, string> = {
   footerClaim: "Construimos tecnología con propósito.",
   testimonialsKicker: "Lo que dicen",
   testimonialsTitle: "Experiencias reales",
+  projectsKicker: "Lo que construimos",
+  projectsTitle: "Proyectos y soluciones",
+  projectsText:
+    "Productos y proyectos de código abierto que ya están disponibles públicamente. Cada uno resuelve un problema concreto y mantiene su código, licencia y evolución a la vista de todos.",
+  projectsUpdated: "Actualizado",
+  projectsVisit: "Ver repositorio",
 };
 
 const uiEn: Record<string, string> = {
@@ -131,7 +146,7 @@ const uiEn: Record<string, string> = {
   readGuide: "Read the full guide",
   recImageAlt: "Laptop displaying analysis charts on screen",
   disclaimer:
-    "We are not the manufacturers or direct sellers of the devices. We only select and recommend products available on commercial platforms.",
+    "We are affiliates: we may earn a commission on eligible purchases through our links, at no extra cost to you. We do not manufacture or directly sell the devices.",
   valuesKicker: "Principles",
   valuesTitle: "What guides us",
   trustKicker: "Transparency",
@@ -148,6 +163,12 @@ const uiEn: Record<string, string> = {
   footerClaim: "We build technology with purpose.",
   testimonialsKicker: "What people say",
   testimonialsTitle: "Real experiences",
+  projectsKicker: "What we build",
+  projectsTitle: "Projects and solutions",
+  projectsText:
+    "Open-source products and projects that are already publicly available. Each one solves a specific problem and keeps its code, license and evolution open for everyone to see.",
+  projectsUpdated: "Updated",
+  projectsVisit: "View repository",
 };
 
 const es: Content = {
@@ -171,9 +192,9 @@ const es: Content = {
   areas: [
     { slug: "desarrollo-de-software", title: "Desarrollo de software", description: "Crear aplicaciones y herramientas que solucionen problemas cotidianos, técnicos y profesionales. Diseñamos cada solución pensando en su uso real, desde la primera idea hasta una versión que se mantiene y evoluciona con el tiempo.", image: "/sites/0noxtackore/photos/area-software.webp", icon: "code", blur: "data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACwAQCdASoQAAkABUB8JYwAAqHJ01LwAP5i72HoXooRcbmexz526J+maCeoOAAA" },
     { slug: "ingenieria-open-source", title: "Ingeniería y evolución de proyectos open source", description: "Estudiar tecnologías existentes, adaptarlas, mejorarlas y distribuir versiones con valor añadido, respetando sus licencias y autores.", image: "/sites/0noxtackore/photos/area-opensource.webp", icon: "branch", blur: "data:image/webp;base64,UklGRkIAAABXRUJQVlA4IDYAAADwAQCdASoQAAkABUB8JZQCw7EeXRIuCIAA/Zzehuh0dwkuC+pkRMPNLajGkyHpA2nz66qAAAA=" },
-    { slug: "tecnologias-e-integraciones", title: "Tecnologías e integraciones", description: "Desarrollar herramientas, SDK, sistemas e integraciones que faciliten el trabajo de desarrolladores y empresas.", image: "/sites/0noxtackore/photos/area-integrations.webp", icon: "plug", blur: "data:image/webp;base64,UklGRjAAAABXRUJQVlA4ICQAAACQAQCdASoQAAkABUB8JYwCdADC5LAA/vDfemTiWm4Jtj34wAA=" },
+    { slug: "tecnologias-e-integraciones", title: "Tecnologías e integraciones", description: "Desarrollar herramientas, SDKs, sistemas e integraciones que faciliten el trabajo de desarrolladores y empresas.", image: "/sites/0noxtackore/photos/area-integrations.webp", icon: "plug", blur: "data:image/webp;base64,UklGRjAAAABXRUJQVlA4ICQAAACQAQCdASoQAAkABUB8JYwCdADC5LAA/vDfemTiWm4Jtj34wAA=" },
     { slug: "productos-tecnologicos", title: "Productos tecnológicos", description: "Comercializar software, ofrecer versiones especializadas y construir soluciones sostenibles. Buscamos que cada producto tenga un propósito claro, una experiencia cuidada y un modelo que pueda mantenerse a largo plazo.", image: "/sites/0noxtackore/photos/area-products.webp", icon: "package", blur: "data:image/webp;base64,UklGRjYAAABXRUJQVlA4ICoAAACwAQCdASoQAAkABUB8JQBOgBxbH6tAAP7qvFcB74lxhCcqQRiopj2AAAA=" },
-    { slug: "recomendacion-y-afiliacion", title: "Recomendación y afiliación tecnológica", description: "Seleccionar y recomendar equipos informáticos, especialmente laptops de fabricantes y proveedores chinos, evaluando sus especificaciones técnicas, rendimiento y relación calidad-precio.", image: "/sites/0noxtackore/photos/area-recommendations.webp", icon: "laptop", blur: "data:image/webp;base64,UklGRjQAAABXRUJQVlA4ICgAAACwAQCdASoQAAkABUB8JZwAAn/eqmg4AP7ssS6uhk3ooFamAh9FhQAA" },
+    { slug: "recomendacion-y-afiliacion", title: "Recomendación y afiliación tecnológica", description: "Seleccionar y recomendar equipos informáticos evaluando sus características técnicas, rendimiento, calidad de construcción y relación calidad-precio. Analizamos modelos concretos para identificar alternativas que ofrezcan valor real a estudiantes, profesionales, entusiastas de la tecnología y empresas.", image: "/sites/0noxtackore/photos/area-recommendations.webp", icon: "laptop", blur: "data:image/webp;base64,UklGRjQAAABXRUJQVlA4ICgAAACwAQCdASoQAAkABUB8JZwAAn/eqmg4AP7ssS6uhk3ooFamAh9FhQAA" },
     { slug: "consultoria-tecnica", title: "Consultoría técnica y acompañamiento", description: "Analizamos necesidades, definimos la arquitectura adecuada y acompañamos a los equipos durante la implementación y evolución de sus soluciones.", image: "/sites/0noxtackore/photos/area-consultoria.webp", icon: "messages", blur: "data:image/webp;base64,UklGRjwAAABXRUJQVlA4IDAAAACwAQCdASoQAAkABUB8JZQAAga16RUAAPzhs/tgqd2csXWH4e6X1Z7RNCWO8sAoAAA=" },
   ],
   philosophy: {
@@ -187,14 +208,22 @@ const es: Content = {
   recommendation: {
     title: "Recomendación y afiliación tecnológica",
     paragraphs: [
-      "Esta área busca acercar alternativas tecnológicas a entusiastas del software, estudiantes, profesionales y pequeños distribuidores interesados en equipos con características competitivas, como procesadores Intel Core i5/i7 o AMD Ryzen y configuraciones de 16 GB de RAM.",
-      "A través del marketing de afiliados, facilitamos el acceso a productos disponibles en plataformas comerciales, obteniendo comisiones por compras elegibles. No actuamos como fabricantes ni vendedores directos de esos equipos.",
+      "Seleccionamos y recomendamos equipos informáticos mediante la evaluación de sus características técnicas, rendimiento, calidad de construcción y relación calidad-precio. Analizamos modelos concretos para identificar alternativas que ofrezcan valor real a estudiantes, profesionales, entusiastas de la tecnología y empresas, independientemente de su fabricante o procedencia.",
+      "A través del marketing de afiliados, facilitamos el acceso a productos disponibles en plataformas comerciales y podemos recibir comisiones por compras elegibles. No actuamos como fabricantes ni vendedores directos de los equipos.",
     ],
-    highlights: ["Intel Core i5 / i7", "AMD Ryzen", "16 GB de RAM", "Relación calidad-precio"],
+    highlights: [
+      "Modelo y generación del procesador",
+      "Memoria RAM y ampliación",
+      "Almacenamiento SSD",
+      "Pantalla, batería y refrigeración",
+      "Calidad de construcción",
+      "Garantía y reputación del vendedor",
+      "Precio y alternativas comparables",
+    ],
   },
   values: [
     { title: "Innovación responsable", description: "Aprovechamos lo que ya existe, respetamos licencias y autores, y aportamos mejoras con criterio." },
-    { title: "Colaboración", description: "Trabajamos con tecnologías propias y proyecto de código abierto para construir en comunidad." },
+    { title: "Colaboración", description: "Trabajamos con tecnologías propias y proyectos de código abierto para construir mediante la colaboración y el intercambio de conocimientos." },
     { title: "Mejora continua", description: "Transparencia y evolución constante: cada solución debe generar un impacto positivo real." },
   ],
   trust: [
@@ -206,7 +235,7 @@ const es: Content = {
   faqs: [
     { question: "¿Qué es 0NOXTACKORE?", answer: "0noxtackore es una compañía tecnológica independiente enfocada en la ingeniería, desarrollo y evolución de soluciones de software, así como en la selección y recomendación de productos tecnológicos." },
     { question: "¿En qué áreas de actividad trabajan?", answer: "Desarrollo de software, ingeniería y evolución de proyectos open source, tecnologías e integraciones, productos tecnológicos, recomendación y afiliación tecnológica, y consultoría técnica y acompañamiento." },
-    { question: "¿Trabajan con proyectos de código abierto?", answer: "Estudiamos tecnologías existentes, adaptarlas, mejorarlas y distribuir versiones con valor añadido, respetando sus licencias y autores." },
+    { question: "¿Trabajan con proyectos de código abierto?", answer: "Estudiamos tecnologías existentes, las adaptamos y mejoramos, y distribuimos versiones con valor añadido, respetando siempre las licencias y reconociendo el trabajo de sus autores." },
     { question: "¿Venden equipos informáticos directamente?", answer: "No actuamos como fabricantes ni vendedores directos de los equipos. Solo seleccionamos y recomendamos productos disponibles en plataformas comerciales." },
     { question: "¿Cómo puedo contactar con 0NOXTACKORE?", answer: "Puedes encontrarnos y escribirnos a través de nuestro Facebook (facebook.com/people/0noxtackore/61567098773222/) y de nuestro Instagram (instagram.com/0noxtackore.dev/)." },
   ],
@@ -225,9 +254,10 @@ const es: Content = {
     { title: "Soluciones", links: [
       { label: "Productos tecnológicos", href: localizedHref("es", "/areas/productos-tecnologicos") },
       { label: "Recomendación y afiliación", href: localizedHref("es", "/areas/recomendacion-y-afiliacion") },
-      { label: "SDK e integraciones", href: localizedHref("es", "/areas/tecnologias-e-integraciones") },
+      { label: "SDKs e integraciones", href: localizedHref("es", "/areas/tecnologias-e-integraciones") },
     ] },
     { title: "Compañía", links: [
+      { label: "Proyectos y soluciones", href: localizedHref("es", "/proyectos") },
       { label: "Nuestra filosofía", href: localizedHref("es", "/filosofia") },
       { label: "Construimos con propósito", href: localizedHref("es", "/confianza") },
       { label: "Contacto", href: localizedHref("es", "/contacto") },
@@ -252,12 +282,60 @@ const es: Content = {
     ] },
     { title: "Enlaces", links: [
       { label: "BUILT FOR IMPACT", href: localizedHref("es", "/") },
+      { label: "Proyectos y soluciones", href: localizedHref("es", "/proyectos") },
       { label: "Construimos tecnología con propósito", href: localizedHref("es", "/confianza") },
       { label: "Contacto", href: localizedHref("es", "/contacto") },
     ] },
   ],
   // Add real testimonials here when available. Never fabricate them.
   testimonials: [],
+  projects: [
+    {
+      name: "Fluxckore",
+      description:
+        "Utilidad ligera de limpieza y optimización para Windows: libera memoria y reduce los cuellos de botella del sistema con asignación dinámica de recursos.",
+      status: "Activo",
+      updated: "Nov 2026",
+      tech: ["Python", "MIT"],
+      url: "https://github.com/0noxtackore/Fluxckore",
+    },
+    {
+      name: "Netckore",
+      description:
+        "Herramienta de diagnóstico y optimización de red para Windows: analiza la conectividad, resuelve problemas y monitoriza el rendimiento de la conexión.",
+      status: "Activo",
+      updated: "Nov 2026",
+      tech: ["Python"],
+      url: "https://github.com/0noxtackore/Netckore",
+    },
+    {
+      name: "Aguickore",
+      description:
+        "Protocolo estándar de interacción agente-usuario: desacopla la lógica de tu agente de IA del frontend mediante streaming de eventos en tiempo real y sincronización de estado.",
+      status: "Activo",
+      updated: "Nov 2026",
+      tech: ["TypeScript", "MIT"],
+      url: "https://github.com/0noxtackore/Aguickore",
+    },
+    {
+      name: "File-Host",
+      description:
+        "Aplicación web ligera de alojamiento y compartición de archivos en la nube, optimizada para un despliegue rápido.",
+      status: "Activo",
+      updated: "Sep 2026",
+      tech: ["JavaScript", "MIT"],
+      url: "https://github.com/0noxtackore/File-Host",
+    },
+    {
+      name: "Ebenezer-Screen",
+      description:
+        "Aplicación web para el control de pantallas y la gestión de contenido multimedia, desplegada en Netlify.",
+      status: "Estable",
+      updated: "Ene 2026",
+      tech: ["JavaScript"],
+      url: "https://github.com/0noxtackore/Ebenezer-Screen",
+    },
+  ],
   ui: uiEs,
   share: {
     defaultText: "Construimos tecnología con propósito. Descubre qué hacemos en 0NOXTACKORE.",
@@ -368,7 +446,7 @@ const en: Content = {
     { slug: "ingenieria-open-source", title: "Open-source engineering and evolution", description: "Studying existing technologies, adapting and improving them, and distributing versions with added value while respecting their licenses and authors.", image: "/sites/0noxtackore/photos/area-opensource.webp", icon: "branch", blur: "data:image/webp;base64,UklGRkIAAABXRUJQVlA4IDYAAADwAQCdASoQAAkABUB8JZQCw7EeXRIuCIAA/Zzehuh0dwkuC+pkRMPNLajGkyHpA2nz66qAAAA=" },
     { slug: "tecnologias-e-integraciones", title: "Technologies and integrations", description: "Developing tools, SDKs, systems and integrations that make the work of developers and companies easier.", image: "/sites/0noxtackore/photos/area-integrations.webp", icon: "plug", blur: "data:image/webp;base64,UklGRjAAAABXRUJQVlA4ICQAAACQAQCdASoQAAkABUB8JYwCdADC5LAA/vDfemTiWm4Jtj34wAA=" },
     { slug: "productos-tecnologicos", title: "Technology products", description: "Commercializing software, offering specialized versions and building sustainable solutions. We want every product to have a clear purpose, a carefully crafted experience and a model that can last.", image: "/sites/0noxtackore/photos/area-products.webp", icon: "package", blur: "data:image/webp;base64,UklGRjYAAABXRUJQVlA4ICoAAACwAQCdASoQAAkABUB8JQBOgBxbH6tAAP7qvFcB74lxhCcqQRiopj2AAAA=" },
-    { slug: "recomendacion-y-afiliacion", title: "Technology recommendation and affiliation", description: "Selecting and recommending computer equipment, especially laptops from manufacturers and Chinese suppliers, evaluating their technical specifications, performance and value for money.", image: "/sites/0noxtackore/photos/area-recommendations.webp", icon: "laptop", blur: "data:image/webp;base64,UklGRjQAAABXRUJQVlA4ICgAAACwAQCdASoQAAkABUB8JZwAAn/eqmg4AP7ssS6uhk3ooFamAh9FhQAA" },
+    { slug: "recomendacion-y-afiliacion", title: "Technology recommendation and affiliation", description: "Selecting and recommending computer equipment by evaluating its technical specifications, performance, build quality and value for money. We analyze specific models to identify alternatives that offer real value to students, professionals, technology enthusiasts and businesses.", image: "/sites/0noxtackore/photos/area-recommendations.webp", icon: "laptop", blur: "data:image/webp;base64,UklGRjQAAABXRUJQVlA4ICgAAACwAQCdASoQAAkABUB8JZwAAn/eqmg4AP7ssS6uhk3ooFamAh9FhQAA" },
     { slug: "consultoria-tecnica", title: "Technical consulting and support", description: "We analyze needs, define the right architecture and support teams throughout the implementation and evolution of their solutions.", image: "/sites/0noxtackore/photos/area-consultoria.webp", icon: "messages", blur: "data:image/webp;base64,UklGRjwAAABXRUJQVlA4IDAAAACwAQCdASoQAAkABUB8JZQAAga16RUAAPzhs/tgqd2csXWH4e6X1Z7RNCWO8sAoAAA=" },
   ],
   philosophy: {
@@ -382,10 +460,18 @@ const en: Content = {
   recommendation: {
     title: "Technology recommendation and affiliation",
     paragraphs: [
-      "This area aims to bring technology alternatives to software enthusiasts, students, professionals and small distributors interested in competitive devices, such as Intel Core i5/i7 or AMD Ryzen processors and 16 GB RAM configurations.",
-      "Through affiliate marketing, we make it easier to access products available on commercial platforms and earn commissions on eligible purchases. We are not the manufacturers or direct sellers of those devices.",
+      "We select and recommend computer equipment by evaluating its technical specifications, performance, build quality and value for money. We analyze specific models to identify alternatives that offer real value to students, professionals, technology enthusiasts and businesses, regardless of their manufacturer or origin.",
+      "Through affiliate marketing, we make it easier to access products available on commercial platforms and may earn commissions on eligible purchases. We are not the manufacturers or direct sellers of those devices.",
     ],
-    highlights: ["Intel Core i5 / i7", "AMD Ryzen", "16 GB RAM", "Value for money"],
+    highlights: [
+      "Processor model and generation",
+      "Memory RAM and expandability",
+      "SSD storage",
+      "Screen, battery and cooling",
+      "Build quality",
+      "Warranty and seller reputation",
+      "Price and comparable alternatives",
+    ],
   },
   values: [
     { title: "Responsible innovation", description: "We build on what already exists, respect licenses and authors, and contribute improvements with sound judgment." },
@@ -423,6 +509,7 @@ const en: Content = {
       { label: "SDKs and integrations", href: localizedHref("en", "/areas/tecnologias-e-integraciones") },
     ] },
     { title: "Company", links: [
+      { label: "Projects and solutions", href: localizedHref("en", "/proyectos") },
       { label: "Our philosophy", href: localizedHref("en", "/filosofia") },
       { label: "Built with purpose", href: localizedHref("en", "/confianza") },
       { label: "Contact", href: localizedHref("en", "/contacto") },
@@ -447,11 +534,59 @@ const en: Content = {
     ] },
     { title: "Links", links: [
       { label: "BUILT FOR IMPACT", href: localizedHref("en", "/") },
+      { label: "Projects and solutions", href: localizedHref("en", "/proyectos") },
       { label: "We build technology with purpose", href: localizedHref("en", "/confianza") },
       { label: "Contact", href: localizedHref("en", "/contacto") },
     ] },
   ],
   testimonials: [],
+  projects: [
+    {
+      name: "Fluxckore",
+      description:
+        "Lightweight Windows cleanup and optimization utility: frees memory and reduces system bottlenecks with dynamic resource allocation.",
+      status: "Active",
+      updated: "Nov 2026",
+      tech: ["Python", "MIT"],
+      url: "https://github.com/0noxtackore/Fluxckore",
+    },
+    {
+      name: "Netckore",
+      description:
+        "Windows network diagnostics and optimization tool: analyzes connectivity, troubleshoots issues and monitors connection performance.",
+      status: "Active",
+      updated: "Nov 2026",
+      tech: ["Python"],
+      url: "https://github.com/0noxtackore/Netckore",
+    },
+    {
+      name: "Aguickore",
+      description:
+        "Standard agent-user interaction protocol: decouples your AI agent logic from the frontend through real-time event streaming and state synchronization.",
+      status: "Active",
+      updated: "Nov 2026",
+      tech: ["TypeScript", "MIT"],
+      url: "https://github.com/0noxtackore/Aguickore",
+    },
+    {
+      name: "File-Host",
+      description:
+        "Lightweight cloud file hosting and sharing web application, optimized for fast deployment.",
+      status: "Active",
+      updated: "Sep 2026",
+      tech: ["JavaScript", "MIT"],
+      url: "https://github.com/0noxtackore/File-Host",
+    },
+    {
+      name: "Ebenezer-Screen",
+      description:
+        "Web application for screen control and multimedia content management, deployed on Netlify.",
+      status: "Stable",
+      updated: "Jan 2026",
+      tech: ["JavaScript"],
+      url: "https://github.com/0noxtackore/Ebenezer-Screen",
+    },
+  ],
   ui: uiEn,
   share: {
     defaultText: "We build technology with purpose. Discover what we do at 0NOXTACKORE.",

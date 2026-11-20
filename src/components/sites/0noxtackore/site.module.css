@@ -725,6 +725,89 @@
   color: var(--ink);
 }
 
+/* ---------- Projects ---------- */
+.projectGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+.projectCard {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 26px;
+  border: 1px solid #e0e8f0;
+  border-radius: 12px;
+  background: #fbfdff;
+  text-decoration: none;
+  color: inherit;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+.projectCard:hover,
+.projectCard:focus-visible {
+  transform: translateY(-3px);
+  border-color: #c7d7e8;
+  box-shadow: 0 14px 30px rgba(15, 42, 84, 0.1);
+}
+.projectTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.projectName {
+  margin: 0;
+  font-size: 20px;
+  line-height: 26px;
+  color: var(--ink);
+}
+.projectStatus {
+  flex-shrink: 0;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #0b6b3a;
+  background: #e5f6ec;
+  border-radius: 999px;
+  padding: 4px 10px;
+}
+.projectText {
+  margin: 0;
+  font-size: 15px;
+  line-height: 24px;
+  color: var(--body);
+  flex: 1;
+}
+.projectMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  border-top: 1px solid #eaf1f8;
+  padding-top: 14px;
+}
+.projectUpdated {
+  font-size: 13px;
+  color: var(--muted);
+}
+.projectChips {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.projectChip {
+  font-size: 12px;
+  color: var(--muted);
+  background: #eef4fa;
+  border-radius: 999px;
+  padding: 3px 10px;
+}
+
 /* ---------- FAQ ---------- */
 .faq {
   background: var(--surface);
@@ -1230,7 +1313,8 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .trustGrid,
-  .testimonialGrid {
+  .testimonialGrid,
+  .projectGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .guideLayout {
@@ -1344,7 +1428,8 @@
     grid-template-columns: 1fr;
   }
   .trustGrid,
-  .testimonialGrid {
+  .testimonialGrid,
+  .projectGrid {
     grid-template-columns: 1fr;
   }
   .faqCta {
