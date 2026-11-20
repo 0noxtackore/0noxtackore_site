@@ -176,7 +176,7 @@ const es: Content = {
   baseUrl: siteUrl,
   brand: {
     name: "0NOXTACKORE",
-    tagline: "BUILT FOR IMPACT",
+    tagline: "CREADO PARA IMPACTAR",
     heroEyebrow: "TECNOLOGÍA CON ALMA",
     intro:
       "0noxtackore es una compañía tecnológica independiente enfocada en la ingeniería, desarrollo y evolución de soluciones de software, así como en la selección y recomendación de productos tecnológicos.",
@@ -281,7 +281,7 @@ const es: Content = {
       { label: "Equipos y laptops", href: localizedHref("es", "/recomendaciones") },
     ] },
     { title: "Enlaces", links: [
-      { label: "BUILT FOR IMPACT", href: localizedHref("es", "/") },
+      { label: "CREADO PARA IMPACTAR", href: localizedHref("es", "/") },
       { label: "Proyectos y soluciones", href: localizedHref("es", "/proyectos") },
       { label: "Construimos tecnología con propósito", href: localizedHref("es", "/confianza") },
       { label: "Contacto", href: localizedHref("es", "/contacto") },

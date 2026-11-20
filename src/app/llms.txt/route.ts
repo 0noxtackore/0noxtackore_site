@@ -2,7 +2,7 @@ import { siteUrl } from "@/components/sites/0noxtackore/data";
 
 const content = `# 0NOXTACKORE
 
-> Independent technology company focused on software engineering, development and evolution, and the recommendation of technology products. BUILT FOR IMPACT.
+> Independent technology company focused on software engineering, development and evolution, and the recommendation of technology products. BUILT FOR IMPACT / CREADO PARA IMPACTAR.
 
 ## Español
 
