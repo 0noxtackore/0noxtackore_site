@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./public/sites/0noxtackore/metadata.jpg" alt="0NOXTACKORE" width="320">
+  <img src="./public/sites/0noxtackore/metadata.jpg" alt="0NOXTACKORE" width="100%">
 </p>
 
 <p align="center">
