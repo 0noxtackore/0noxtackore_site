@@ -16,6 +16,9 @@ Estos 4 puntos se revisaron (recomendaciones de auditoría externa) pero se deja
 
 ## 2. SEO y buscadores
 
+- [ ] **Verificar en ~3 días** (2026-11-22) que en Google: (a) aparece el **favicon** en los resultados para "0noxtackore", (b) el **título** muestra «0NOXTACKORE — Desarrollo de software y consultoría tecnológica» y no el dominio. Se pidió re-indexación de `/es` y `/en` el 2026-11-19 vía GSC.
+- [ ] **Añadir el canal de YouTube al `sameAs`** de la Organization cuando el usuario pase la URL del canal (`0noxtackore`). Ya ranka 2º para la marca junto con la web.
+
 - [ ] **Confirmar en Google Search Console** que el sitemap con 6 URLs (es/en) se procesó bien tras el cambio de idiomas; pedir indexación de `/es` y `/en`.
 - [ ] **Re-enviar sitemap en Bing Webmaster** tras el cambio de rutas.
 - [ ] **Confirmación por email de AgentDomains** para `0noxtackore.makes.fyi` (~30 días desde la solicitud). **No eliminar el registro TXT de Google** (`google-site-verification=LEwHRH4lzem8EG_-0NRVL6ciytTOTeQD1qs40Pj-ZtI`).
