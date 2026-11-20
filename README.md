@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="public/sites/0noxtackore/logo.webp" alt="0NOXTACKORE" width="320">
+  <img src="public/sites/0noxtackore/og/Branding_0noxtackore.png" alt="0NOXTACKORE" width="320">
 </p>
 
 <p align="center">
