@@ -415,7 +415,7 @@ const es: Content = {
   },
   metadata: {
     home: {
-      title: "0NOXTACKORE — Desarrollo de software y consultoría tecnológica",
+      title: "0NOXTACKORE: software a medida, open source y consultoría",
       description: "0NOXTACKORE: desarrollo de software, ingeniería open source, integraciones, consultoría y recomendación de laptops. Construimos tecnología con propósito.",
     },
     guia: { title: "Guía para elegir una laptop con buena relación calidad-precio", description: "Guía práctica para evaluar procesador, memoria RAM, almacenamiento y batería antes de comprar una laptop." },
@@ -670,7 +670,7 @@ const en: Content = {
   },
   metadata: {
     home: {
-      title: "0NOXTACKORE — Software development and technology consulting",
+      title: "0NOXTACKORE: Custom software, open source and consulting",
       description: "0NOXTACKORE: software development, open-source engineering, integrations, consulting and laptop recommendations. We build technology with purpose.",
     },
     guia: { title: "How to choose a laptop with good value for money", description: "A practical guide to evaluating processor, RAM, storage and battery before buying a laptop." },
