@@ -93,6 +93,7 @@ export default async function LocaleLayout({
     description: content.metadata.home.description,
     sameAs: [
       "https://github.com/0noxtackore",
+      "https://www.youtube.com/@0noxtackore",
       "https://www.facebook.com/people/0noxtackore/61567098773222/",
       "https://www.instagram.com/0noxtackore.dev/",
     ],

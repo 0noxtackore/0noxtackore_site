@@ -32,6 +32,7 @@ const content = `# 0NOXTACKORE
 ## Contacto / Contact
 
 GitHub: https://github.com/0noxtackore
+YouTube: https://www.youtube.com/@0noxtackore
 Facebook: https://www.facebook.com/people/0noxtackore/61567098773222/
 Instagram: https://www.instagram.com/0noxtackore.dev/
 `;

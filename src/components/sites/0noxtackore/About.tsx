@@ -8,6 +8,7 @@ import type { Locale } from "@/lib/i18n";
 
 const officialLinks = [
   { label: "GitHub", url: "https://github.com/0noxtackore" },
+  { label: "YouTube", url: "https://www.youtube.com/@0noxtackore" },
   {
     label: "Facebook",
     url: "https://www.facebook.com/people/0noxtackore/61567098773222/",

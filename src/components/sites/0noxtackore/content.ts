@@ -237,7 +237,7 @@ const es: Content = {
     { question: "¿En qué áreas de actividad trabajan?", answer: "Desarrollo de software, ingeniería y evolución de proyectos open source, tecnologías e integraciones, productos tecnológicos, recomendación y afiliación tecnológica, y consultoría técnica y acompañamiento." },
     { question: "¿Trabajan con proyectos de código abierto?", answer: "Estudiamos tecnologías existentes, las adaptamos y mejoramos, y distribuimos versiones con valor añadido, respetando siempre las licencias y reconociendo el trabajo de sus autores." },
     { question: "¿Venden equipos informáticos directamente?", answer: "No actuamos como fabricantes ni vendedores directos de los equipos. Solo seleccionamos y recomendamos productos disponibles en plataformas comerciales." },
-    { question: "¿Cómo puedo contactar con 0NOXTACKORE?", answer: "Puedes encontrarnos y escribirnos a través de nuestro Facebook (facebook.com/people/0noxtackore/61567098773222/) y de nuestro Instagram (instagram.com/0noxtackore.dev/)." },
+    { question: "¿Cómo puedo contactar con 0NOXTACKORE?", answer: "Puedes encontrarnos en nuestro canal de YouTube (youtube.com/@0noxtackore), en Facebook (facebook.com/people/0noxtackore/61567098773222/) y en Instagram (instagram.com/0noxtackore.dev/)." },
   ],
   navLinks: [
     { label: "Inicio", href: localizedHref("es", "/") },
@@ -489,7 +489,7 @@ const en: Content = {
     { question: "What areas of activity do you cover?", answer: "Software development, open-source engineering and evolution, technologies and integrations, technology products, technology recommendation and affiliation, and technical consulting and support." },
     { question: "Do you work with open-source projects?", answer: "We study existing technologies, adapt and improve them, and distribute versions with added value while respecting their licenses and authors." },
     { question: "Do you sell computer equipment directly?", answer: "We are not the manufacturers or direct sellers of the devices. We only select and recommend products available on commercial platforms." },
-    { question: "How can I contact 0NOXTACKORE?", answer: "You can find and message us on Facebook (facebook.com/people/0noxtackore/61567098773222/) and Instagram (instagram.com/0noxtackore.dev/)." },
+    { question: "How can I contact 0NOXTACKORE?", answer: "You can find us on our YouTube channel (youtube.com/@0noxtackore), on Facebook (facebook.com/people/0noxtackore/61567098773222/) and on Instagram (instagram.com/0noxtackore.dev/)." },
   ],
   navLinks: [
     { label: "Home", href: localizedHref("en", "/") },

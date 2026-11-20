@@ -52,6 +52,14 @@ function InstagramIcon() {
   );
 }
 
+function YouTubeIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">
+      <path d="M23.5 6.9a3 3 0 0 0-2.1-2.1C19.5 4.3 12 4.3 12 4.3s-7.5 0-9.4.5A3 3 0 0 0 .5 6.9 31.4 31.4 0 0 0 0 12a31.4 31.4 0 0 0 .5 5.1 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31.4 31.4 0 0 0 24 12a31.4 31.4 0 0 0-.5-5.1ZM9.6 15.5v-7l6.3 3.5-6.3 3.5Z" />
+    </svg>
+  );
+}
+
 const areaIcons: Record<Area["icon"], LucideIcon> = {
   code: Code2,
   branch: GitBranch,
@@ -528,6 +536,15 @@ export function Site({ locale }: { locale: Locale }) {
             >
               <InstagramIcon />
               Instagram
+            </a>
+            <a
+              className={styles.socialLink}
+              href="https://www.youtube.com/@0noxtackore"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <YouTubeIcon />
+              YouTube
             </a>
           </div>
         </section>
