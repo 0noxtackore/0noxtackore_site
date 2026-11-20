@@ -1,49 +1,68 @@
-# Contributing
+# Contributing to 0NOXTACKORE
 
-Thanks for your interest in improving the **AI Website Cloner Template**! This guide covers how to contribute to the template itself.
-
-> **Note:** This repository is a *template*. If you just want to clone a website, don't open a PR here — click **Use this template** to make your own copy and work there (see the [README](README.md#quick-start)). Pull requests should improve the template: the `/clone-website` skill, support for the four documented agents, the scaffold, or the docs.
+Thank you for your interest in contributing to the official **0NOXTACKORE** website repository (`0noxtackore/0noxtackore_site`). Contributions that improve quality, accessibility, performance, documentation, or correctness are welcome.
 
 ## Ways to contribute
 
-- **Improve the `/clone-website` skill** — sharper extraction, better prompts, new behaviors to detect
-- **Improve agent support** — fixes for Claude Code, Codex, Cursor, or OpenCode
-- **Fix bugs** in the Next.js scaffold
-- **Improve documentation** — the README, `AGENTS.md`, or the skill references
+- **Report issues** — Bugs, broken layouts, accessibility problems, or incorrect content/metadata.
+- **Suggest improvements** — UX, performance, SEO, or documentation enhancements.
+- **Submit pull requests** — Focused fixes or improvements aligned with the project’s goals and design.
 
-Browse the [open issues](https://github.com/JCodesMore/ai-website-cloner-template/issues) for something to pick up. For substantial or potentially breaking changes, consider opening an issue first so we can align on the approach before significant work begins.
+For significant changes, consider opening an issue first so we can align on scope and approach.
 
 ## Development setup
 
-**Prerequisites:** [Node.js](https://nodejs.org/) 24+.
+### Prerequisites
+
+- [Node.js](https://nodejs.org/) 24+
+- npm
+
+### Getting started
 
 ```bash
-git clone https://github.com/YOUR-USERNAME/ai-website-cloner-template.git
-cd ai-website-cloner-template
-npm ci
+git clone https://github.com/0noxtackore/0noxtackore_site.git
+cd 0noxtackore_site
+npm install
+npm run dev
 ```
 
-Before opening a PR, make sure the project is green:
+Open [http://localhost:3000](http://localhost:3000) to view the site locally.
+
+## Quality checks
+
+Before submitting a pull request, please ensure the project passes all checks:
 
 ```bash
 npm run check   # lint + typecheck + build
 ```
 
-## Source-of-truth files
+You can also run individual commands:
 
-Project instructions live in `AGENTS.md`. The canonical cloning workflow lives in `.agents/skills/clone-website/` and is read directly by Codex, Cursor, and OpenCode. Claude Code enters through `.claude/commands/clone-website.md`, which must remain a thin bridge rather than a second workflow copy.
+```bash
+npm run lint
+npm run typecheck
+npm run build
+```
 
-Edit the canonical skill and its references directly. There is no generation or synchronization step.
+## Guidelines
 
-## Submitting a pull request
+- **Keep changes focused** — One logical change per pull request is easier to review.
+- **Follow existing patterns** — Match the structure, naming, and style used in the codebase (Next.js App Router, TypeScript strict, Tailwind CSS v4).
+- **Be careful with content and branding** — This repository represents the official 0NOXTACKORE website; avoid speculative or inaccurate claims.
+- **Do not include secrets** — Never commit credentials, private keys, or sensitive configuration.
 
-1. **Fork** the repo and create a branch off `master` (e.g. `fix/skill-hover-extraction` or `docs/clarify-setup`).
-2. Make your focused change in the appropriate source-of-truth file.
-3. Run `npm run check` and make sure it passes.
-4. Write a clear commit message that describes the change. Prefixes such as `fix:`, `feat:`, or `docs:` are welcome but not required.
-5. Open a PR against `master`, fill out the PR template, and link a relevant issue when one exists (for example, `Closes #123`).
-6. Keep PRs focused — one logical change per PR is much easier to review and merge.
+## Pull requests
+
+1. Create a branch from `main`.
+2. Make your changes and run `npm run check`.
+3. Write a clear commit message describing the change.
+4. Open a pull request against `main` with a concise summary of what changed and why.
+5. Link any related issues when applicable.
 
 ## Questions
 
-Ask in the [Discord community](https://discord.gg/hrTSX5yTpB) — happy to help you get started.
+If you have questions about contributing, please open an issue in this repository or reach out through the official channels listed in the [README](README.md#official-channels).
+
+---
+
+© 2026 0NOXTACKORE

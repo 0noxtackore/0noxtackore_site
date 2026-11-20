@@ -2,51 +2,50 @@
 
 ## Supported versions
 
-This project is a template rather than a versioned library. Security fixes are
-applied to the latest version of the `master` branch.
+Security fixes are applied to the latest version of the `main` branch of this repository.
 
-Projects created from this template do not receive fixes automatically. Their
-maintainers are responsible for reviewing relevant changes and updating their
-own copies.
+Deployments based on previous revisions may not receive updates automatically. Maintainers of forks or derived deployments are responsible for reviewing and applying relevant fixes.
 
 ## Reporting a vulnerability
 
-Please do not disclose vulnerability details in a public issue, pull request,
-discussion, or Discord message.
+If you believe you have found a security vulnerability in this project, **please do not disclose it publicly** (issues, pull requests, discussions, or social media).
 
-Use GitHub's private
-[Report a vulnerability](https://github.com/JCodesMore/ai-website-cloner-template/security/advisories/new)
-form instead. Include, when available:
+### Preferred reporting method
 
-- A clear description of the vulnerability and its potential impact
-- The affected files, dependencies, configuration, or commit
-- Steps to reproduce the issue or a minimal proof of concept
+Use GitHub’s private vulnerability reporting for this repository (if enabled):
+
+- [Report a vulnerability](https://github.com/0noxtackore/0noxtackore_site/security/advisories/new)
+
+### What to include
+
+When possible, include:
+
+- A clear description of the issue and its potential impact
+- Affected files, routes, configuration, dependencies, or commits
+- Steps to reproduce or a minimal proof of concept
 - Any suggested mitigation or fix
 
-We will acknowledge the report as soon as practical, investigate it, and
-coordinate with you before any public disclosure.
-
-If the private form is unavailable, you may use the
-[Discord community](https://discord.gg/hrTSX5yTpB) only to ask a maintainer for
-a private contact method. Do not post vulnerability details there.
+We will review reports as promptly as possible and coordinate responsible disclosure when appropriate.
 
 ## Scope
 
-Security reports may cover:
+This policy covers, for example:
 
-- Code and dependencies shipped on the `master` branch
-- Helper and synchronization scripts under `scripts/`
-- Repository configuration or defaults that could make generated projects
-  insecure
-- AI-agent instructions that introduce a concrete security vulnerability
+- Source code and configuration in this repository (`main` branch)
+- Dependencies and build/deployment configuration that may affect the security of the site
+- Exposed secrets, misconfigurations, or vulnerabilities introduced by project code
 
-Generated website code, third-party services, vulnerabilities in unrelated
-websites, and automated audit output without a demonstrated impact on this
-template are outside this project's security scope.
+Out of scope:
+
+- Vulnerabilities in third-party platforms or services not controlled by this repository
+- Issues in unrelated websites or infrastructure
+- Automated scanner output without a demonstrated, actionable impact on this project
+- Social engineering, spam, or non-security bugs (please report those as regular issues)
 
 ## Responsible use
 
-This template is intended for authorized development, migration, recovery, and
-learning. See [Not Intended For](README.md#not-intended-for) for prohibited
-uses. Reports about abuse or copied content should not include sensitive
-security details in public channels.
+This repository is intended for the legitimate development and maintenance of the official 0NOXTACKORE website. Please act in good faith and avoid actions that could harm users, infrastructure, or data.
+
+---
+
+© 2026 0NOXTACKORE
