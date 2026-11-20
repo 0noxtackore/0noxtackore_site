@@ -315,15 +315,15 @@ const es: Content = {
       tech: ["Python"],
       url: "https://github.com/0noxtackore/Netckore",
     },
-    {
-      name: "Aguickore",
-      description:
-        "Protocolo estándar de interacción agente-usuario: desacopla la lógica de tu agente de IA del frontend mediante streaming de eventos en tiempo real y sincronización de estado.",
-      status: "Activo",
-      updated: "Nov 2026",
-      tech: ["TypeScript", "MIT"],
-      url: "https://github.com/0noxtackore/Aguickore",
-    },
+    // {
+    //   name: "Aguickore",
+    //   description:
+    //     "Protocolo estándar de interacción agente-usuario: desacopla la lógica de tu agente de IA del frontend mediante streaming de eventos en tiempo real y sincronización de estado.",
+    //   status: "Activo",
+    //   updated: "Nov 2026",
+    //   tech: ["TypeScript", "MIT"],
+    //   url: "https://github.com/0noxtackore/Aguickore",
+    // },
   ],
   ui: uiEs,
   share: {
@@ -406,7 +406,7 @@ const es: Content = {
       projects: [
         { name: "Fluxckore", description: "Utilidad de limpieza y optimización para Windows, construida con una interfaz ligera y sin dependencias pesadas.", url: "https://github.com/0noxtackore/Fluxckore" },
         { name: "Netckore", description: "Herramienta de diagnóstico y reparación de conexión a internet, con interfaz autónoma y soporte multilenguaje.", url: "https://github.com/0noxtackore/Netckore" },
-        { name: "Aguickore", description: "Protocolo y ecosistema de SDK para conectar agentes de IA con aplicaciones, mantenido como una evolución hardening de AG-UI.", url: "https://github.com/0noxtackore/Aguickore" },
+        // { name: "Aguickore", description: "Protocolo y ecosistema de SDK para conectar agentes de IA con aplicaciones, mantenido como una evolución hardening de AG-UI.", url: "https://github.com/0noxtackore/Aguickore" },
         { name: "Ebenezer-Screen", description: "Aplicación web para el control de pantallas y gestión de contenido multimedia, desplegada en Netlify.", url: "https://github.com/0noxtackore/Ebenezer-Screen" },
         { name: "File-Host", description: "Aplicación ligera de alojamiento y compartición de archivos en la nube, optimizada para despliegue rápido.", url: "https://github.com/0noxtackore/File-Host" },
       ],
@@ -563,15 +563,15 @@ const en: Content = {
       tech: ["Python"],
       url: "https://github.com/0noxtackore/Netckore",
     },
-    {
-      name: "Aguickore",
-      description:
-        "Standard agent-user interaction protocol: decouples your AI agent logic from the frontend through real-time event streaming and state synchronization.",
-      status: "Active",
-      updated: "Nov 2026",
-      tech: ["TypeScript", "MIT"],
-      url: "https://github.com/0noxtackore/Aguickore",
-    },
+    // {
+    //   name: "Aguickore",
+    //   description:
+    //     "Standard agent-user interaction protocol: decouples your AI agent logic from the frontend through real-time event streaming and state synchronization.",
+    //   status: "Active",
+    //   updated: "Nov 2026",
+    //   tech: ["TypeScript", "MIT"],
+    //   url: "https://github.com/0noxtackore/Aguickore",
+    // },
   ],
   ui: uiEn,
   share: {
@@ -658,7 +658,7 @@ const en: Content = {
       projects: [
         { name: "Fluxckore", description: "Windows cleaning and optimization utility, built with a lightweight interface and no heavy dependencies.", url: "https://github.com/0noxtackore/Fluxckore" },
         { name: "Netckore", description: "Internet connection diagnostics and repair tool, with a standalone interface and multi-language support.", url: "https://github.com/0noxtackore/Netckore" },
-        { name: "Aguickore", description: "Protocol and SDK ecosystem for connecting AI agents to applications, maintained as a hardened evolution of AG-UI.", url: "https://github.com/0noxtackore/Aguickore" },
+        // { name: "Aguickore", description: "Protocol and SDK ecosystem for connecting AI agents to applications, maintained as a hardened evolution of AG-UI.", url: "https://github.com/0noxtackore/Aguickore" },
         { name: "Ebenezer-Screen", description: "Web application for screen control and multimedia content management, deployed on Netlify.", url: "https://github.com/0noxtackore/Ebenezer-Screen" },
         { name: "File-Host", description: "Lightweight cloud file hosting and sharing application, optimized for fast deployment.", url: "https://github.com/0noxtackore/File-Host" },
       ],
