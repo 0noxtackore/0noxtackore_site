@@ -31,7 +31,7 @@ export function About({ locale }: { locale: Locale }) {
       "@type": "Organization",
       name: content.brand.name,
       url: content.baseUrl,
-      logo: `${content.baseUrl}/sites/0noxtackore/logo.webp`,
+      logo: `${siteUrl}/sites/0noxtackore/logo.webp`,
       foundingDate: "2026",
       areaServed: { "@type": "Place", name: "Global" },
       founder: {

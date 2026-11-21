@@ -96,7 +96,7 @@ export default async function LocaleLayout({
     foundingDate: "2026",
     areaServed: { "@type": "Place", name: "Global" },
     url: content.baseUrl,
-    logo: `${content.baseUrl}/sites/0noxtackore/logo.webp`,
+    logo: `${siteUrl}/sites/0noxtackore/logo.webp`,
     image: ogImageUrl,
     description: content.metadata.home.description,
     sameAs: [
