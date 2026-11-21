@@ -239,7 +239,7 @@ export function Site({ locale }: { locale: Locale }) {
                       <img
                         className={styles.cardImage}
                         src={area.image}
-                        alt=""
+                        alt={area.alt}
                         loading="lazy"
                         decoding="async"
                         width={960}

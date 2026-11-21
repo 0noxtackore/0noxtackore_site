@@ -2,25 +2,28 @@ import { siteUrl } from "@/components/sites/0noxtackore/data";
 
 const content = `# 0NOXTACKORE
 
-> Independent technology company focused on software engineering, development and evolution, and the recommendation of technology products. BUILT FOR IMPACT / CREADO PARA EL IMPACTO.
+> 0NOXTACKORE is an independent technology studio focused on software engineering, open-source development, integrations, technical consulting, and technology recommendations. Built for impact. / CREADO PARA EL IMPACTO.
 
-## Español
+## Entity facts
 
-0NOXTACKORE construye tecnología con propósito. Trabajamos con tecnologías propias y proyectos de código abierto para crear herramientas, aplicaciones e integraciones que resuelven problemas reales, respetando licencias y autores.
+- Name: 0NOXTACKORE (also written as 0noxtackore)
+- Founded: 2026
+- Founder & CEO: Angello Aponte
+- Scope: Global
+- Website: ${siteUrl}
+- Languages: Spanish (default) and English
 
-- [Inicio](${siteUrl}/es)
-- [Guía para elegir una laptop](${siteUrl}/es/guia)
-- [Acerca de](${siteUrl}/es/acerca)
+## Core pages
 
-## English
+- [Home (ES)](${siteUrl}/es)
+- [Home (EN)](${siteUrl}/en)
+- [About (ES)](${siteUrl}/es/acerca)
+- [About (EN)](${siteUrl}/en/about)
+- [Laptop buying guide (ES)](${siteUrl}/es/guia)
+- [Laptop buying guide (EN)](${siteUrl}/en/guide)
+- [Full LLM context](${siteUrl}/llms-full.txt)
 
-0NOXTACKORE builds technology with purpose. We work with our own technologies and open-source projects to create tools, applications and integrations that solve real problems, respecting licenses and authors.
-
-- [Home](${siteUrl}/en)
-- [Laptop buying guide](${siteUrl}/en/guide)
-- [About](${siteUrl}/en/about)
-
-## Áreas de actividad / Areas of activity
+## Areas of activity
 
 - Software development
 - Open-source engineering and evolution
@@ -29,12 +32,12 @@ const content = `# 0NOXTACKORE
 - Technology recommendation and affiliation
 - Technical consulting and support
 
-## Contacto / Contact
+## Official channels
 
-GitHub: https://github.com/0noxtackore
-YouTube: https://www.youtube.com/@0noxtackore
-Facebook: https://www.facebook.com/people/0noxtackore/61567098773222/
-Instagram: https://www.instagram.com/0noxtackore.dev/
+- GitHub: https://github.com/0noxtackore
+- YouTube: https://www.youtube.com/@0noxtackore
+- Facebook: https://www.facebook.com/people/0noxtackore/61567098773222/
+- Instagram: https://www.instagram.com/0noxtackore.dev/
 `;
 
 export function GET() {

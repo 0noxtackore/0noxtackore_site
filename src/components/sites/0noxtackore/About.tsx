@@ -27,16 +27,18 @@ export function About({ locale }: { locale: Locale }) {
     "@type": "ProfilePage",
     name: about.title,
     url: aboutUrl,
+    dateModified: "2026-11-21",
     mainEntity: {
       "@type": "Organization",
       name: content.brand.name,
-      url: content.baseUrl,
+      url: siteUrl,
       logo: `${siteUrl}/sites/0noxtackore/logo.webp`,
       foundingDate: "2026",
       areaServed: { "@type": "Place", name: "Global" },
       founder: {
         "@type": "Person",
         name: about.ceoName,
+        jobTitle: locale === "es" ? "Fundador y CEO" : "Founder & CEO",
       },
       sameAs: officialLinks.map((l) => l.url),
     },
@@ -75,7 +77,8 @@ export function About({ locale }: { locale: Locale }) {
           <h1 className={styles.guideTitle}>{about.title}</h1>
           <p className={styles.guideLead}>{about.lead}</p>
           <p className={styles.guideMeta}>
-            <span className={styles.thinBrand}>{content.brand.name}</span> · {content.brand.tagline}
+            <span className={styles.thinBrand}>{content.brand.name}</span> · {content.brand.tagline} ·{" "}
+            {locale === "es" ? "Actualizado: 21 nov 2026" : "Updated: Nov 21, 2026"}
           </p>
         </div>
       </section>

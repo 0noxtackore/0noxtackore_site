@@ -163,10 +163,26 @@
 
 ---
 
-## Code fixes applied during this audit
+## Implementation update (2026-11-21)
 
-- Fixed schema `logo` URL to use root `siteUrl` instead of locale `content.baseUrl` (prevented 404 on EN):
-  - `src/app/[locale]/layout.tsx`
-  - `src/components/sites/0noxtackore/About.tsx`
+### Action 1 — Citabilidad (P0) — Implemented on-site
+- Updated ES/EN brand intro/approach and first FAQ to be definition-first, factual, and self-contained (includes founded 2026, founder Angello Aponte).
+- Added visible author attribution and last-updated date on guide/about pages.
 
-*Validate with `npm run check` and deploy before re-testing live schema URLs.*
+### Action 2 — Brand/entity presence (P0) — Partially implemented (on-site)
+- Enriched Organization schema with `founder` Person, `contactPoint`, `@id`, and consistent sameAs.
+- Added `llms-full.txt` with entity facts, services, founder, official channels, and key URLs.
+- **Off-site/manual still required:** third-party mentions, LinkedIn/company profile consistency, YouTube/Reddit/community presence, Wikidata/entity corroboration.
+
+### Action 3 — Security headers (P1) — Implemented
+- Added headers in `next.config.ts`: CSP, `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`, `X-Frame-Options`.
+
+### Action 4 — Schema richness (P1) — Implemented
+- Layout JSON-LD: Organization (`@id`, founder Person, contactPoint), WebSite (`@id`, publisher), WebPage, BreadcrumbList, FAQPage.
+- Guide: Article enriched with author Person, publisher Organization, datePublished/dateModified.
+- About: ProfilePage enriched with dateModified and founder Person details.
+
+### Action 5 — llms-full + E-E-A-T signals (P2) — Implemented
+- Created `/llms-full.txt` and enriched `/llms.txt`.
+- Added missing `alt` text to all 6 area images (ES/EN) and rendered `area.alt` in `Site.tsx`.
+- Added visible "Updated" / author attribution in guide and about. Full case studies/testimonials remain pending until real evidence is available (no fabricated testimonials).

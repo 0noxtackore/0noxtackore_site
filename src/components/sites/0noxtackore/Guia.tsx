@@ -18,10 +18,16 @@ export function Guia({ locale }: { locale: Locale }) {
     "@type": "Article",
     headline: guide.title,
     description: guide.description,
-    image: new URL(content.ogImage, content.baseUrl).toString(),
-    author: { "@type": "Organization", name: content.brand.name, url: content.baseUrl },
-    publisher: { "@type": "Organization", name: content.brand.name, url: content.baseUrl },
+    image: new URL(content.ogImage, siteUrl).toString(),
+    author: {
+      "@type": "Person",
+      name: "Angello Aponte",
+      jobTitle: locale === "es" ? "Fundador y CEO" : "Founder & CEO",
+      worksFor: { "@type": "Organization", name: content.brand.name, url: siteUrl },
+    },
+    publisher: { "@type": "Organization", name: content.brand.name, url: siteUrl },
     datePublished: "2026-11-19",
+    dateModified: "2026-11-21",
     mainEntityOfPage: guideUrl,
     inLanguage: locale,
   }).replace(/</g, "\\u003c");
@@ -59,7 +65,8 @@ export function Guia({ locale }: { locale: Locale }) {
           <p className={styles.guideLead}>{guide.description}</p>
           <p className={styles.guideMeta}>
             {locale === "es" ? "Por " : "By "}
-            <span className={styles.thinBrand}>{content.brand.name}</span> · {guide.readingTime}
+            <span className={styles.thinBrand}>Angello Aponte</span> · {guide.readingTime} ·{" "}
+            {locale === "es" ? "Actualizado: 21 nov 2026" : "Updated: Nov 21, 2026"}
           </p>
         </div>
       </section>

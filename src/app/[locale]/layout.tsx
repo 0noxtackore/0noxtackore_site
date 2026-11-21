@@ -87,18 +87,40 @@ export default async function LocaleLayout({
   const ogImagePath = content.ogImage;
   const ogImageUrl = new URL(ogImagePath, siteUrl).toString();
 
+  const pageUrl = new URL(`/${value}`, siteUrl).toString();
+  const organizationId = `${siteUrl}/#organization`;
+  const founderId = `${siteUrl}/#founder`;
+
+  const founderJsonLd = {
+    "@type": "Person",
+    "@id": founderId,
+    name: "Angello Aponte",
+    jobTitle: value === "es" ? "Fundador y CEO" : "Founder & CEO",
+    worksFor: { "@id": organizationId },
+  };
+
   const organizationJsonLd = {
     "@context": "https://schema.org",
     "@type": "Organization",
+    "@id": organizationId,
     name: content.brand.name,
     alternateName: "0noxtackore",
     slogan: content.brand.tagline,
     foundingDate: "2026",
     areaServed: { "@type": "Place", name: "Global" },
-    url: content.baseUrl,
+    url: siteUrl,
     logo: `${siteUrl}/sites/0noxtackore/logo.webp`,
     image: ogImageUrl,
     description: content.metadata.home.description,
+    founder: { "@id": founderId },
+    contactPoint: [
+      {
+        "@type": "ContactPoint",
+        contactType: "customer support",
+        url: `${siteUrl}${value === "en" ? "/en/about" : "/es/acerca"}`,
+        availableLanguage: ["es", "en"],
+      },
+    ],
     sameAs: [
       "https://github.com/0noxtackore",
       "https://www.youtube.com/@0noxtackore",
@@ -110,11 +132,38 @@ export default async function LocaleLayout({
   const websiteJsonLd = {
     "@context": "https://schema.org",
     "@type": "WebSite",
+    "@id": `${siteUrl}/#website`,
     name: content.brand.name,
     alternateName: "0noxtackore",
-    url: content.baseUrl,
+    url: siteUrl,
     inLanguage: value,
-    publisher: { "@type": "Organization", name: content.brand.name, url: content.baseUrl },
+    publisher: { "@id": organizationId },
+  };
+
+  const webPageJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": `${pageUrl}#webpage`,
+    url: pageUrl,
+    name: content.metadata.home.title,
+    description: content.metadata.home.description,
+    isPartOf: { "@id": `${siteUrl}/#website` },
+    about: { "@id": organizationId },
+    inLanguage: value,
+    dateModified: "2026-11-21",
+  };
+
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: value === "es" ? "Inicio" : "Home",
+        item: pageUrl,
+      },
+    ],
   };
 
   const faqJsonLd = {
@@ -129,7 +178,10 @@ export default async function LocaleLayout({
 
   const structuredData = JSON.stringify([
     organizationJsonLd,
+    founderJsonLd,
     websiteJsonLd,
+    webPageJsonLd,
+    breadcrumbJsonLd,
     faqJsonLd,
   ]).replace(/</g, "\\u003c");
 
