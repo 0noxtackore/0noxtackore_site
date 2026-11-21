@@ -140,32 +140,6 @@ export default async function LocaleLayout({
     publisher: { "@id": organizationId },
   };
 
-  const webPageJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    "@id": `${pageUrl}#webpage`,
-    url: pageUrl,
-    name: content.metadata.home.title,
-    description: content.metadata.home.description,
-    isPartOf: { "@id": `${siteUrl}/#website` },
-    about: { "@id": organizationId },
-    inLanguage: value,
-    dateModified: "2026-11-21",
-  };
-
-  const breadcrumbJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: value === "es" ? "Inicio" : "Home",
-        item: pageUrl,
-      },
-    ],
-  };
-
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -180,8 +154,6 @@ export default async function LocaleLayout({
     organizationJsonLd,
     founderJsonLd,
     websiteJsonLd,
-    webPageJsonLd,
-    breadcrumbJsonLd,
     faqJsonLd,
   ]).replace(/</g, "\\u003c");
 

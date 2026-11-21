@@ -251,6 +251,8 @@ const es: Content = {
     { label: "Áreas de actividad", href: localizedHref("es", "/areas") },
     { label: "Filosofía", href: localizedHref("es", "/filosofia") },
     { label: "Recomendaciones", href: localizedHref("es", "/recomendaciones") },
+    { label: "Guía", href: localizedHref("es", "/guia") },
+    { label: "Acerca de", href: localizedHref("es", "/acerca") },
   ],
   megaGroups: [
     { title: "Qué hacemos", links: [
@@ -275,6 +277,7 @@ const es: Content = {
       { label: "Inicio", href: localizedHref("es", "/") },
       { label: "Áreas de actividad", href: localizedHref("es", "/areas") },
       { label: "Nuestra filosofía", href: localizedHref("es", "/filosofia") },
+      { label: "Guía para elegir laptop", href: localizedHref("es", "/guia") },
       { label: "Acerca de", href: localizedHref("es", "/acerca") },
     ] },
     { title: "Servicios", links: [
@@ -500,6 +503,8 @@ const en: Content = {
     { label: "Areas of activity", href: localizedHref("en", "/areas") },
     { label: "Philosophy", href: localizedHref("en", "/filosofia") },
     { label: "Recommendations", href: localizedHref("en", "/recomendaciones") },
+    { label: "Guide", href: localizedHref("en", "/guia") },
+    { label: "About", href: localizedHref("en", "/acerca") },
   ],
   megaGroups: [
     { title: "What we do", links: [
@@ -524,6 +529,7 @@ const en: Content = {
       { label: "Home", href: localizedHref("en", "/") },
       { label: "Areas of activity", href: localizedHref("en", "/areas") },
       { label: "Our philosophy", href: localizedHref("en", "/filosofia") },
+      { label: "Laptop buying guide", href: localizedHref("en", "/guia") },
       { label: "About", href: localizedHref("en", "/acerca") },
     ] },
     { title: "Services", links: [

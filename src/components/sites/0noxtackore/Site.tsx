@@ -143,9 +143,37 @@ export function Site({ locale }: { locale: Locale }) {
   } = content;
 
   const shareUrl = locale === "es" ? siteUrl : `${siteUrl}/en`;
+  const homeUrl = `${siteUrl}/${locale}`;
+  const homeJsonLd = JSON.stringify([
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "@id": `${homeUrl}#webpage`,
+      url: homeUrl,
+      name: content.metadata.home.title,
+      description: content.metadata.home.description,
+      isPartOf: { "@id": `${siteUrl}/#website` },
+      about: { "@id": `${siteUrl}/#organization` },
+      inLanguage: locale,
+      dateModified: "2026-11-21",
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: locale === "es" ? "Inicio" : "Home",
+          item: homeUrl,
+        },
+      ],
+    },
+  ]).replace(/</g, "\\u003c");
 
   return (
     <div className={styles.page}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: homeJsonLd }} />
       <div className={styles.announce}>
         <div className={styles.announceInner}>
           <span className={styles.announceStrong}>{brand.name}</span>

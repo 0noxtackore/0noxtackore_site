@@ -44,12 +44,34 @@ export function About({ locale }: { locale: Locale }) {
     },
     inLanguage: locale,
   }).replace(/</g, "\\u003c");
+  const breadcrumbJsonLd = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: locale === "es" ? "Inicio" : "Home",
+        item: `${siteUrl}/${locale}`,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: about.title,
+        item: aboutUrl,
+      },
+    ],
+  }).replace(/</g, "\\u003c");
 
   return (
     <div className={styles.page}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: structuredData }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: breadcrumbJsonLd }}
       />
 
       <header className={styles.guideHeader}>
