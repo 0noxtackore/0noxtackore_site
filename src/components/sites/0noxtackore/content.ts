@@ -16,6 +16,17 @@ type Project = {
   url: string;
 };
 
+type StoreProduct = {
+  name: string;
+  description: string;
+  category: string;
+  store: "Amazon" | "AliExpress";
+  priceNote: string;
+  url: string;
+  image?: string;
+  badge?: string;
+};
+
 export type Content = {
   locale: Locale;
   baseUrl: string;
@@ -89,11 +100,28 @@ export type Content = {
       officialTitle: string;
       officialText: string;
     };
+    tienda: {
+      title: string;
+      description: string;
+      kicker: string;
+      lead: string;
+      back: string;
+      disclosureTitle: string;
+      disclosure: string;
+      externalCta: string;
+      updatedLabel: string;
+      updatedValue: string;
+      emptyTitle: string;
+      emptyText: string;
+      categories: { all: string };
+      products: StoreProduct[];
+    };
   };
   metadata: {
     home: { title: string; description: string };
     guia: { title: string; description: string };
     acerca: { title: string; description: string };
+    tienda: { title: string; description: string };
   };
 };
 
@@ -251,6 +279,7 @@ const es: Content = {
     { label: "Áreas de actividad", href: localizedHref("es", "/areas") },
     { label: "Filosofía", href: localizedHref("es", "/filosofia") },
     { label: "Recomendaciones", href: localizedHref("es", "/recomendaciones") },
+    { label: "Tienda", href: localizedHref("es", "/tienda") },
     { label: "Guía", href: localizedHref("es", "/guia") },
     { label: "Acerca de", href: localizedHref("es", "/acerca") },
   ],
@@ -278,6 +307,7 @@ const es: Content = {
       { label: "Áreas de actividad", href: localizedHref("es", "/areas") },
       { label: "Nuestra filosofía", href: localizedHref("es", "/filosofia") },
       { label: "Guía para elegir laptop", href: localizedHref("es", "/guia") },
+      { label: "Tienda", href: localizedHref("es", "/tienda") },
       { label: "Acerca de", href: localizedHref("es", "/acerca") },
     ] },
     { title: "Servicios", links: [
@@ -288,7 +318,7 @@ const es: Content = {
     { title: "Productos", links: [
       { label: "Productos tecnológicos", href: localizedHref("es", "/areas/productos-tecnologicos") },
       { label: "Recomendación y afiliación", href: localizedHref("es", "/recomendaciones") },
-      { label: "Equipos y laptops", href: localizedHref("es", "/recomendaciones") },
+      { label: "Tienda", href: localizedHref("es", "/tienda") },
     ] },
     { title: "Enlaces", links: [
       { label: "CREADO PARA EL IMPACTO", href: localizedHref("es", "/") },
@@ -365,9 +395,9 @@ const es: Content = {
       ],
       criteriaIntro: "No actuamos como fabricantes ni vendedores directos de los equipos. Solo seleccionamos y recomendamos productos disponibles en plataformas comerciales, evaluando sus especificaciones técnicas, rendimiento y relación calidad-precio. Si compras a través de enlaces de afiliación podemos recibir una comisión, sin coste adicional para ti.",
       criteriaNote: "Transparencia: nuestra recomendación depende de criterios técnicos, no de qué producto nos deje mayor comisión.",
-      storeTitle: "Próximamente: tienda de equipos seleccionados",
-      storeText: "Estamos preparando una sección para que puedas ver directamente los equipos que cumplen estos criterios. Mientras tanto, puedes seguirnos para enterarte del lanzamiento.",
-      storeCta: "Ver recomendaciones en la web",
+      storeTitle: "Tienda de equipos seleccionados",
+      storeText: "Reunimos equipos y accesorios tecnológicos que cumplen nuestros criterios de calidad, rendimiento y relación calidad-precio. Al comprar desde nuestros enlaces afiliados, apoyas el trabajo de 0NOXTACKORE sin coste adicional para ti.",
+      storeCta: "Ir a la tienda",
       shareHeading: "¿Te sirvió la guía? Compártela",
       shareText: "Puede ayudar a alguien que está a punto de comprar un equipo y no sabe por dónde empezar.",
       back: "← Volver al inicio",
@@ -418,6 +448,59 @@ const es: Content = {
       officialTitle: "Presencia oficial",
       officialText: "Puedes encontrarnos y seguir nuestro trabajo en estos canales oficiales:",
     },
+    tienda: {
+      title: "Tienda",
+      description: "Equipos y accesorios tecnológicos seleccionados por 0NOXTACKORE. Compras por enlaces afiliados a tiendas externas, sin coste adicional para ti.",
+      kicker: "Tienda afiliada",
+      lead: "Seleccionamos productos tecnológicos con criterio técnico y relación calidad-precio. Cuando compras desde nuestros enlaces, podemos recibir una comisión sin coste adicional para ti.",
+      back: "← Volver al inicio",
+      disclosureTitle: "Aviso de afiliación",
+      disclosure: "0NOXTACKORE participa en programas de afiliación. Algunos enlaces de esta página son enlaces afiliados: si realizas una compra, podemos recibir una comisión sin coste adicional para ti. No somos el vendedor ni el fabricante; la compra, el pago, el envío y la garantía dependen de la tienda externa.",
+      externalCta: "Ver en {store}",
+      updatedLabel: "Actualizado",
+      updatedValue: "Nov 2026",
+      emptyTitle: "Más productos pronto",
+      emptyText: "Estamos añadiendo más selecciones verificadas. Por ahora, puedes explorar nuestras recomendaciones.",
+      categories: { all: "Todo" },
+      products: [
+        {
+          name: "Logitech MX Master 3S",
+          description: "Mouse inalámbrico ergonómico para productividad, con sensor preciso, desplazamiento rápido y conexión multidispositivo.",
+          category: "Accesorios",
+          store: "Amazon",
+          priceNote: "Precio en Amazon",
+          url: "https://www.amazon.com/s?k=Logitech+MX+Master+3S&tag=0noxtackore-20",
+          badge: "Productividad",
+        },
+        {
+          name: "Keychron K2 (versión mecánica)",
+          description: "Teclado mecánico compacto con conectividad inalámbrica, ideal para escritura y desarrollo con buena relación calidad-precio.",
+          category: "Accesorios",
+          store: "Amazon",
+          priceNote: "Precio en Amazon",
+          url: "https://www.amazon.com/s?k=Keychron+K2+mechanical+keyboard&tag=0noxtackore-20",
+          badge: "Escritura",
+        },
+        {
+          name: "Crucial X9 Pro SSD portátil",
+          description: "SSD portátil rápido y compacto para respaldos, proyectos y trabajo en movimiento.",
+          category: "Almacenamiento",
+          store: "Amazon",
+          priceNote: "Precio en Amazon",
+          url: "https://www.amazon.com/s?k=Crucial+X9+Pro+portable+SSD&tag=0noxtackore-20",
+          badge: "Almacenamiento",
+        },
+        {
+          name: "Anker USB-C Hub (7 en 1)",
+          description: "Hub USB-C para ampliar puertos en laptops modernas: USB-A, HDMI, lector de tarjetas y más.",
+          category: "Accesorios",
+          store: "Amazon",
+          priceNote: "Precio en Amazon",
+          url: "https://www.amazon.com/s?k=Anker+USB-C+hub+7+in+1&tag=0noxtackore-20",
+          badge: "Conectividad",
+        },
+      ],
+    },
   },
   ogImage: "/sites/0noxtackore/og/og-en.jpg",
   metadata: {
@@ -427,6 +510,7 @@ const es: Content = {
     },
     guia: { title: "Guía para elegir una laptop con buena relación calidad-precio", description: "Guía práctica para evaluar procesador, memoria RAM, almacenamiento y batería antes de comprar una laptop." },
     acerca: { title: "Acerca de 0NOXTACKORE", description: "Conoce a 0NOXTACKORE: estudio tecnológico indie y arquitectura de software de alto rendimiento." },
+    tienda: { title: "Tienda de tecnología seleccionada", description: "Productos tecnológicos seleccionados por 0NOXTACKORE con enlaces afiliados a Amazon y otras tiendas. Transparencia, criterio técnico y sin coste adicional." },
   },
 };
 
@@ -503,6 +587,7 @@ const en: Content = {
     { label: "Areas of activity", href: localizedHref("en", "/areas") },
     { label: "Philosophy", href: localizedHref("en", "/filosofia") },
     { label: "Recommendations", href: localizedHref("en", "/recomendaciones") },
+    { label: "Store", href: localizedHref("en", "/tienda") },
     { label: "Guide", href: localizedHref("en", "/guia") },
     { label: "About", href: localizedHref("en", "/acerca") },
   ],
@@ -530,6 +615,7 @@ const en: Content = {
       { label: "Areas of activity", href: localizedHref("en", "/areas") },
       { label: "Our philosophy", href: localizedHref("en", "/filosofia") },
       { label: "Laptop buying guide", href: localizedHref("en", "/guia") },
+      { label: "Store", href: localizedHref("en", "/tienda") },
       { label: "About", href: localizedHref("en", "/acerca") },
     ] },
     { title: "Services", links: [
@@ -540,7 +626,7 @@ const en: Content = {
     { title: "Products", links: [
       { label: "Technology products", href: localizedHref("en", "/areas/productos-tecnologicos") },
       { label: "Recommendation and affiliation", href: localizedHref("en", "/recomendaciones") },
-      { label: "Devices and laptops", href: localizedHref("en", "/recomendaciones") },
+      { label: "Store", href: localizedHref("en", "/tienda") },
     ] },
     { title: "Links", links: [
       { label: "BUILT FOR IMPACT", href: localizedHref("en", "/") },
@@ -616,9 +702,9 @@ const en: Content = {
       ],
       criteriaIntro: "We are not the manufacturers or direct sellers of the devices. We only select and recommend products available on commercial platforms, evaluating their technical specifications, performance and value for money. If you buy through affiliate links we may earn a commission, at no extra cost to you.",
       criteriaNote: "Transparency: our recommendation depends on technical criteria, not on which product pays the highest commission.",
-      storeTitle: "Coming soon: store with selected devices",
-      storeText: "We are preparing a section where you can directly see the devices that meet these criteria. In the meantime, follow us to hear about the launch.",
-      storeCta: "See recommendations on the site",
+      storeTitle: "Selected devices store",
+      storeText: "We gather tech devices and accessories that meet our criteria for quality, performance and value for money. When you buy through our affiliate links, you support 0NOXTACKORE's work at no extra cost to you.",
+      storeCta: "Go to the store",
       shareHeading: "Did the guide help? Share it",
       shareText: "It may help someone who is about to buy a device and doesn't know where to start.",
       back: "← Back to home",
@@ -673,6 +759,59 @@ const en: Content = {
       officialTitle: "Official presence",
       officialText: "You can find us and follow our work on these official channels:",
     },
+    tienda: {
+      title: "Store",
+      description: "Tech devices and accessories selected by 0NOXTACKORE. Purchases through affiliate links to external stores, at no extra cost to you.",
+      kicker: "Affiliate store",
+      lead: "We select tech products based on technical criteria and value for money. When you buy through our links, we may earn a commission at no extra cost to you.",
+      back: "← Back to home",
+      disclosureTitle: "Affiliate disclosure",
+      disclosure: "0NOXTACKORE participates in affiliate programs. Some links on this page are affiliate links: if you make a purchase, we may earn a commission at no extra cost to you. We are not the seller or manufacturer; purchase, payment, shipping and warranty depend on the external store.",
+      externalCta: "View on {store}",
+      updatedLabel: "Updated",
+      updatedValue: "Nov 2026",
+      emptyTitle: "More products soon",
+      emptyText: "We are adding more verified picks. For now, you can explore our recommendations.",
+      categories: { all: "All" },
+      products: [
+        {
+          name: "Logitech MX Master 3S",
+          description: "Ergonomic wireless mouse for productivity, with precise sensor, fast scroll and multi-device connectivity.",
+          category: "Accessories",
+          store: "Amazon",
+          priceNote: "Price on Amazon",
+          url: "https://www.amazon.com/s?k=Logitech+MX+Master+3S&tag=0noxtackore-20",
+          badge: "Productivity",
+        },
+        {
+          name: "Keychron K2 (mechanical version)",
+          description: "Compact mechanical keyboard with wireless connectivity, ideal for writing and development with good value for money.",
+          category: "Accessories",
+          store: "Amazon",
+          priceNote: "Price on Amazon",
+          url: "https://www.amazon.com/s?k=Keychron+K2+mechanical+keyboard&tag=0noxtackore-20",
+          badge: "Typing",
+        },
+        {
+          name: "Crucial X9 Pro Portable SSD",
+          description: "Fast, compact portable SSD for backups, projects and work on the go.",
+          category: "Storage",
+          store: "Amazon",
+          priceNote: "Price on Amazon",
+          url: "https://www.amazon.com/s?k=Crucial+X9+Pro+portable+SSD&tag=0noxtackore-20",
+          badge: "Storage",
+        },
+        {
+          name: "Anker USB-C Hub (7-in-1)",
+          description: "USB-C hub to expand ports on modern laptops: USB-A, HDMI, card reader and more.",
+          category: "Accessories",
+          store: "Amazon",
+          priceNote: "Price on Amazon",
+          url: "https://www.amazon.com/s?k=Anker+USB-C+hub+7+in+1&tag=0noxtackore-20",
+          badge: "Connectivity",
+        },
+      ],
+    },
   },
   ogImage: "/sites/0noxtackore/og/og-en.jpg",
   metadata: {
@@ -682,6 +821,7 @@ const en: Content = {
     },
     guia: { title: "How to choose a laptop with good value for money", description: "A practical guide to evaluating processor, RAM, storage and battery before buying a laptop." },
     acerca: { title: "About 0NOXTACKORE", description: "Meet 0NOXTACKORE: an indie technology studio and high-performance software architecture." },
+    tienda: { title: "Curated tech store", description: "Tech products selected by 0NOXTACKORE with affiliate links to Amazon and other stores. Transparency, technical criteria and no extra cost." },
   },
 };
 

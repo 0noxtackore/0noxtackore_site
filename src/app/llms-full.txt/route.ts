@@ -49,8 +49,16 @@ const content = `# 0NOXTACKORE — Full LLM Context
 - [About (EN)](${siteUrl}/en/about)
 - [Laptop buying guide (ES)](${siteUrl}/es/guia)
 - [Laptop buying guide (EN)](${siteUrl}/en/guide)
+- [Store (ES)](${siteUrl}/es/tienda)
+- [Store (EN)](${siteUrl}/en/store)
 - [Sitemap](${siteUrl}/sitemap.xml)
 - [LLMs summary](${siteUrl}/llms.txt)
+
+## Affiliate store
+
+- 0NOXTACKORE operates an affiliate store with curated tech products.
+- Some product links are affiliate links; purchases happen on external stores (e.g., Amazon).
+- Affiliate disclosure is shown on the store page.
 
 ## Open-source projects
 

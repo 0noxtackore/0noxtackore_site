@@ -27,11 +27,14 @@ const nextConfig: NextConfig = {
       { source: "/areas/:slug", destination: `/${defaultLocale}/areas/:slug`, permanent: true },
       { source: "/guia", destination: `/${defaultLocale}/guia`, permanent: true },
       { source: "/acerca", destination: `/${defaultLocale}/acerca`, permanent: true },
-      // Locale-correct slugs (EN uses /guide and /about)
+      { source: "/tienda", destination: `/${defaultLocale}/tienda`, permanent: true },
+      // Locale-correct slugs (EN uses /guide, /about, /store)
       { source: "/en/guia", destination: "/en/guide", permanent: true },
       { source: "/en/acerca", destination: "/en/about", permanent: true },
+      { source: "/en/tienda", destination: "/en/store", permanent: true },
       { source: "/es/guide", destination: "/es/guia", permanent: true },
       { source: "/es/about", destination: "/es/acerca", permanent: true },
+      { source: "/es/store", destination: "/es/tienda", permanent: true },
     );
     return redirects;
   },

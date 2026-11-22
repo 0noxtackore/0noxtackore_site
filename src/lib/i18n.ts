@@ -13,20 +13,22 @@ export function isLocale(value: string): value is Locale {
 const pageSlugs: Record<string, Record<Locale, string>> = {
   guia: { es: "guia", en: "guide" },
   acerca: { es: "acerca", en: "about" },
+  tienda: { es: "tienda", en: "store" },
 };
 
-export function getPageSlug(locale: Locale, page: "guia" | "acerca"): string {
+export function getPageSlug(locale: Locale, page: "guia" | "acerca" | "tienda"): string {
   return pageSlugs[page][locale];
 }
 
-export function getPagePath(locale: Locale, page: "guia" | "acerca"): string {
+export function getPagePath(locale: Locale, page: "guia" | "acerca" | "tienda"): string {
   return `/${locale}/${getPageSlug(locale, page)}`;
 }
 
 /** Map a slug (any locale) back to its canonical page key, if translatable. */
-export function getPageKey(slug: string): "guia" | "acerca" | null {
+export function getPageKey(slug: string): "guia" | "acerca" | "tienda" | null {
   if (slug === "guia" || slug === "guide") return "guia";
   if (slug === "acerca" || slug === "about") return "acerca";
+  if (slug === "tienda" || slug === "store") return "tienda";
   return null;
 }
 

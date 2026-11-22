@@ -134,7 +134,7 @@ export function Guia({ locale }: { locale: Locale }) {
           <section className={styles.guideStoreNotice}>
             <h2 className={styles.guideH2}>{guide.storeTitle}</h2>
             <p className={styles.guideP}>{guide.storeText}</p>
-            <Link className={`${styles.button} ${styles.buttonBlue}`} href={`/${locale}/recomendaciones`}>
+            <Link className={`${styles.button} ${styles.buttonBlue}`} href={getPagePath(locale, "tienda")}>
               {guide.storeCta}
             </Link>
           </section>

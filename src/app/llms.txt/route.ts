@@ -21,6 +21,8 @@ const content = `# 0NOXTACKORE
 - [About (EN)](${siteUrl}/en/about)
 - [Laptop buying guide (ES)](${siteUrl}/es/guia)
 - [Laptop buying guide (EN)](${siteUrl}/en/guide)
+- [Store (ES)](${siteUrl}/es/tienda)
+- [Store (EN)](${siteUrl}/en/store)
 - [Full LLM context](${siteUrl}/llms-full.txt)
 
 ## Areas of activity
