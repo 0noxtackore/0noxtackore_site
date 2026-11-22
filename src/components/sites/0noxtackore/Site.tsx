@@ -155,7 +155,7 @@ export function Site({ locale }: { locale: Locale }) {
       isPartOf: { "@id": `${siteUrl}/#website` },
       about: { "@id": `${siteUrl}/#organization` },
       inLanguage: locale,
-      dateModified: "2026-11-21",
+      dateModified: "2026-11-21T00:00:00Z",
     },
     {
       "@context": "https://schema.org",

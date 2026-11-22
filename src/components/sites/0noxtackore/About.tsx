@@ -27,7 +27,7 @@ export function About({ locale }: { locale: Locale }) {
     "@type": "ProfilePage",
     name: about.title,
     url: aboutUrl,
-    dateModified: "2026-11-21",
+    dateModified: "2026-11-21T00:00:00Z",
     mainEntity: {
       "@type": "Organization",
       name: content.brand.name,

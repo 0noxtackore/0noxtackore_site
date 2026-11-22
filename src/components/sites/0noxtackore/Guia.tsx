@@ -26,8 +26,8 @@ export function Guia({ locale }: { locale: Locale }) {
       worksFor: { "@type": "Organization", name: content.brand.name, url: siteUrl },
     },
     publisher: { "@type": "Organization", name: content.brand.name, url: siteUrl },
-    datePublished: "2026-11-19",
-    dateModified: "2026-11-21",
+    datePublished: "2026-11-19T00:00:00Z",
+    dateModified: "2026-11-21T00:00:00Z",
     mainEntityOfPage: guideUrl,
     inLanguage: locale,
   }).replace(/</g, "\\u003c");
