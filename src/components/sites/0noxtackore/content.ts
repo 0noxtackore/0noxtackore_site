@@ -16,17 +16,6 @@ type Project = {
   url: string;
 };
 
-type StoreProduct = {
-  name: string;
-  description: string;
-  category: string;
-  store: "Amazon" | "AliExpress";
-  priceNote: string;
-  url: string;
-  image?: string;
-  badge?: string;
-};
-
 export type Content = {
   locale: Locale;
   baseUrl: string;
@@ -114,7 +103,6 @@ export type Content = {
       emptyTitle: string;
       emptyText: string;
       categories: { all: string };
-      products: StoreProduct[];
     };
   };
   metadata: {
@@ -462,44 +450,6 @@ const es: Content = {
       emptyTitle: "Más productos pronto",
       emptyText: "Estamos añadiendo más selecciones verificadas. Por ahora, puedes explorar nuestras recomendaciones.",
       categories: { all: "Todo" },
-      products: [
-        {
-          name: "Logitech MX Master 3S",
-          description: "Mouse inalámbrico ergonómico para productividad, con sensor preciso, desplazamiento rápido y conexión multidispositivo.",
-          category: "Accesorios",
-          store: "Amazon",
-          priceNote: "Precio en Amazon",
-          url: "https://www.amazon.com/s?k=Logitech+MX+Master+3S&tag=0noxtackore-20",
-          badge: "Productividad",
-        },
-        {
-          name: "Keychron K2 (versión mecánica)",
-          description: "Teclado mecánico compacto con conectividad inalámbrica, ideal para escritura y desarrollo con buena relación calidad-precio.",
-          category: "Accesorios",
-          store: "Amazon",
-          priceNote: "Precio en Amazon",
-          url: "https://www.amazon.com/s?k=Keychron+K2+mechanical+keyboard&tag=0noxtackore-20",
-          badge: "Escritura",
-        },
-        {
-          name: "Crucial X9 Pro SSD portátil",
-          description: "SSD portátil rápido y compacto para respaldos, proyectos y trabajo en movimiento.",
-          category: "Almacenamiento",
-          store: "Amazon",
-          priceNote: "Precio en Amazon",
-          url: "https://www.amazon.com/s?k=Crucial+X9+Pro+portable+SSD&tag=0noxtackore-20",
-          badge: "Almacenamiento",
-        },
-        {
-          name: "Anker USB-C Hub (7 en 1)",
-          description: "Hub USB-C para ampliar puertos en laptops modernas: USB-A, HDMI, lector de tarjetas y más.",
-          category: "Accesorios",
-          store: "Amazon",
-          priceNote: "Precio en Amazon",
-          url: "https://www.amazon.com/s?k=Anker+USB-C+hub+7+in+1&tag=0noxtackore-20",
-          badge: "Conectividad",
-        },
-      ],
     },
   },
   ogImage: "/sites/0noxtackore/og/og-en.jpg",
@@ -773,44 +723,6 @@ const en: Content = {
       emptyTitle: "More products soon",
       emptyText: "We are adding more verified picks. For now, you can explore our recommendations.",
       categories: { all: "All" },
-      products: [
-        {
-          name: "Logitech MX Master 3S",
-          description: "Ergonomic wireless mouse for productivity, with precise sensor, fast scroll and multi-device connectivity.",
-          category: "Accessories",
-          store: "Amazon",
-          priceNote: "Price on Amazon",
-          url: "https://www.amazon.com/s?k=Logitech+MX+Master+3S&tag=0noxtackore-20",
-          badge: "Productivity",
-        },
-        {
-          name: "Keychron K2 (mechanical version)",
-          description: "Compact mechanical keyboard with wireless connectivity, ideal for writing and development with good value for money.",
-          category: "Accessories",
-          store: "Amazon",
-          priceNote: "Price on Amazon",
-          url: "https://www.amazon.com/s?k=Keychron+K2+mechanical+keyboard&tag=0noxtackore-20",
-          badge: "Typing",
-        },
-        {
-          name: "Crucial X9 Pro Portable SSD",
-          description: "Fast, compact portable SSD for backups, projects and work on the go.",
-          category: "Storage",
-          store: "Amazon",
-          priceNote: "Price on Amazon",
-          url: "https://www.amazon.com/s?k=Crucial+X9+Pro+portable+SSD&tag=0noxtackore-20",
-          badge: "Storage",
-        },
-        {
-          name: "Anker USB-C Hub (7-in-1)",
-          description: "USB-C hub to expand ports on modern laptops: USB-A, HDMI, card reader and more.",
-          category: "Accessories",
-          store: "Amazon",
-          priceNote: "Price on Amazon",
-          url: "https://www.amazon.com/s?k=Anker+USB-C+hub+7+in+1&tag=0noxtackore-20",
-          badge: "Connectivity",
-        },
-      ],
     },
   },
   ogImage: "/sites/0noxtackore/og/og-en.jpg",

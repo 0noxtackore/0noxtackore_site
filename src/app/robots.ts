@@ -7,6 +7,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
+      disallow: ["/admin", "/api/admin"],
     },
     sitemap: "https://0noxtackore.makes.fyi/sitemap.xml",
     host: "https://0noxtackore.makes.fyi",

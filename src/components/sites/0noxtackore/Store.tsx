@@ -7,20 +7,42 @@ import { getContent } from "./content";
 import styles from "./site.module.css";
 import { siteUrl } from "./data";
 import { getPagePath, type Locale } from "@/lib/i18n";
+import type { StoreProductRecord } from "@/lib/store/types";
 
-export function Store({ locale }: { locale: Locale }) {
+type Props = {
+  locale: Locale;
+  products: StoreProductRecord[];
+};
+
+export function Store({ locale, products: records }: Props) {
   const content = getContent(locale);
   const store = content.pages.tienda;
   const [category, setCategory] = useState<string>("all");
   const storeUrl = `${siteUrl}${getPagePath(locale, "tienda")}`;
 
-  const categories = useMemo(() => {
-    const unique = Array.from(new Set(store.products.map((p) => p.category)));
-    return ["all", ...unique];
-  }, [store.products]);
+  const products = useMemo(
+    () =>
+      records.map((p) => ({
+        id: p.id,
+        name: locale === "es" ? p.nameEs : p.nameEn,
+        description: locale === "es" ? p.descriptionEs : p.descriptionEn,
+        category: p.category,
+        store: p.store,
+        priceNote: locale === "es" ? p.priceNoteEs : p.priceNoteEn,
+        url: p.affiliateUrl,
+        imageUrl: p.imageUrl,
+        badge: locale === "es" ? p.badgeEs : p.badgeEn,
+      })),
+    [records, locale],
+  );
 
-  const products =
-    category === "all" ? store.products : store.products.filter((p) => p.category === category);
+  const categories = useMemo(() => {
+    const unique = Array.from(new Set(products.map((p) => p.category)));
+    return ["all", ...unique];
+  }, [products]);
+
+  const visible =
+    category === "all" ? products : products.filter((p) => p.category === category);
 
   const structuredData = JSON.stringify([
     {
@@ -118,10 +140,23 @@ export function Store({ locale }: { locale: Locale }) {
               })}
             </div>
 
-            {products.length > 0 ? (
+            {visible.length > 0 ? (
               <div className={styles.cardGrid}>
-                {products.map((product) => (
-                  <article key={`${product.store}-${product.name}`} className={styles.card}>
+                {visible.map((product) => (
+                  <article key={product.id} className={styles.card}>
+                    {product.imageUrl ? (
+                      <div className={styles.cardMedia} style={{ background: "#fff" }}>
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={product.imageUrl}
+                          alt={product.name}
+                          className={styles.cardImage}
+                          style={{ objectFit: "contain", padding: 16, filter: "none", transform: "none" }}
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      </div>
+                    ) : null}
                     <div className={styles.cardBody}>
                       <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 12 }}>
                         <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--blue)" }}>

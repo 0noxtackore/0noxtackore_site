@@ -87,7 +87,6 @@ export default async function LocaleLayout({
   const ogImagePath = content.ogImage;
   const ogImageUrl = new URL(ogImagePath, siteUrl).toString();
 
-  const pageUrl = new URL(`/${value}`, siteUrl).toString();
   const organizationId = `${siteUrl}/#organization`;
   const founderId = `${siteUrl}/#founder`;
 

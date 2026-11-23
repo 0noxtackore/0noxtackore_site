@@ -4,6 +4,9 @@ import { notFound, redirect } from "next/navigation";
 import { Store } from "@/components/sites/0noxtackore/Store";
 import { getContent } from "@/components/sites/0noxtackore/content";
 import { getPagePath, isLocale, type Locale } from "@/lib/i18n";
+import { getActiveProducts } from "@/lib/store/products";
+
+export const revalidate = 60;
 
 export async function generateMetadata({
   params,
@@ -52,5 +55,6 @@ export default async function StorePage({
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   if (locale === "es") redirect(getPagePath("es", "tienda"));
-  return <Store locale="en" />;
+  const products = await getActiveProducts();
+  return <Store locale="en" products={products} />;
 }
