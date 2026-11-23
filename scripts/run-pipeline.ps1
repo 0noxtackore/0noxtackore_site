@@ -36,7 +36,7 @@ $log = Join-Path $logDir ("pipeline-{0:yyyy-MM-dd-HHmmss}.log" -f (Get-Date))
 
 $stamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
 "=== pipeline start $stamp ===" | Tee-Object -FilePath $log
-& $cli.FullName run --auto --model "opencode/mimo-v2.6-flash-free" --title "product-pipeline $stamp" $msg *>&1 |
+& $cli.FullName run --auto --model "freellmapi/auto" --title "product-pipeline $stamp" $msg *>&1 |
     Tee-Object -FilePath $log -Append
 $code = $LASTEXITCODE
 "=== pipeline end (exit $code) ===" | Tee-Object -FilePath $log -Append

@@ -1,6 +1,6 @@
 ---
 description: Pipeline completo de productos: scouts (Amazon+AliExpress) → formulario ES/EN → marketing → borradores en Firestore
-model: opencode/mimo-v2.6-flash-free
+model: freellmapi/auto
 ---
 
 Ejecuta el pipeline completo de productos de la tienda 0NOXTACKORE. Argumentos recibidos: $ARGUMENTS
