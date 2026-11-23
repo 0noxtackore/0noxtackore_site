@@ -49,6 +49,12 @@ export const heroSlides: HeroSlide[] = [
     alt: "",
     blur: "data:image/webp;base64,UklGRiwAAABXRUJQVlA4ICAAAACQAQCdASoIAAQABABoJZwAAudZuFQA/uywglLMigAAAA==",
   },
+  {
+    desktop: "/sites/0noxtackore/photos/hero-section/hero_vi.webp",
+    mobile: "/sites/0noxtackore/photos/hero-section/mobile/hero_vi.webp",
+    alt: "",
+    blur: "data:image/webp;base64,UklGRiwAAABXRUJQVlA4ICAAAACQAQCdASoIAAQAAudP3WAA8pHI0R+EvAAAAA==",
+  },
 ];
 
 export const brand = {
