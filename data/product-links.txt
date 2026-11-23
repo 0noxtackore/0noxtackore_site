@@ -1,0 +1,13 @@
+﻿# Batch inicial - verificados por process-product-links.mjs
+# Amazon
+https://www.amazon.com/dp/B00SAYCXWG
+https://www.amazon.com/dp/B0CXGTGPZQ
+https://www.amazon.com/dp/B0B2MM1W65
+https://www.amazon.com/dp/B0DRM949PC
+https://www.amazon.com/dp/B0CYSWTLZY
+# AliExpress
+https://www.aliexpress.com/item/1005011794618639.html
+https://www.aliexpress.com/item/1005007168889184.html
+https://www.aliexpress.com/item/1005007921521644.html
+https://www.aliexpress.com/item/1005013127475158.html
+https://www.aliexpress.com/item/1005009843409591.html
