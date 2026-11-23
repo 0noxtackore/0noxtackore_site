@@ -236,13 +236,25 @@ export default function AdminPage() {
         body: JSON.stringify({ url: pasteUrl.trim() }),
       });
       const json = await res.json();
-      if (!res.ok) throw new Error(json.error || "extract failed");
-      const d = json.data as { name: string; description: string; imageUrl: string; store: string; priceNote: string; affiliateUrl: string };
+      const d = json.data as
+        | {
+            name: string;
+            description: string;
+            imageUrl: string;
+            store: string;
+            priceNote: string;
+            affiliateUrl: string;
+            source?: string;
+            warning?: string;
+          }
+        | undefined;
+      if (!res.ok || !d) throw new Error(json.error || "extract failed");
+
       const store: StoreName = d.store === "AliExpress" ? "AliExpress" : "Amazon";
       setForm((f) => ({
         ...f,
         store,
-        affiliateUrl: d.affiliateUrl || pasteUrl.trim(),
+        affiliateUrl: d.affiliateUrl || f.affiliateUrl || pasteUrl.trim(),
         imageUrl: d.imageUrl || f.imageUrl,
         imageSource: d.imageUrl ? "affiliate" : f.imageSource,
         nameEs: f.nameEs || d.name,
@@ -252,7 +264,13 @@ export default function AdminPage() {
         priceNoteEs: f.priceNoteEs || (store === "Amazon" ? "Precio en Amazon" : "Precio en AliExpress"),
         priceNoteEn: f.priceNoteEn || (store === "Amazon" ? "Price on Amazon" : "Price on AliExpress"),
       }));
-      flash("Datos extraídos (best-effort). Revisa y completa ES/EN antes de guardar.", "success");
+      if (!json.ok) {
+        flash(d.warning || "Extracción incompleta. Rellena el resto del formulario a mano.", "error");
+      } else if (d.warning) {
+        flash(`${d.warning} (fuente: ${d.source === "wayback" ? "archivo web" : d.source === "scraperapi" ? "ScraperAPI" : "directa"})`, "info");
+      } else {
+        flash("Datos extraídos. Revisa y completa ES/EN antes de guardar.", "success");
+      }
     } catch (err) {
       flash(`No se pudo extraer: ${String(err)}. Puedes llenar el formulario manualmente.`, "error");
       setForm((f) => ({ ...f, affiliateUrl: f.affiliateUrl || pasteUrl.trim() }));
