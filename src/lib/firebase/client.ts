@@ -1,7 +1,7 @@
-import { getApp, getApps, initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
-import { getStorage } from "firebase/storage";
+import { getApp, getApps, initializeApp, type FirebaseApp } from "firebase/app";
+import { getAuth, type Auth } from "firebase/auth";
+import { getFirestore, type Firestore } from "firebase/firestore";
+import { getStorage, type FirebaseStorage } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -12,7 +12,17 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
-export const firebaseApp = getApps().length ? getApp() : initializeApp(firebaseConfig);
-export const auth = getAuth(firebaseApp);
-export const db = getFirestore(firebaseApp);
-export const storage = getStorage(firebaseApp);
+function createFirebaseApp(): FirebaseApp | null {
+  if (!firebaseConfig.apiKey) return null;
+  try {
+    return getApps().length ? getApp() : initializeApp(firebaseConfig);
+  } catch {
+    return null;
+  }
+}
+
+export const firebaseApp = createFirebaseApp();
+export const auth = firebaseApp ? getAuth(firebaseApp) : (null as unknown as Auth);
+export const db = firebaseApp ? getFirestore(firebaseApp) : (null as unknown as Firestore);
+export const storage = firebaseApp ? getStorage(firebaseApp) : (null as unknown as FirebaseStorage);
+export const firebaseConfigured = Boolean(firebaseApp);

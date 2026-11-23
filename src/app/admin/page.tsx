@@ -19,7 +19,7 @@ import {
 } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
-import { auth, db, storage } from "@/lib/firebase/client";
+import { auth, db, storage, firebaseConfigured } from "@/lib/firebase/client";
 import type { StoreProductInput, StoreProductRecord, StoreName } from "@/lib/store/types";
 
 type FormState = {
@@ -270,6 +270,15 @@ export default function AdminPage() {
   const inputStyle: React.CSSProperties = { width: "100%", padding: 10, border: "1px solid #ccc", borderRadius: 8 };
   const labelStyle: React.CSSProperties = { display: "block", fontSize: 13, fontWeight: 600, marginBottom: 4 };
   const cardStyle: React.CSSProperties = { background: "#fff", border: "1px solid #ddd", borderRadius: 12, padding: 20, marginBottom: 16 };
+
+  if (!firebaseConfigured) {
+    return (
+      <div style={{ maxWidth: 640, margin: "60px auto", padding: 24, background: "#fff", borderRadius: 12 }}>
+        <h1 style={{ marginTop: 0 }}>Firebase no configurado</h1>
+        <p>Faltan las variables <code>NEXT_PUBLIC_FIREBASE_*</code> en el entorno. Agrégalas en <code>.env.local</code> y en Vercel (Environment Variables) y redeploy.</p>
+      </div>
+    );
+  }
 
   if (!authReady) return <div style={{ padding: 40 }}>Cargando...</div>;
 
