@@ -284,17 +284,20 @@ export default function AdminPage() {
 
   if (!user) {
     return (
-      <div style={{ maxWidth: 420, margin: "60px auto", padding: 24, background: "#fff", borderRadius: 12, border: "1px solid #ddd" }}>
-        <h1 style={{ fontSize: 24, marginBottom: 16 }}>Admin tienda</h1>
-        <p style={{ fontSize: 14, color: "#555", marginBottom: 16 }}>Acceso solo para administrador. Crea el usuario en Firebase Auth (Email/Password) y configura `NEXT_PUBLIC_ADMIN_EMAIL`.</p>
-        <form onSubmit={handleLogin}>
-          <label style={labelStyle}>Email</label>
-          <input style={{ ...inputStyle, marginBottom: 12 }} value={email} onChange={(e) => setEmail(e.target.value)} type="email" required />
-          <label style={labelStyle}>Password</label>
-          <input style={{ ...inputStyle, marginBottom: 16 }} value={password} onChange={(e) => setPassword(e.target.value)} type="password" required />
-          {authError && <p style={{ color: "crimson", fontSize: 13, marginBottom: 12 }}>{authError}</p>}
-          <button style={{ padding: "10px 16px", background: "#0f1720", color: "#fff", border: 0, borderRadius: 8, cursor: "pointer" }} type="submit">Entrar</button>
-        </form>
+      <div style={{ minHeight: "100vh", display: "grid", placeItems: "center", padding: 24, background: "#f5f7fa", fontFamily: "system-ui, sans-serif" }}>
+        <div style={{ width: "100%", maxWidth: 440, background: "#fff", borderRadius: 16, border: "1px solid #e5e7eb", boxShadow: "0 8px 24px rgba(15,23,32,0.06)", padding: 32 }}>
+          <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.08em", color: "#0078d4", textTransform: "uppercase", marginBottom: 8 }}>0NOXTACKORE</div>
+          <h1 style={{ fontSize: 28, lineHeight: 1.2, margin: "0 0 8px", color: "#0f1720" }}>Admin tienda</h1>
+          <p style={{ fontSize: 14, color: "#5f6b76", margin: "0 0 24px", lineHeight: 1.5 }}>Acceso solo para administrador.</p>
+          <form onSubmit={handleLogin}>
+            <label style={{ ...labelStyle, color: "#0f1720" }}>Email</label>
+            <input style={{ ...inputStyle, marginBottom: 14, borderRadius: 10, borderColor: "#d1d5db" }} value={email} onChange={(e) => setEmail(e.target.value)} type="email" autoComplete="email" required />
+            <label style={{ ...labelStyle, color: "#0f1720" }}>Contraseña</label>
+            <input style={{ ...inputStyle, marginBottom: 18, borderRadius: 10, borderColor: "#d1d5db" }} value={password} onChange={(e) => setPassword(e.target.value)} type="password" autoComplete="current-password" required />
+            {authError && <div style={{ color: "#b91c1c", fontSize: 13, marginBottom: 14, background: "#fef2f2", border: "1px solid #fecaca", padding: "10px 12px", borderRadius: 8, whiteSpace: "pre-wrap" }}>{authError}</div>}
+            <button style={{ width: "100%", padding: "12px 16px", background: "#0f1720", color: "#fff", border: 0, borderRadius: 10, cursor: "pointer", fontSize: 15, fontWeight: 600 }} type="submit">Entrar</button>
+          </form>
+        </div>
       </div>
     );
   }
