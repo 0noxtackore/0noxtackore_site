@@ -337,7 +337,7 @@ export default function AdminPage() {
             <div><label style={labelStyle}>Precio nota EN</label><input style={inputStyle} value={form.priceNoteEn} onChange={(e) => setForm({ ...form, priceNoteEn: e.target.value })} /></div>
             <div style={{ gridColumn: "1 / -1" }}><label style={labelStyle}>URL imagen (afiliada o propia)</label><input style={inputStyle} value={form.imageUrl} onChange={(e) => setForm({ ...form, imageUrl: e.target.value })} /></div>
             <div><label style={labelStyle}>Origen imagen</label><select style={inputStyle} value={form.imageSource} onChange={(e) => setForm({ ...form, imageSource: e.target.value as "affiliate" | "custom" })}><option value="affiliate">Afiliada / default</option><option value="custom">Propia</option></select></div>
-            <div><label style={labelStyle}>Subir imagen propia</label><input type="file" accept="image/*" onChange={(e) => { const f = e.target.files?.[0]; if (f) void handleImageUpload(f); }} /></div>
+            <div><label style={labelStyle}>Subir imagen propia (requiere Firebase Storage/Blaze)</label><input type="file" accept="image/*" onChange={(e) => { const f = e.target.files?.[0]; if (f) void handleImageUpload(f); }} /></div>
           </div>
           <label style={{ display: "flex", gap: 8, alignItems: "center", marginTop: 12 }}><input type="checkbox" checked={form.active} onChange={(e) => setForm({ ...form, active: e.target.checked })} /> Activo en tienda</label>
           <div style={{ display: "flex", gap: 8, marginTop: 16 }}>
