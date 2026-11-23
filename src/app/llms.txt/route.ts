@@ -7,7 +7,7 @@ const content = `# 0NOXTACKORE
 ## Entity facts
 
 - Name: 0NOXTACKORE (also written as 0noxtackore)
-- Founded: 2026
+- Founded: 2025
 - Founder & CEO: Angello Aponte
 - Scope: Global
 - Website: ${siteUrl}

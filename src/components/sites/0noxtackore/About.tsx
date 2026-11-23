@@ -33,7 +33,7 @@ export function About({ locale }: { locale: Locale }) {
       name: content.brand.name,
       url: siteUrl,
       logo: `${siteUrl}/sites/0noxtackore/logo.webp`,
-      foundingDate: "2026",
+      foundingDate: "2025",
       areaServed: { "@type": "Place", name: "Global" },
       founder: {
         "@type": "Person",
@@ -101,6 +101,19 @@ export function About({ locale }: { locale: Locale }) {
           <p className={styles.guideMeta}>
             <span className={styles.thinBrand}>{content.brand.name}</span> · {content.brand.tagline} ·{" "}
             {locale === "es" ? "Actualizado: 21 nov 2026" : "Updated: Nov 21, 2026"}
+          </p>
+        </div>
+      </section>
+
+      <section className={styles.section} aria-labelledby="about-brand-intro-title">
+        <div className={styles.sectionInner}>
+          <div className={styles.sectionHead}>
+            <div className={styles.sectionKicker}>{content.brand.heroEyebrow}</div>
+            <h2 id="about-brand-intro-title" className={styles.sectionTitle}>{content.brand.tagline}</h2>
+          </div>
+          <p className={styles.heroDescription}>
+            <span className={styles.thinBrand}>{content.brand.name}</span>
+            {content.brand.intro.slice(content.brand.name.length)}
           </p>
         </div>
       </section>

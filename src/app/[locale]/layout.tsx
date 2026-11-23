@@ -105,7 +105,7 @@ export default async function LocaleLayout({
     name: content.brand.name,
     alternateName: "0noxtackore",
     slogan: content.brand.tagline,
-    foundingDate: "2026",
+    foundingDate: "2025",
     areaServed: { "@type": "Place", name: "Global" },
     url: siteUrl,
     logo: `${siteUrl}/sites/0noxtackore/logo.webp`,

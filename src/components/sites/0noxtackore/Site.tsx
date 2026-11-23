@@ -226,9 +226,6 @@ export function Site({ locale }: { locale: Locale }) {
               <h1 id="hero-title" className={styles.heroTitle}>
                 {brand.tagline}
               </h1>
-              <p className={styles.heroDescription}>
-                <BrandIntro text={brand.intro} name={brand.name} />
-              </p>
               <div className={styles.heroActions}>
                 <Link className={`${styles.button} ${styles.buttonBlue}`} href={`/${locale}/areas`}>
                   {ui.heroExplore}
@@ -238,6 +235,18 @@ export function Site({ locale }: { locale: Locale }) {
                 </Link>
               </div>
             </div>
+          </div>
+        </section>
+
+        <section className={styles.section} aria-labelledby="brand-intro-title">
+          <div className={styles.sectionInner}>
+            <div className={styles.sectionHead}>
+              <div className={styles.sectionKicker}>{brand.heroEyebrow}</div>
+              <h2 id="brand-intro-title" className={styles.sectionTitle}>{brand.tagline}</h2>
+            </div>
+            <p className={styles.heroDescription}>
+              <BrandIntro text={brand.intro} name={brand.name} />
+            </p>
           </div>
         </section>
 

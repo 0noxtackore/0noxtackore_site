@@ -216,7 +216,7 @@ const es: Content = {
     tagline: "CREADO PARA EL IMPACTO",
     heroEyebrow: "TECNOLOGÍA CON ALMA",
     intro:
-      "0NOXTACKORE es una compañía tecnológica independiente fundada en 2026 por Angello Aponte. Se dedica a la ingeniería, desarrollo y evolución de soluciones de software, así como a la selección y recomendación de productos tecnológicos con criterio técnico y enfoque práctico.",
+      "0NOXTACKORE es una compañía tecnológica independiente fundada en 2025 por Angello Aponte. Se dedica a la ingeniería, desarrollo y evolución de soluciones de software, así como a la selección y recomendación de productos tecnológicos con criterio técnico y enfoque práctico.",
     approach:
       "0NOXTACKORE construye tecnología con propósito: desarrolla herramientas, aplicaciones e integraciones con tecnologías propias y proyectos de código abierto para resolver problemas reales, mejorar procesos y hacer la tecnología más accesible, respetando licencias y autores.",
   },
@@ -272,7 +272,7 @@ const es: Content = {
     { title: "Impacto y mejora continua", description: "Transparencia y evolución constante: cada solución debe generar un impacto positivo real. Construimos tecnología con propósito." },
   ],
   faqs: [
-    { question: "¿Qué es 0NOXTACKORE?", answer: "0NOXTACKORE es una compañía tecnológica independiente fundada en 2026 por Angello Aponte. Se enfoca en la ingeniería, desarrollo y evolución de soluciones de software, y también en la selección y recomendación de productos tecnológicos con criterio técnico." },
+    { question: "¿Qué es 0NOXTACKORE?", answer: "0NOXTACKORE es una compañía tecnológica independiente fundada en 2025 por Angello Aponte. Se enfoca en la ingeniería, desarrollo y evolución de soluciones de software, y también en la selección y recomendación de productos tecnológicos con criterio técnico." },
     { question: "¿En qué áreas de actividad trabajan?", answer: "Desarrollo de software, ingeniería y evolución de proyectos open source, tecnologías e integraciones, productos tecnológicos, recomendación y afiliación tecnológica, y consultoría técnica y acompañamiento." },
     { question: "¿Trabajan con proyectos de código abierto?", answer: "Estudiamos tecnologías existentes, las adaptamos y mejoramos, y distribuimos versiones con valor añadido, respetando siempre las licencias y reconociendo el trabajo de sus autores." },
     { question: "¿Venden equipos informáticos directamente?", answer: "No actuamos como fabricantes ni vendedores directos de los equipos. Solo seleccionamos y recomendamos productos disponibles en plataformas comerciales." },
@@ -502,7 +502,7 @@ const en: Content = {
     tagline: "BUILT FOR IMPACT",
     heroEyebrow: "TECHNOLOGY WITH SOUL",
     intro:
-      "0NOXTACKORE is an independent technology company founded in 2026 by Angello Aponte. It focuses on the engineering, development and evolution of software solutions, as well as the selection and recommendation of technology products based on technical criteria and practical value.",
+      "0NOXTACKORE is an independent technology company founded in 2025 by Angello Aponte. It focuses on the engineering, development and evolution of software solutions, as well as the selection and recommendation of technology products based on technical criteria and practical value.",
     approach:
       "0NOXTACKORE builds technology with purpose: it creates tools, applications and integrations using its own technologies and open-source projects to solve real problems, improve processes and make technology more accessible, while respecting licenses and authors.",
   },
@@ -558,7 +558,7 @@ const en: Content = {
     { title: "Impact and continuous improvement", description: "Transparency and constant evolution: every solution should generate a real positive impact. We build technology with purpose." },
   ],
   faqs: [
-    { question: "What is 0NOXTACKORE?", answer: "0NOXTACKORE is an independent technology company founded in 2026 by Angello Aponte. It focuses on the engineering, development and evolution of software solutions, and on the selection and recommendation of technology products based on technical criteria." },
+    { question: "What is 0NOXTACKORE?", answer: "0NOXTACKORE is an independent technology company founded in 2025 by Angello Aponte. It focuses on the engineering, development and evolution of software solutions, and on the selection and recommendation of technology products based on technical criteria." },
     { question: "What areas of activity do you cover?", answer: "Software development, open-source engineering and evolution, technologies and integrations, technology products, technology recommendation and affiliation, and technical consulting and support." },
     { question: "Do you work with open-source projects?", answer: "We study existing technologies, adapt and improve them, and distribute versions with added value while respecting their licenses and authors." },
     { question: "Do you sell computer equipment directly?", answer: "We are not the manufacturers or direct sellers of the devices. We only select and recommend products available on commercial platforms." },
