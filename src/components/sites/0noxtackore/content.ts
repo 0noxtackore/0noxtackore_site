@@ -108,6 +108,15 @@ export type Content = {
       backToStore: string;
       similarTitle: string;
       trustItems: string[];
+      filtersTitle: string;
+      clearFilters: string;
+      sortLabel: string;
+      sortRecommended: string;
+      sortName: string;
+      sortStore: string;
+      allCategories: string;
+      storeLabel: string;
+      resultsLabel: string;
     };
   };
   metadata: {
@@ -462,6 +471,15 @@ const es: Content = {
       backToStore: "← Volver a la tienda",
       similarTitle: "Productos similares",
       trustItems: ["Selección técnica", "Enlaces verificados", "Sin coste adicional"],
+      filtersTitle: "Filtros",
+      clearFilters: "Limpiar todo",
+      sortLabel: "Ordenar por",
+      sortRecommended: "Recomendados",
+      sortName: "Nombre",
+      sortStore: "Tienda",
+      allCategories: "Todas las categorías",
+      storeLabel: "Tienda",
+      resultsLabel: "resultados",
     },
   },
   ogImage: "/sites/0noxtackore/og/og-en.jpg",
@@ -742,6 +760,15 @@ const en: Content = {
       backToStore: "← Back to store",
       similarTitle: "Similar products",
       trustItems: ["Technical curation", "Verified links", "No extra cost"],
+      filtersTitle: "Filters",
+      clearFilters: "Clear all",
+      sortLabel: "Sort by",
+      sortRecommended: "Recommended",
+      sortName: "Name",
+      sortStore: "Store",
+      allCategories: "All categories",
+      storeLabel: "Store",
+      resultsLabel: "results",
     },
   },
   ogImage: "/sites/0noxtackore/og/og-en.jpg",
