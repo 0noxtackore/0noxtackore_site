@@ -53,3 +53,5 @@ tmp/products/
 
 # Python / CrewAI local pipeline
 .venv/
+
+apikey.txt
