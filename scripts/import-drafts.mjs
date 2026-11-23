@@ -71,6 +71,7 @@ function normalizeUrl(raw) {
       "crid",
       "sprefix",
       "dib",
+      "aff_trace_key",
       "dib_tag",
       "qid",
       "sr",
@@ -95,20 +96,26 @@ function normalizeUrl(raw) {
   }
 }
 
-function applyAmazonTag(url, store, tag) {
-  if (store !== "Amazon") return url;
+function applyAffiliateTag(url, store, amazonTag, aliTrackId) {
   try {
     const u = new URL(url);
-    if (!u.hostname.toLowerCase().includes("amazon.")) return url;
-    if (tag) u.searchParams.set("tag", tag);
-    return u.toString();
+    const host = u.hostname.toLowerCase();
+    if (store === "Amazon" && host.includes("amazon.")) {
+      if (amazonTag) u.searchParams.set("tag", amazonTag);
+      return u.toString();
+    }
+    if (store === "AliExpress" && host.includes("aliexpress.")) {
+      if (aliTrackId) u.searchParams.set("aff_trace_key", aliTrackId);
+      return u.toString();
+    }
+    return url;
   } catch {
     return url;
   }
 }
 
-function toFields(item, now, amazonTag) {
-  const affiliateUrl = applyAmazonTag(item.affiliateUrl, item.store, amazonTag);
+function toFields(item, now, amazonTag, aliTrackId) {
+  const affiliateUrl = applyAffiliateTag(item.affiliateUrl, item.store, amazonTag, aliTrackId);
   const fields = {
     active: { booleanValue: false },
     store: { stringValue: item.store === "AliExpress" ? "AliExpress" : "Amazon" },
@@ -196,6 +203,7 @@ async function main() {
   const password = process.env.ADMIN_PASSWORD;
   const projectId = process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID;
   const amazonTag = process.env.AMAZON_TAG || "0noxtackore-20";
+  const aliTrackId = process.env.ALIEXPRESS_TRACK_ID || "0noxtackore";
 
   if (!apiKey || !projectId) {
     fail("Faltan NEXT_PUBLIC_FIREBASE_API_KEY / NEXT_PUBLIC_FIREBASE_PROJECT_ID en .env.local.");
@@ -242,7 +250,7 @@ async function main() {
       continue;
     }
     try {
-      const { fields, affiliateUrl } = toFields(item, new Date().toISOString(), amazonTag);
+      const { fields, affiliateUrl } = toFields(item, new Date().toISOString(), amazonTag, aliTrackId);
       const docName = await createProduct(projectId, token, fields);
       report.imported.push({ nameEs: name, store: item.store, id: docName });
       newSeenUrls.push(affiliateUrl);

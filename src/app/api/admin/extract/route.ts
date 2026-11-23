@@ -48,11 +48,15 @@ function detectStore(url: string): "Amazon" | "AliExpress" | "" {
   return "";
 }
 
-function withAmazonTag(url: string, tag: string) {
+function withAffiliateTag(url: string, store: "Amazon" | "AliExpress" | "", amazonTag: string, aliTrackId: string) {
   try {
     const u = new URL(url);
-    if (u.hostname.toLowerCase().includes("amazon.")) {
-      u.searchParams.set("tag", tag);
+    const host = u.hostname.toLowerCase();
+    if (store === "Amazon" && host.includes("amazon.")) {
+      if (amazonTag) u.searchParams.set("tag", amazonTag);
+    }
+    if (store === "AliExpress" && host.includes("aliexpress.")) {
+      if (aliTrackId) u.searchParams.set("aff_trace_key", aliTrackId);
     }
     return u.toString();
   } catch {
@@ -219,10 +223,12 @@ export async function POST(req: Request) {
     }
 
     const store = detectStore(url.toString());
-    const affiliateUrl =
-      store === "Amazon"
-        ? withAmazonTag(url.toString(), process.env.AMAZON_TAG ?? "0noxtackore-20")
-        : url.toString();
+    const affiliateUrl = withAffiliateTag(
+      url.toString(),
+      store,
+      process.env.AMAZON_TAG ?? "0noxtackore-20",
+      process.env.ALIEXPRESS_TRACK_ID ?? "0noxtackore",
+    );
 
     const priceNote =
       store === "Amazon"

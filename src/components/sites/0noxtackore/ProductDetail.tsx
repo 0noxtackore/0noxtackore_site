@@ -5,6 +5,7 @@ import styles from "./site.module.css";
 import { siteUrl } from "./data";
 import { getPagePath, type Locale } from "@/lib/i18n";
 import type { StoreProductRecord } from "@/lib/store/types";
+import { withAffiliateTracking } from "@/lib/store/affiliate";
 
 type Props = {
   locale: Locale;
@@ -20,7 +21,7 @@ function mapProduct(p: StoreProductRecord, locale: Locale) {
     category: p.category,
     store: p.store,
     priceNote: locale === "es" ? p.priceNoteEs : p.priceNoteEn,
-    url: p.affiliateUrl,
+    url: withAffiliateTracking(p.affiliateUrl, p.store),
     image: p.imageUrl,
     badge: locale === "es" ? p.badgeEs : p.badgeEn,
   };
