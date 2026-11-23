@@ -1,29 +1,21 @@
 ---
-description: Pipeline completo de productos: scouts (Amazon+AliExpress) → formulario ES/EN → marketing → borradores en Firestore
-model: freellmapi/auto
+description: Pipeline autónomo de productos con agentes OpenCode: investiga, optimiza, importa y publica solo lo validado
 ---
 
-Ejecuta el pipeline completo de productos de la tienda 0NOXTACKORE. Argumentos recibidos: $ARGUMENTS
+Ejecuta el pipeline de productos 0NOXTACKORE usando agentes OpenCode (sin Ollama). Argumentos: $ARGUMENTS
 
-## Secuencia obligatoria
+## Secuencia
 
-1. **Preparación**: asegúrate de que exista el directorio `tmp/products/` (créalolo con shell `mkdir` si falta).
-
-2. **Scouts en paralelo**: lanza a la vez los subagentes `scout-amazon` y `scout-aliexpress` con la herramienta `subagent` (dos llamadas, una tras otra sin esperar). Espera a que ambos terminen y lean sus informes.
-   - Cada uno debe escribir `tmp/products/amazon.json` / `tmp/products/aliexpress.json` con 3-5 ítems.
-   - Si un scout falla o no encuentra nada, continúa con lo que haya; si **ambos** están vacíos, para aquí y explica por qué (probablemente bloqueo anti-bot).
-
-3. **Formulario**: lanza `form-filler` (lee ambos JSON + `seen.json` → escribe `tmp/products/ready.json` con borradores ES/EN, `active=false`, sin duplicados).
-
-4. **Marketing**: lanza `marketer` (lee `ready.json` → escribe `polished.json`; debe cargar las skills `copywriting` y `marketing-psychology`).
-
-5. **Importación**: lanza `publisher` (ejecuta `node scripts/import-drafts.mjs` → crea los borradores en Firestore y escribe `tmp/products/imported.json`).
-
-6. **Resumen final** para el usuario: cuántos borradores creados (por tienda), cuántos omitidos por duplicado, errores si los hay, y un recordatorio de que están en `https://0noxtackore.makes.fyi/admin` como **ocultos**, listos para revisión y activación.
+1. **Preparación**: crea `tmp/products/` si falta.
+2. **Investigación**: lanza `catalog-researcher` para buscar productos tech reales y escribir `tmp/products/polished.json` (solo datos verificados).
+3. **Optimización**: lanza `listing-optimizer` para limpiar ES/EN, categorías, badges y quitar ítems débiles en `tmp/products/polished.json`.
+4. **Validación + publicación**: lanza `quality-gate-publisher` para ejecutar `import-drafts.mjs`, `publish-drafts.mjs --dry-run` y `publish-drafts.mjs` si procede. Solo se publican los que pasan validación.
+5. **Marketing (opcional)**: si se pidió contenido, lanza `marketing-content` para generar copys en `tmp/marketing/`.
+6. **Resumen**: reporta investigados/importados/publicados/rechazados, razones de rechazo y archivos de reporte.
 
 ## Reglas
 
-- **Nunca** pongas `active=true` ni publiques nada sin revisión humana.
-- No edites código del proyecto ni archivos fuera de `tmp/products/` (los agents tienen permisos restringidos; respétalos).
-- Lanza las etapas en orden y en paralelo solo cuando se indique (scouts). No saltes etapas.
-- Si una etapa falla, reporta el error exacto y continúa solo si tiene sentido; si no, detente y explica.
+- No inventar datos de producto. Si no hay evidencia, descartar.
+- No editar código del proyecto ni archivos fuera de `tmp/products/` o `tmp/marketing/`.
+- Publicación solo mediante `publish-drafts.mjs` (validación obligatoria).
+- Si faltan credenciales/env, detenerse y reportar exactamente qué falta.
