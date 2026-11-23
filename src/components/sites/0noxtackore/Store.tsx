@@ -20,14 +20,12 @@ const HERO_VIDEOS = [
   "/sites/0noxtackore/videos/hero_video_iii.mp4",
 ];
 
-type SortKey = "recommended" | "name" | "store";
-
 export function Store({ locale, products: records }: Props) {
   const content = getContent(locale);
   const store = content.pages.tienda;
-  const [category, setCategory] = useState<string>("all");
-  const [storeFilter, setStoreFilter] = useState<string>("all");
-  const [sort, setSort] = useState<SortKey>("recommended");
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [selectedStores, setSelectedStores] = useState<string[]>([]);
+  const [badgeOnly, setBadgeOnly] = useState(false);
   const [query, setQuery] = useState("");
   const [heroVideo, setHeroVideo] = useState(0);
   const storePath = getPagePath(locale, "tienda");
@@ -56,30 +54,46 @@ export function Store({ locale, products: records }: Props) {
     [locale, records],
   );
 
-  const categories = useMemo(() => ["all", ...Array.from(new Set(products.map((p) => p.category)))], [products]);
-  const stores = useMemo(() => ["all", ...Array.from(new Set(products.map((p) => p.store)))], [products]);
+  const categories = useMemo(() => Array.from(new Set(products.map((p) => p.category))), [products]);
+  const stores = useMemo(() => Array.from(new Set(products.map((p) => p.store))), [products]);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    let list = products.filter(
+    return products.filter(
       (p) =>
-        (category === "all" || p.category === category) &&
-        (storeFilter === "all" || p.store === storeFilter) &&
+        (selectedCategories.length === 0 || selectedCategories.includes(p.category)) &&
+        (selectedStores.length === 0 || selectedStores.includes(p.store)) &&
+        (!badgeOnly || Boolean(p.badge)) &&
         (!q || p.name.toLowerCase().includes(q) || p.description.toLowerCase().includes(q) || p.category.toLowerCase().includes(q) || p.store.toLowerCase().includes(q)),
     );
-    if (sort === "name") list = [...list].sort((a, b) => a.name.localeCompare(b.name, locale));
-    if (sort === "store") list = [...list].sort((a, b) => a.store.localeCompare(b.store) || a.name.localeCompare(b.name, locale));
-    return list;
-  }, [products, category, storeFilter, sort, locale, query]);
+  }, [products, selectedCategories, selectedStores, badgeOnly, query]);
 
-  const activeCategoryLabel = category === "all" ? store.allCategories : category;
-  const hasActiveFilters = category !== "all" || storeFilter !== "all" || sort !== "recommended" || query.trim() !== "";
+  const activeCategoryLabel =
+    selectedCategories.length === 1 ? selectedCategories[0] : store.allCategories;
+  const hasActiveFilters =
+    selectedCategories.length > 0 || selectedStores.length > 0 || badgeOnly || query.trim() !== "";
 
   const clearFilters = () => {
-    setCategory("all");
-    setStoreFilter("all");
-    setSort("recommended");
+    setSelectedCategories([]);
+    setSelectedStores([]);
+    setBadgeOnly(false);
     setQuery("");
+  };
+
+  const toggleCategory = (c: string) => {
+    setSelectedCategories((prev) => (prev.includes(c) ? prev.filter((x) => x !== c) : [...prev, c]));
+  };
+  const toggleStore = (s: string) => {
+    setSelectedStores((prev) => (prev.includes(s) ? prev.filter((x) => x !== s) : [...prev, s]));
+  };
+
+  const categoryIcon = (name: string) => {
+    const n = name.toLowerCase();
+    if (n.includes("gaming") || n.includes("juego")) return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M6 8h12a3 3 0 0 1 3 3v4a2 2 0 0 1-2 2h-2l-2-2h-6l-2 2H5a2 2 0 0 1-2-2v-4a3 3 0 0 1 3-3z"/><path d="M8 11h2m-1-1v2m6 .5h.01M17 12.5h.01"/></svg>;
+    if (n.includes("pc") || n.includes("component") || n.includes("comput")) return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="4" y="4" width="16" height="11" rx="2"/><path d="M8 20h8M12 15v5"/></svg>;
+    if (n.includes("laptop") || n.includes("portátil") || n.includes("portatil")) return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="4" y="5" width="16" height="11" rx="1.5"/><path d="M2.5 19h19"/></svg>;
+    if (n.includes("accesor")) return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2v4m0 12v4m10-10h-4M6 12H2m15.07-7.07-2.83 2.83M9.76 14.24l-2.83 2.83m0-10.14 2.83 2.83m4.48 4.48 2.83 2.83"/></svg>;
+    return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M20 7 12 3 4 7v10l8 4 8-4z"/><path d="M12 22V12m8-5-8 5-8-5"/></svg>;
   };
 
   const jsonLd = {
@@ -142,20 +156,17 @@ export function Store({ locale, products: records }: Props) {
 
         <section className={styles.storeCatalog}>
           <div className={styles.storeCatalogInner}>
-            <div className={styles.storeDisclosureBar} role="note">
-              <span className={styles.storeDisclosureIcon} aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
-              </span>
-              <div>
-                <strong className={styles.storeDisclosureTitle}>{store.disclosureTitle}</strong>
-                <p className={styles.storeDisclosureText}>{store.disclosure}</p>
-              </div>
-            </div>
-
             <div className={styles.storeCategoryRail} aria-label={store.allCategories}>
+              <button type="button" onClick={() => setSelectedCategories([])} className={`${styles.storeCategoryChip} ${selectedCategories.length === 0 ? styles.storeCategoryChipActive : ""}`}>
+                <span className={styles.storeCategoryIcon} aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+                </span>
+                {store.allCategories}
+              </button>
               {categories.map((c) => (
-                <button key={c} type="button" onClick={() => setCategory(c)} className={`${styles.storeCategoryChip} ${category === c ? styles.storeCategoryChipActive : ""}`}>
-                  {c === "all" ? store.allCategories : c}
+                <button key={c} type="button" onClick={() => toggleCategory(c)} className={`${styles.storeCategoryChip} ${selectedCategories.includes(c) ? styles.storeCategoryChipActive : ""}`}>
+                  <span className={styles.storeCategoryIcon} aria-hidden="true">{categoryIcon(c)}</span>
+                  {c}
                 </button>
               ))}
             </div>
@@ -170,11 +181,23 @@ export function Store({ locale, products: records }: Props) {
                 </div>
 
                 <div className={styles.storeFilterGroup}>
+                  <div className={styles.storeFilterGroupTitle}>{locale === "es" ? "Buscar" : "Search"}</div>
+                  <input
+                    type="search"
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    placeholder={locale === "es" ? "Nombre, categoría..." : "Name, category..."}
+                    className={styles.storeSearchInput}
+                    style={{ width: "100%", minWidth: 0 }}
+                  />
+                </div>
+
+                <div className={styles.storeFilterGroup}>
                   <div className={styles.storeFilterGroupTitle}>{store.storeLabel}</div>
                   {stores.map((s) => (
                     <label key={s} className={styles.storeFilterOption}>
-                      <input type="radio" name="store-filter" checked={storeFilter === s} onChange={() => setStoreFilter(s)} />
-                      <span>{s === "all" ? store.categories.all : s}</span>
+                      <input type="checkbox" checked={selectedStores.includes(s)} onChange={() => toggleStore(s)} />
+                      <span>{s}</span>
                     </label>
                   ))}
                 </div>
@@ -183,10 +206,18 @@ export function Store({ locale, products: records }: Props) {
                   <div className={styles.storeFilterGroupTitle}>{locale === "es" ? "Categoría" : "Category"}</div>
                   {categories.map((c) => (
                     <label key={c} className={styles.storeFilterOption}>
-                      <input type="radio" name="category-filter" checked={category === c} onChange={() => setCategory(c)} />
-                      <span>{c === "all" ? store.allCategories : c}</span>
+                      <input type="checkbox" checked={selectedCategories.includes(c)} onChange={() => toggleCategory(c)} />
+                      <span>{c}</span>
                     </label>
                   ))}
+                </div>
+
+                <div className={styles.storeFilterGroup}>
+                  <div className={styles.storeFilterGroupTitle}>{locale === "es" ? "Extras" : "Extras"}</div>
+                  <label className={styles.storeFilterOption}>
+                    <input type="checkbox" checked={badgeOnly} onChange={(e) => setBadgeOnly(e.target.checked)} />
+                    <span>{locale === "es" ? "Solo con badge" : "Only with badge"}</span>
+                  </label>
                 </div>
               </aside>
 
@@ -194,7 +225,6 @@ export function Store({ locale, products: records }: Props) {
                 <div className={styles.storeToolbar}>
                   <div>
                     <p className={styles.storeToolbarTitle}>{activeCategoryLabel} <span className={styles.storeToolbarCount}>({filtered.length})</span></p>
-                    <p className={styles.storeCatalogEyebrow}>{store.updatedLabel}: {store.updatedValue}</p>
                   </div>
                   <div className={styles.storeToolbarControls}>
                     <input
@@ -205,14 +235,6 @@ export function Store({ locale, products: records }: Props) {
                       className={styles.storeSearchInput}
                       aria-label={locale === "es" ? "Buscar producto" : "Search products"}
                     />
-                    <label className={styles.storeSort}>
-                      <span>{store.sortLabel}</span>
-                      <select value={sort} onChange={(e) => setSort(e.target.value as SortKey)} className={styles.storeSortSelect}>
-                        <option value="recommended">{store.sortRecommended}</option>
-                        <option value="name">{store.sortName}</option>
-                        <option value="store">{store.sortStore}</option>
-                      </select>
-                    </label>
                   </div>
                 </div>
 

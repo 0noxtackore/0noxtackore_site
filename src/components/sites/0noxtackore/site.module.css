@@ -2172,3 +2172,10 @@
 .storeSearchInput{padding:10px 14px;border-radius:10px;border:1px solid #d6e0ea;background:#fff;color:var(--ink);font-size:14px;min-width:220px;}
 .storeSearchInput:focus{outline:2px solid rgba(0,102,204,.2);border-color:var(--blue);}
 @media (max-width:700px){.storeToolbarControls{width:100%;}.storeSearchInput{width:100%;min-width:0;}}
+
+.storeCategoryChip { display: inline-flex; align-items: center; gap: 8px; }
+.storeCategoryIcon { display: inline-flex; width: 18px; height: 18px; flex: 0 0 auto; }
+.storeCategoryIcon svg { width: 18px; height: 18px; }
+.storeCardImageBtn { background: #fff; }
+.storeCardImage { object-fit: contain; background: #fff; padding: 16px; }
+.storeFilterOption input[type="checkbox"] { accent-color: var(--blue); width: 16px; height: 16px; }
