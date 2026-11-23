@@ -61,6 +61,7 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
             key={slide.desktop}
             className={`${styles.slide} ${isActive ? styles.slideActive : ""}`}
             aria-hidden={!isActive}
+            data-desktop-position={slide.objectPositionDesktop}
             style={{
               backgroundColor: "#e9edf2",
               backgroundImage: `url(${slide.blur})`,

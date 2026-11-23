@@ -16,6 +16,7 @@ export type HeroSlide = {
   mobile: string;
   alt: string;
   blur: string;
+  objectPositionDesktop?: string;
 };
 
 export const heroSlides: HeroSlide[] = [
@@ -48,6 +49,7 @@ export const heroSlides: HeroSlide[] = [
     mobile: "/sites/0noxtackore/photos/hero-section/mobile/hero_v.webp",
     alt: "",
     blur: "data:image/webp;base64,UklGRiwAAABXRUJQVlA4ICAAAACQAQCdASoIAAQABABoJZwAAudZuFQA/uywglLMigAAAA==",
+    objectPositionDesktop: "left",
   },
   {
     desktop: "/sites/0noxtackore/photos/hero-section/hero_vi.webp",

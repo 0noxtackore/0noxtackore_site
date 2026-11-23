@@ -26,7 +26,7 @@ export type Content = {
     intro: string;
     approach: string;
   };
-  heroSlides: { desktop: string; mobile: string; alt: string; blur: string }[];
+  heroSlides: { desktop: string; mobile: string; alt: string; blur: string; objectPositionDesktop?: string }[];
   areas: (TextBlock & { slug: string; image: string; alt: string; icon: string; blur: string })[];
   philosophy: { paragraphs: string[]; statement: string };
   recommendation: { title: string; paragraphs: string[]; highlights: string[] };
@@ -211,7 +211,7 @@ const es: Content = {
     { desktop: "/sites/0noxtackore/photos/hero-section/hero_ii.webp", mobile: "/sites/0noxtackore/photos/hero-section/mobile/hero_ii.webp", alt: "Dispositivos móviles sobre un fondo gris", blur: "data:image/webp;base64,UklGRjgAAABXRUJQVlA4ICwAAADQAQCdASoQAAkABUB8JZwAArMmYBuYgAD43oV2MQ7E+ZOFLreEezsjwJ+gAA==" },
     { desktop: "/sites/0noxtackore/photos/hero-section/hero_iii.webp", mobile: "/sites/0noxtackore/photos/hero-section/mobile/hero_iii.webp", alt: "Visor de realidad virtual y controles sobre un fondo oscuro", blur: "data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACQAQCdASoQAAkABUB8JZwAAhoFoAAA/vDfY8oYCaklGR9ik8/01eXqPjbPgcAA" },
     { desktop: "/sites/0noxtackore/photos/hero-section/hero_iv.webp", mobile: "/sites/0noxtackore/photos/hero-section/mobile/hero_iv.webp", alt: "Torre de ordenador con ventiladores RGB sobre un fondo oscuro", blur: "data:image/webp;base64,UklGRjQAAABXRUJQVlA4ICgAAACwAQCdASoQAAkABUB8JZwAAptpzAQAAP7uoTkaADb0bUv8NjHQhQAA" },
-    { desktop: "/sites/0noxtackore/photos/hero-section/hero_v.webp", mobile: "/sites/0noxtackore/photos/hero-section/mobile/hero_v.webp", alt: "", blur: "data:image/webp;base64,UklGRiwAAABXRUJQVlA4ICAAAACQAQCdASoIAAQABABoJZwAAudZuFQA/uywglLMigAAAA==" },
+    { desktop: "/sites/0noxtackore/photos/hero-section/hero_v.webp", mobile: "/sites/0noxtackore/photos/hero-section/mobile/hero_v.webp", alt: "", blur: "data:image/webp;base64,UklGRiwAAABXRUJQVlA4ICAAAACQAQCdASoIAAQABABoJZwAAudZuFQA/uywglLMigAAAA==", objectPositionDesktop: "left" },
     { desktop: "/sites/0noxtackore/photos/hero-section/hero_vi.webp", mobile: "/sites/0noxtackore/photos/hero-section/mobile/hero_vi.webp", alt: "", blur: "data:image/webp;base64,UklGRiwAAABXRUJQVlA4ICAAAACQAQCdASoIAAQAAudP3WAA8pHI0R+EvAAAAA==" },
   ],
   areas: [
@@ -483,7 +483,7 @@ const en: Content = {
     { desktop: "/sites/0noxtackore/photos/hero-section/hero_ii.webp", mobile: "/sites/0noxtackore/photos/hero-section/mobile/hero_ii.webp", alt: "Mobile devices on a gray background", blur: "data:image/webp;base64,UklGRjgAAABXRUJQVlA4ICwAAADQAQCdASoQAAkABUB8JZwAArMmYBuYgAD43oV2MQ7E+ZOFLreEezsjwJ+gAA==" },
     { desktop: "/sites/0noxtackore/photos/hero-section/hero_iii.webp", mobile: "/sites/0noxtackore/photos/hero-section/mobile/hero_iii.webp", alt: "Virtual reality headset and controllers on a dark background", blur: "data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACQAQCdASoQAAkABUB8JZwAAhoFoAAA/vDfY8oYCaklGR9ik8/01eXqPjbPgcAA" },
     { desktop: "/sites/0noxtackore/photos/hero-section/hero_iv.webp", mobile: "/sites/0noxtackore/photos/hero-section/mobile/hero_iv.webp", alt: "Computer tower with RGB fans on a dark background", blur: "data:image/webp;base64,UklGRjQAAABXRUJQVlA4ICgAAACwAQCdASoQAAkABUB8JZwAAptpzAQAAP7uoTkaADb0bUv8NjHQhQAA" },
-    { desktop: "/sites/0noxtackore/photos/hero-section/hero_v.webp", mobile: "/sites/0noxtackore/photos/hero-section/mobile/hero_v.webp", alt: "", blur: "data:image/webp;base64,UklGRiwAAABXRUJQVlA4ICAAAACQAQCdASoIAAQABABoJZwAAudZuFQA/uywglLMigAAAA==" },
+    { desktop: "/sites/0noxtackore/photos/hero-section/hero_v.webp", mobile: "/sites/0noxtackore/photos/hero-section/mobile/hero_v.webp", alt: "", blur: "data:image/webp;base64,UklGRiwAAABXRUJQVlA4ICAAAACQAQCdASoIAAQABABoJZwAAudZuFQA/uywglLMigAAAA==", objectPositionDesktop: "left" },
     { desktop: "/sites/0noxtackore/photos/hero-section/hero_vi.webp", mobile: "/sites/0noxtackore/photos/hero-section/mobile/hero_vi.webp", alt: "", blur: "data:image/webp;base64,UklGRiwAAABXRUJQVlA4ICAAAACQAQCdASoIAAQAAudP3WAA8pHI0R+EvAAAAA==" },
   ],
   areas: [
