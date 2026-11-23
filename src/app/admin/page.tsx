@@ -17,9 +17,9 @@ import {
   query,
   updateDoc,
 } from "firebase/firestore";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
-import { auth, db, storage, firebaseConfigured } from "@/lib/firebase/client";
+import { auth, db, firebaseConfigured } from "@/lib/firebase/client";
+import { supabase, supabaseStorageBucket } from "@/lib/supabase/client";
 import type { StoreProductInput, StoreProductRecord, StoreName } from "@/lib/store/types";
 
 type FormState = {
@@ -172,14 +172,21 @@ export default function AdminPage() {
 
   async function handleImageUpload(file: File) {
     if (!file) return;
+    if (!supabase) {
+      setStatus("Supabase no está configurado. Agrega NEXT_PUBLIC_SUPABASE_URL y NEXT_PUBLIC_SUPABASE_ANON_KEY.");
+      return;
+    }
     setStatus("Subiendo imagen...");
     try {
       const path = `products/${Date.now()}-${file.name.replace(/[^a-zA-Z0-9._-]/g, "_")}`;
-      const storageRef = ref(storage, path);
-      await uploadBytes(storageRef, file);
-      const url = await getDownloadURL(storageRef);
-      setForm((f) => ({ ...f, imageUrl: url, imageSource: "custom" }));
-      setStatus("Imagen subida.");
+      const { error } = await supabase.storage.from(supabaseStorageBucket).upload(path, file, {
+        cacheControl: "3600",
+        upsert: false,
+      });
+      if (error) throw error;
+      const { data } = supabase.storage.from(supabaseStorageBucket).getPublicUrl(path);
+      setForm((f) => ({ ...f, imageUrl: data.publicUrl, imageSource: "custom" }));
+      setStatus("Imagen subida a Supabase Storage.");
     } catch (err) {
       setStatus(`Error subiendo imagen: ${String(err)}`);
     }
@@ -346,7 +353,7 @@ export default function AdminPage() {
             <div><label style={labelStyle}>Precio nota EN</label><input style={inputStyle} value={form.priceNoteEn} onChange={(e) => setForm({ ...form, priceNoteEn: e.target.value })} /></div>
             <div style={{ gridColumn: "1 / -1" }}><label style={labelStyle}>URL imagen (afiliada o propia)</label><input style={inputStyle} value={form.imageUrl} onChange={(e) => setForm({ ...form, imageUrl: e.target.value })} /></div>
             <div><label style={labelStyle}>Origen imagen</label><select style={inputStyle} value={form.imageSource} onChange={(e) => setForm({ ...form, imageSource: e.target.value as "affiliate" | "custom" })}><option value="affiliate">Afiliada / default</option><option value="custom">Propia</option></select></div>
-            <div><label style={labelStyle}>Subir imagen propia (requiere Firebase Storage/Blaze)</label><input type="file" accept="image/*" onChange={(e) => { const f = e.target.files?.[0]; if (f) void handleImageUpload(f); }} /></div>
+            <div><label style={labelStyle}>Subir imagen propia (Supabase Storage)</label><input type="file" accept="image/*" onChange={(e) => { const f = e.target.files?.[0]; if (f) void handleImageUpload(f); }} /></div>
           </div>
           <label style={{ display: "flex", gap: 8, alignItems: "center", marginTop: 12 }}><input type="checkbox" checked={form.active} onChange={(e) => setForm({ ...form, active: e.target.checked })} /> Activo en tienda</label>
           <div style={{ display: "flex", gap: 8, marginTop: 16 }}>
