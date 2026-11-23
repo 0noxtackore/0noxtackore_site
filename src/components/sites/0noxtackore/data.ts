@@ -43,6 +43,12 @@ export const heroSlides: HeroSlide[] = [
     alt: "Torre de ordenador con ventiladores RGB sobre un fondo oscuro",
     blur: "data:image/webp;base64,UklGRjQAAABXRUJQVlA4ICgAAACwAQCdASoQAAkABUB8JZwAAptpzAQAAP7uoTkaADb0bUv8NjHQhQAA",
   },
+  {
+    desktop: "/sites/0noxtackore/photos/hero-section/hero_v.webp",
+    mobile: "/sites/0noxtackore/photos/hero-section/mobile/hero_v.webp",
+    alt: "",
+    blur: "data:image/webp;base64,UklGRiwAAABXRUJQVlA4ICAAAACQAQCdASoIAAQABABoJZwAAudZuFQA/uywglLMigAAAA==",
+  },
 ];
 
 export const brand = {

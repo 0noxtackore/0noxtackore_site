@@ -7,8 +7,8 @@ Se guardan localmente en `public/sites/0noxtackore/photos/` para no depender de 
 | Archivo | Fuente / origen | Uso |
 | --- | --- | --- |
 | `hero.webp` | Conversión de respaldo anterior (Pexels 8386440) | No referenciado actualmente |
-| `hero-section/hero_i.webp`, `hero_ii.webp`, `hero_iii.webp`, `hero_iv.webp` | Imágenes propias (convertidas a WebP) | Slider del hero en escritorio |
-| `hero-section/mobile/hero_i.webp`, `hero_ii.webp`, `hero_iii.webp`, `hero_iv.webp` | Imágenes propias (convertidas a WebP) | Slider del hero en móvil (≤860px) |
+| `hero-section/hero_i.webp`, `hero_ii.webp`, `hero_iii.webp`, `hero_iv.webp`, `hero_v.webp` | Imágenes propias (convertidas a WebP) | Slider del hero en escritorio |
+| `hero-section/mobile/hero_i.webp`, `hero_ii.webp`, `hero_iii.webp`, `hero_iv.webp`, `hero_v.webp` | Imágenes propias (convertidas a WebP) | Slider del hero en móvil (≤860px) |
 | `area-software.webp` | https://www.pexels.com/photo/a-black-flat-screen-monitor-4955393/ (convertida) | Tarjeta "Desarrollo de software" |
 | `area-opensource.webp` | https://www.pexels.com/photo/tilt-shift-photography-of-motherboard-1432794/ (convertida) | Tarjeta "Ingeniería open source" |
 | `area-integrations.webp` | https://www.pexels.com/photo/fiber-optic-switch-with-bright-connectors-in-studio-4373997/ (convertida) | Tarjeta "Tecnologías e integraciones" |
