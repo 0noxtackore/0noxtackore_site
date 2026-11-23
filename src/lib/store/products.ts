@@ -68,3 +68,8 @@ export async function getActiveProducts(): Promise<StoreProductRecord[]> {
     return [];
   }
 }
+
+export async function getActiveProductById(id: string): Promise<StoreProductRecord | null> {
+  const products = await getActiveProducts();
+  return products.find((p) => p.id === id) ?? null;
+}

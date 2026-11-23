@@ -103,6 +103,11 @@ export type Content = {
       emptyTitle: string;
       emptyText: string;
       categories: { all: string };
+      viewDetails: string;
+      closeDetails: string;
+      backToStore: string;
+      similarTitle: string;
+      trustItems: string[];
     };
   };
   metadata: {
@@ -452,6 +457,11 @@ const es: Content = {
       emptyTitle: "Más productos pronto",
       emptyText: "Estamos añadiendo más selecciones verificadas. Por ahora, puedes explorar nuestras recomendaciones.",
       categories: { all: "Todo" },
+      viewDetails: "Ver detalles",
+      closeDetails: "Cerrar",
+      backToStore: "← Volver a la tienda",
+      similarTitle: "Productos similares",
+      trustItems: ["Selección técnica", "Enlaces verificados", "Sin coste adicional"],
     },
   },
   ogImage: "/sites/0noxtackore/og/og-en.jpg",
@@ -727,6 +737,11 @@ const en: Content = {
       emptyTitle: "More products soon",
       emptyText: "We are adding more verified picks. For now, you can explore our recommendations.",
       categories: { all: "All" },
+      viewDetails: "View details",
+      closeDetails: "Close",
+      backToStore: "← Back to store",
+      similarTitle: "Similar products",
+      trustItems: ["Technical curation", "Verified links", "No extra cost"],
     },
   },
   ogImage: "/sites/0noxtackore/og/og-en.jpg",
