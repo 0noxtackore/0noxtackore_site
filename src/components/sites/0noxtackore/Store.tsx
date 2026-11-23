@@ -226,16 +226,6 @@ export function Store({ locale, products: records }: Props) {
                   <div>
                     <p className={styles.storeToolbarTitle}>{activeCategoryLabel} <span className={styles.storeToolbarCount}>({filtered.length})</span></p>
                   </div>
-                  <div className={styles.storeToolbarControls}>
-                    <input
-                      type="search"
-                      value={query}
-                      onChange={(e) => setQuery(e.target.value)}
-                      placeholder={locale === "es" ? "Buscar producto..." : "Search products..."}
-                      className={styles.storeSearchInput}
-                      aria-label={locale === "es" ? "Buscar producto" : "Search products"}
-                    />
-                  </div>
                 </div>
 
                 {filtered.length === 0 ? (
