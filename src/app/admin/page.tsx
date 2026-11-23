@@ -19,7 +19,6 @@ import {
 } from "firebase/firestore";
 
 import { auth, db, firebaseConfigured } from "@/lib/firebase/client";
-import { supabase, supabaseStorageBucket } from "@/lib/supabase/client";
 import type { StoreProductInput, StoreProductRecord, StoreName } from "@/lib/store/types";
 
 type FormState = {
@@ -172,20 +171,14 @@ export default function AdminPage() {
 
   async function handleImageUpload(file: File) {
     if (!file) return;
-    if (!supabase) {
-      setStatus("Supabase no está configurado. Agrega NEXT_PUBLIC_SUPABASE_URL y NEXT_PUBLIC_SUPABASE_ANON_KEY.");
-      return;
-    }
     setStatus("Subiendo imagen...");
     try {
-      const path = `products/${Date.now()}-${file.name.replace(/[^a-zA-Z0-9._-]/g, "_")}`;
-      const { error } = await supabase.storage.from(supabaseStorageBucket).upload(path, file, {
-        cacheControl: "3600",
-        upsert: false,
-      });
-      if (error) throw error;
-      const { data } = supabase.storage.from(supabaseStorageBucket).getPublicUrl(path);
-      setForm((f) => ({ ...f, imageUrl: data.publicUrl, imageSource: "custom" }));
+      const formData = new FormData();
+      formData.append("file", file);
+      const res = await fetch("/api/admin/upload", { method: "POST", body: formData });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error || "Upload failed");
+      setForm((f) => ({ ...f, imageUrl: json.url as string, imageSource: "custom" }));
       setStatus("Imagen subida a Supabase Storage.");
     } catch (err) {
       setStatus(`Error subiendo imagen: ${String(err)}`);
