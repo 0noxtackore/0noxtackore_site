@@ -50,3 +50,6 @@ temp/
 
 # Product pipeline (JSONs temporales e informes)
 tmp/products/
+
+# Python / CrewAI local pipeline
+.venv/
