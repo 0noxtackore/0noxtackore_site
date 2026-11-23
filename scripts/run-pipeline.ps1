@@ -21,7 +21,7 @@ if (-not $env:OLLAMA_BASE_URL) { $env:OLLAMA_BASE_URL = "http://localhost:11434"
 "Using python: $py" | Tee-Object -FilePath $log -Append
 "Using model: $($env:OLLAMA_MODEL) @ $($env:OLLAMA_BASE_URL)" | Tee-Object -FilePath $log -Append
 
-& $py (Join-Path $root "scripts\crewai_pipeline.py") *>&1 | Tee-Object -FilePath $log -Append
+& $py (Join-Path $root "scripts\crewai_pipeline.py") @args *>&1 | Tee-Object -FilePath $log -Append
 $code = $LASTEXITCODE
 "=== pipeline end (exit $code) ===" | Tee-Object -FilePath $log -Append
 exit $code
