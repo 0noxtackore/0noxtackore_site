@@ -45,7 +45,12 @@ def save_json(path: Path, data) -> None:
 def build_crew():
     from crewai import Agent, Crew, LLM, Process, Task
 
-    llm = LLM(model=MODEL, base_url=BASE_URL, temperature=0.4)
+    llm = LLM(
+        model=MODEL,
+        base_url=BASE_URL,
+        temperature=0.4,
+        context_window_size=int(os.getenv("OLLAMA_CONTEXT_WINDOW", "8192")),
+    )
 
     scout = Agent(
         role="Product Scout",
