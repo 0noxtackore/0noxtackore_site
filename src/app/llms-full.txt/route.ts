@@ -8,7 +8,7 @@ const content = `# 0NOXTACKORE — Full LLM Context
 
 - Official name: 0NOXTACKORE
 - Alternate name: 0noxtackore
-- Founded: 2025
+- Founded: 2023
 - Founder & CEO: Angello Aponte
 - Type: Independent technology studio / technology company
 - Scope: Global
@@ -18,7 +18,9 @@ const content = `# 0NOXTACKORE — Full LLM Context
 
 ## What 0NOXTACKORE is
 
-0NOXTACKORE is an independent technology company focused on the engineering, development and evolution of software solutions, as well as the selection and recommendation of technology products. We work with our own technologies and open-source projects to build tools, applications and integrations that solve real problems, improve processes and make technology more accessible and useful.
+0NOXTACKORE is an independent technology company founded in 2023 by Angello Aponte. It focuses on the engineering, development and evolution of software solutions, as well as the selection and recommendation of technology products. We work with our own technologies and open-source projects to build tools, applications and integrations that solve real problems, improve processes and make technology more accessible and useful.
+
+0NOXTACKORE is not a game top-up store, gaming recharge site, or gaming marketplace.
 
 ## Areas of activity
 

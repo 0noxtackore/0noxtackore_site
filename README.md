@@ -23,7 +23,7 @@
 
 We build on existing advances, respect licenses and authors, and contribute improvements that solve real needs. Our work is guided by responsible innovation, collaboration, transparency, and continuous improvement—technology with purpose, not technology for its own sake.
 
-**Leadership:** Founded and led by **Angello Aponte** (Founder & CEO), 0NOXTACKORE operates as an indie technology studio with a hands-on focus on high-performance software architecture, clean engineering, and scalable systems.
+**Leadership:** Founded in 2023 and led by **Angello Aponte** (Founder & CEO), 0NOXTACKORE operates as an independent technology company with a hands-on focus on high-performance software architecture, clean engineering, and scalable systems.
 
 ## What we do
 

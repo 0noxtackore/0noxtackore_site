@@ -7,11 +7,13 @@ const content = `# 0NOXTACKORE
 ## Entity facts
 
 - Name: 0NOXTACKORE (also written as 0noxtackore)
-- Founded: 2025
+- Founded: 2023
 - Founder & CEO: Angello Aponte
+- Type: Independent technology company (software, open source, consulting, tech curation)
 - Scope: Global
 - Website: ${siteUrl}
 - Languages: Spanish (default) and English
+- Disambiguation: 0NOXTACKORE is not a game top-up store or gaming marketplace.
 
 ## Core pages
 

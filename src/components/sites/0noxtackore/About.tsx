@@ -33,8 +33,15 @@ export function About({ locale }: { locale: Locale }) {
       name: content.brand.name,
       url: siteUrl,
       logo: `${siteUrl}/sites/0noxtackore/logo.webp`,
-      foundingDate: "2025",
+      foundingDate: "2023",
       areaServed: { "@type": "Place", name: "Global" },
+      knowsAbout: [
+        "Software engineering",
+        "Open source software",
+        "Technology integrations",
+        "Technical consulting",
+        "Technology product recommendations",
+      ],
       founder: {
         "@type": "Person",
         name: about.ceoName,
@@ -120,7 +127,17 @@ export function About({ locale }: { locale: Locale }) {
 
       <div className={styles.guideLayout}>
         <main className={styles.guideMain}>
-          <section className={styles.guideSection} id="origen">
+          <section className={styles.guideSection} id={locale === "es" ? "datos-clave" : "key-facts"}>
+            <h2 className={styles.guideH2}>{locale === "es" ? "Datos clave" : "Key facts"}</h2>
+            <p className={styles.guideP}><strong>{locale === "es" ? "Nombre:" : "Name:"}</strong> 0NOXTACKORE</p>
+            <p className={styles.guideP}><strong>{locale === "es" ? "Tipo:" : "Type:"}</strong> {locale === "es" ? "Compañía tecnológica independiente" : "Independent technology company"}</p>
+            <p className={styles.guideP}><strong>{locale === "es" ? "Fundación:" : "Founded:"}</strong> 2023</p>
+            <p className={styles.guideP}><strong>{locale === "es" ? "Fundador:" : "Founder:"}</strong> Angello Aponte</p>
+            <p className={styles.guideP}><strong>{locale === "es" ? "Enfoque:" : "Focus:"}</strong> {locale === "es" ? "Ingeniería de software, código abierto, integraciones, consultoría y curaduría tecnológica" : "Software engineering, open source, integrations, consulting and technology curation"}</p>
+            <p className={styles.guideP}><strong>{locale === "es" ? "Alcance:" : "Scope:"}</strong> {locale === "es" ? "Global" : "Global"}</p>
+          </section>
+
+          <section className={styles.guideSection} id={locale === "es" ? "origen" : "origin"}>
             <h2 className={styles.guideH2}>{about.originTitle}</h2>
             {about.originParagraphs.map((paragraph, index) => (
               <p key={index} className={styles.guideP}>
@@ -150,7 +167,7 @@ export function About({ locale }: { locale: Locale }) {
             ))}
           </section>
 
-          <section className={styles.guideSection}>
+          <section className={styles.guideSection} id={locale === "es" ? "que-construimos" : "what-we-build"}>
             <h2 className={styles.guideH2}>{about.buildTitle}</h2>
             <p className={styles.guideP}>{about.buildIntro}</p>
             <div className={styles.aboutProjects}>
@@ -174,7 +191,7 @@ export function About({ locale }: { locale: Locale }) {
             <p className={styles.guideP}>{about.philosophyText}</p>
           </section>
 
-          <section className={styles.guideSection}>
+          <section className={styles.guideSection} id={locale === "es" ? "presencia-oficial" : "official-presence"}>
             <h2 className={styles.guideH2}>{about.officialTitle}</h2>
             <p className={styles.guideP}>{about.officialText}</p>
             <div className={styles.aboutLinks}>
