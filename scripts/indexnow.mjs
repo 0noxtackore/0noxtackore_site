@@ -20,12 +20,15 @@ const DEFAULT_URLS = [
   `${SITE}/es`,
   `${SITE}/es/guia`,
   `${SITE}/es/acerca`,
+  `${SITE}/es/tienda`,
   `${SITE}/en`,
   `${SITE}/en/guide`,
   `${SITE}/en/about`,
+  `${SITE}/en/store`,
 ];
 
 const ENDPOINTS = [
+  "https://api.indexnow.org/indexnow",
   "https://www.bing.com/indexnow",
   "https://yandex.com/indexnow",
 ];

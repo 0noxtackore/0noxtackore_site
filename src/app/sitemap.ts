@@ -1,13 +1,14 @@
 import type { MetadataRoute } from "next";
 
-import { getPageSlug } from "@/lib/i18n";
+import { getPagePath, getPageSlug } from "@/lib/i18n";
+import { getActiveProducts } from "@/lib/store/products";
 
-export const dynamic = "force-static";
+export const revalidate = 3600;
 
-const lastModified = new Date("2026-11-22T00:00:00.000Z");
 const base = "https://0noxtackore.makes.fyi";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const lastModified = new Date();
   const paths = [
     { key: "home" as const, priority: 1, changeFrequency: "weekly" as const },
     { key: "guia" as const, priority: 0.8, changeFrequency: "monthly" as const },
@@ -21,6 +22,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const entries: MetadataRoute.Sitemap = [];
   for (const locale of ["es", "en"] as const) {
     for (const item of paths) {
+      const es = `${base}${pathFor("es", item.key)}`;
+      const en = `${base}${pathFor("en", item.key)}`;
       entries.push({
         url: `${base}${pathFor(locale, item.key)}`,
         lastModified,
@@ -28,12 +31,40 @@ export default function sitemap(): MetadataRoute.Sitemap {
         priority: item.priority,
         alternates: {
           languages: {
-            es: `${base}${pathFor("es", item.key)}`,
-            en: `${base}${pathFor("en", item.key)}`,
+            es,
+            en,
+            "x-default": es,
           },
         },
       });
     }
   }
+
+  try {
+    const products = await getActiveProducts();
+    for (const product of products) {
+      const es = `${base}${getPagePath("es", "tienda")}/${product.id}`;
+      const en = `${base}${getPagePath("en", "tienda")}/${product.id}`;
+      const modified = product.updatedAt ? new Date(product.updatedAt) : lastModified;
+      for (const locale of ["es", "en"] as const) {
+        entries.push({
+          url: locale === "es" ? es : en,
+          lastModified: modified,
+          changeFrequency: "weekly",
+          priority: 0.7,
+          alternates: {
+            languages: {
+              es,
+              en,
+              "x-default": es,
+            },
+          },
+        });
+      }
+    }
+  } catch {
+    // Keep static entries if product fetch fails.
+  }
+
   return entries;
 }
