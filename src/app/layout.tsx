@@ -26,6 +26,15 @@ export default function RootLayout({
       <Analytics />
       <SpeedInsights />
       <Script
+        src="https://www.googletagmanager.com/gtm.js?id=GTM-WSQ2DVNH"
+        strategy="afterInteractive"
+      />
+      <Script id="gtm-init" strategy="afterInteractive">
+        {`window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());`}
+      </Script>
+      <Script
         src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`}
         strategy="afterInteractive"
       />

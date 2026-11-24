@@ -159,6 +159,15 @@ export default async function LocaleLayout({
   return (
     <html lang={value} dir="ltr" className="h-full antialiased">
       <body className="min-h-full flex flex-col">
+        <noscript>
+          <iframe
+            src="https://www.googletagmanager.com/ns.html?id=GTM-WSQ2DVNH"
+            height="0"
+            width="0"
+            style={{ display: "none", visibility: "hidden" }}
+            title="Google Tag Manager"
+          />
+        </noscript>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: structuredData }}
