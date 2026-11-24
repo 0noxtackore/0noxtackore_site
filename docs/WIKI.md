@@ -7,7 +7,7 @@
 | Field | Value |
 |---|---|
 | Official name | 0NOXTACKORE |
-| Alternate names | 0noxtackore, Onoxtackore (common misreading of leading "0") |
+| Alternate names | 0noxtackore, Onoxtackore (common misreading of leading "0"), 0noxtackore inc, 0noxtackore corp (search variants) |
 | Founded | 2023 |
 | Founder & CEO | Angello Aponte |
 | Type | Independent technology company |

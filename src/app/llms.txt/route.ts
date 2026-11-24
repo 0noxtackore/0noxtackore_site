@@ -6,7 +6,7 @@ const content = `# 0NOXTACKORE
 
 ## Entity facts
 
-- Name: 0NOXTACKORE (also written as 0noxtackore; sometimes misread as Onoxtackore)
+- Name: 0NOXTACKORE (also written as 0noxtackore; sometimes misread as Onoxtackore; sometimes referred to as 0noxtackore inc or 0noxtackore corp)
 - Founded: 2023
 - Founder & CEO: Angello Aponte
 - Type: Independent technology company (software, open source, consulting, tech curation)

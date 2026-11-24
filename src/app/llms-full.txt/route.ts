@@ -7,7 +7,7 @@ const content = `# 0NOXTACKORE — Full LLM Context
 ## Entity facts
 
 - Official name: 0NOXTACKORE
-- Alternate names: 0noxtackore, Onoxtackore (common misreading of leading zero)
+- Alternate names: 0noxtackore, Onoxtackore (common misreading of leading zero), 0noxtackore inc, 0noxtackore corp
 - Founded: 2023
 - Founder & CEO: Angello Aponte
 - Type: Independent technology studio / technology company
