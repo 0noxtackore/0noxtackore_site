@@ -207,7 +207,7 @@ export function Site({ locale }: { locale: Locale }) {
           </nav>
 
           <div className={styles.actions}>
-            <NavButton label={ui.all} brandName={brand.name.toLowerCase()} groups={megaGroups} />
+            <NavButton label={ui.all} brandName={brand.name.toLowerCase()} groups={megaGroups} navLinks={navLinks} navLabel={locale === "es" ? "Navegación" : "Navigation"} />
             <Link className={styles.contactButton} href={`/${locale}/contacto`}>
               {ui.contact}
             </Link>
@@ -586,10 +586,14 @@ function NavButton({
   label,
   brandName,
   groups,
+  navLinks,
+  navLabel,
 }: {
   label: string;
   brandName: string;
   groups: ReturnType<typeof getContent>["megaGroups"];
+  navLinks: { label: string; href: string }[];
+  navLabel: string;
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -607,11 +611,19 @@ function NavButton({
       {menuOpen && (
         <div className={styles.mega}>
           <div className={styles.megaGrid}>
+            <div className={styles.megaNavGroup}>
+              <div className={styles.megaTitle}>{navLabel}</div>
+              {navLinks.map((link) => (
+                <Link key={link.href} className={styles.megaLink} href={link.href} onClick={() => setMenuOpen(false)}>
+                  {link.label}
+                </Link>
+              ))}
+            </div>
             {groups.map((group) => (
               <div key={group.title}>
                 <div className={styles.megaTitle}>{group.title}</div>
                 {group.links.map((link) => (
-                  <Link key={link.label} className={styles.megaLink} href={link.href}>
+                  <Link key={link.label} className={styles.megaLink} href={link.href} onClick={() => setMenuOpen(false)}>
                     {link.label}
                   </Link>
                 ))}

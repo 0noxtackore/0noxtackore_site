@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 import { getContent } from "./content";
 import styles from "./site.module.css";
@@ -34,6 +37,14 @@ export function ProductDetail({ locale, product: record, similar }: Props) {
   const similarProducts = similar.map((p) => mapProduct(p, locale));
   const storePath = getPagePath(locale, "tienda");
   const productUrl = `${siteUrl}${storePath}/${product.id}`;
+  const [lightbox, setLightbox] = useState(false);
+
+  useEffect(() => {
+    if (!lightbox) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setLightbox(false); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [lightbox]);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -73,12 +84,14 @@ export function ProductDetail({ locale, product: record, similar }: Props) {
 
         <section className={styles.productDetail}>
           <div className={styles.productDetailMedia}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={product.image}
-              alt={product.name}
-              className={styles.productDetailImage}
-            />
+            <button type="button" className={styles.productDetailImageBtn} onClick={() => setLightbox(true)} aria-label={locale === "es" ? "Ver imagen en pantalla completa" : "View image fullscreen"}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={product.image}
+                alt={product.name}
+                className={styles.productDetailImage}
+              />
+            </button>
           </div>
           <div className={styles.productDetailBody}>
             <p className={styles.storeCardMeta}>
@@ -142,6 +155,16 @@ export function ProductDetail({ locale, product: record, similar }: Props) {
               </div>
             </div>
           </section>
+        ) : null}
+
+        {lightbox ? (
+          <div className={styles.lightbox} role="dialog" aria-modal="true" aria-label={product.name} onClick={() => setLightbox(false)}>
+            <button type="button" className={styles.lightboxClose} onClick={() => setLightbox(false)} aria-label={locale === "es" ? "Cerrar" : "Close"}>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+            </button>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={product.image} alt={product.name} className={styles.lightboxImage} onClick={(e) => e.stopPropagation()} />
+          </div>
         ) : null}
 
         <footer className={styles.footer}>

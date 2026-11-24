@@ -157,6 +157,9 @@
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 32px;
 }
+.megaNavGroup {
+  display: none;
+}
 .megaTitle {
   font-size: 15px;
   font-weight: 700;
@@ -1339,6 +1342,9 @@
   .mega {
     top: 64px;
   }
+  .megaNavGroup {
+    display: block;
+  }
   /* Hero apilado: imagen arriba, texto debajo */
   .hero {
     display: block;
@@ -1684,6 +1690,14 @@
   overflow: hidden;
   border: 1px solid #e6e6e6;
 }
+.productDetailImageBtn {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: zoom-in;
+}
 .productDetailImage {
   width: 100%;
   height: auto;
@@ -1914,8 +1928,18 @@
 .storeTrustItem { color: #fff; }
 .storeTrustDot { background: #7ec8ff; }
 @media (max-width: 900px) {
-  .storeHero { padding: 64px 24px 52px; min-height: 360px; }
-  .storeHeroOverlay { background: linear-gradient(180deg, rgba(14,23,38,0.72) 0%, rgba(14,23,38,0.78) 100%); }
+  .storeHero { display: block; padding: 0; min-height: 0; background: #fff; }
+  .storeHeroBg { position: relative; inset: auto; height: 56vw; min-height: 240px; max-height: 380px; }
+  .storeHeroOverlay { background: linear-gradient(180deg, rgba(14,23,38,0.08) 0%, rgba(14,23,38,0.16) 100%); }
+  .storeHeroInner { padding: 32px 24px 48px; }
+  .storeHeroLogo { filter: none; height: 40px; margin-bottom: 20px; }
+  .storeHeroKicker { color: var(--blue); }
+  .storeHeroTitle { color: var(--ink); max-width: 100%; }
+  .storeHeroLead { color: var(--body); max-width: 100%; }
+  .storeTrustStrip { border-top-color: #dfe8f1; }
+  .storeTrustItem { color: var(--ink); }
+  .storeTrustDot { background: var(--blue); }
+  .storeTrustIcon { background: rgba(0, 120, 212, 0.1); color: var(--blue); }
 }
 
 /* ---------- Store catalog polish ---------- */
@@ -2180,3 +2204,41 @@
 .storeCardImageBtn { background: #fff; }
 .storeCardImage { object-fit: contain; background: #fff; padding: 16px; }
 .storeFilterOption input[type="checkbox"] { accent-color: var(--blue); width: 16px; height: 16px; }
+
+/* ---------- Lightbox ---------- */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.lightboxImage {
+  max-width: min(96vw, 1400px);
+  max-height: 90vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 8px;
+  background: #fff;
+}
+.lightboxClose {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.14);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.lightboxClose:hover { background: rgba(255,255,255,0.24); }
+.lightboxClose svg { width: 22px; height: 22px; }
