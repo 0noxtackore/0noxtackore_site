@@ -1,22 +1,23 @@
 #!/usr/bin/env node
 /**
- * Ping IndexNow (Bing + Yandex) so crawlers are notified immediately when
- * content changes, instead of waiting for their normal crawl cycle.
+ * Ping IndexNow so participating search engines (Bing, Yandex, etc.) are
+ * notified quickly when content changes.
  *
  * Usage:
- *   node scripts/indexnow.mjs                 # default site URLs
+ *   node scripts/indexnow.mjs                 # URLs from live sitemap (+ fallback)
  *   node scripts/indexnow.mjs <url> [<url>]   # specific URLs
  *
- * Requires the key file at public/<KEY>.txt (already committed) so the
- * search engines can verify ownership of the host.
+ * Requires the key file at public/<KEY>.txt so engines can verify ownership.
+ * Note: Google does not use IndexNow; use GSC + sitemap for Google.
  */
 import https from "node:https";
 
 const KEY = "78b8ca671862cf7827495cfa5d0eba98";
 const HOST = "0noxtackore.makes.fyi";
 const SITE = `https://${HOST}`;
+const SITEMAP_URL = `${SITE}/sitemap.xml`;
 
-const DEFAULT_URLS = [
+const FALLBACK_URLS = [
   `${SITE}/es`,
   `${SITE}/es/guia`,
   `${SITE}/es/acerca`,
@@ -32,6 +33,29 @@ const ENDPOINTS = [
   "https://www.bing.com/indexnow",
   "https://yandex.com/indexnow",
 ];
+
+function get(url) {
+  return new Promise((resolve, reject) => {
+    https
+      .get(url, { headers: { "User-Agent": "0noxtackore-indexnow/1.0" } }, (res) => {
+        let data = "";
+        res.on("data", (c) => (data += c));
+        res.on("end", () => {
+          if (res.statusCode && res.statusCode >= 200 && res.statusCode < 300) resolve(data);
+          else reject(new Error(`HTTP ${res.statusCode} for ${url}`));
+        });
+      })
+      .on("error", reject);
+  });
+}
+
+async function getUrlsFromSitemap() {
+  const xml = await get(SITEMAP_URL);
+  const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1].trim());
+  const urls = [...new Set(locs)].filter((u) => u.startsWith(SITE));
+  if (urls.length === 0) throw new Error("No URLs found in sitemap");
+  return urls;
+}
 
 function ping(endpoint, urls) {
   const body = JSON.stringify({
@@ -63,8 +87,20 @@ function ping(endpoint, urls) {
   });
 }
 
-const urls = process.argv.length > 2 ? process.argv.slice(2) : DEFAULT_URLS;
-console.log("Submitting to IndexNow:", urls.join(", "));
+async function resolveUrls() {
+  if (process.argv.length > 2) return [...new Set(process.argv.slice(2))];
+  try {
+    const urls = await getUrlsFromSitemap();
+    console.log(`Loaded ${urls.length} URLs from sitemap.`);
+    return urls;
+  } catch (err) {
+    console.warn(`Sitemap fetch failed, using fallback URLs: ${err.message}`);
+    return FALLBACK_URLS;
+  }
+}
+
+const urls = await resolveUrls();
+console.log(`Submitting ${urls.length} URLs to IndexNow...`);
 
 for (const endpoint of ENDPOINTS) {
   const { status, body } = await ping(endpoint, urls);
