@@ -31,6 +31,7 @@ export function About({ locale }: { locale: Locale }) {
     mainEntity: {
       "@type": "Organization",
       name: content.brand.name,
+      alternateName: ["0noxtackore", "Onoxtackore"],
       url: siteUrl,
       logo: `${siteUrl}/sites/0noxtackore/logo.webp`,
       foundingDate: "2023",
