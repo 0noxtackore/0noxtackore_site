@@ -1928,18 +1928,18 @@
 .storeTrustItem { color: #fff; }
 .storeTrustDot { background: #7ec8ff; }
 @media (max-width: 900px) {
-  .storeHero { display: block; padding: 0; min-height: 0; background: #fff; }
-  .storeHeroBg { position: relative; inset: auto; height: 56vw; min-height: 240px; max-height: 380px; }
-  .storeHeroOverlay { background: linear-gradient(180deg, rgba(14,23,38,0.08) 0%, rgba(14,23,38,0.16) 100%); }
-  .storeHeroInner { padding: 32px 24px 48px; }
-  .storeHeroLogo { filter: none; height: 40px; margin-bottom: 20px; }
-  .storeHeroKicker { color: var(--blue); }
-  .storeHeroTitle { color: var(--ink); max-width: 100%; }
-  .storeHeroLead { color: var(--body); max-width: 100%; }
-  .storeTrustStrip { border-top-color: #dfe8f1; }
-  .storeTrustItem { color: var(--ink); }
-  .storeTrustDot { background: var(--blue); }
-  .storeTrustIcon { background: rgba(0, 120, 212, 0.1); color: var(--blue); }
+  .storeHero { display: block; padding: 0; min-height: 0; background: #0e1726; overflow: hidden; }
+  .storeHeroBg { position: relative; inset: auto; height: 56vw; min-height: 240px; max-height: 380px; overflow: hidden; }
+  .storeHeroOverlay { background: linear-gradient(180deg, rgba(14,23,38,0.08) 0%, rgba(14,23,38,0.24) 100%); }
+  .storeHeroInner { padding: 32px 24px 48px; background: #0e1726; }
+  .storeHeroLogo { filter: brightness(0) invert(1); height: 40px; margin-bottom: 20px; }
+  .storeHeroKicker { color: #7ec8ff; }
+  .storeHeroTitle { color: #fff; max-width: 100%; }
+  .storeHeroLead { color: rgba(255,255,255,0.88); max-width: 100%; }
+  .storeTrustStrip { border-top-color: rgba(255,255,255,0.18); }
+  .storeTrustItem { color: #fff; }
+  .storeTrustDot { background: #7ec8ff; }
+  .storeTrustIcon { background: rgba(126, 200, 255, 0.14); color: #7ec8ff; }
 }
 
 /* ---------- Store catalog polish ---------- */
