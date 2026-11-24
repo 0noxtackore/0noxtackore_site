@@ -24,6 +24,7 @@ const DRY_RUN = process.argv.includes("--dry-run");
 function log(msg) { console.log(`[links] ${msg}`); }
 function writeJson(file, data) { fs.mkdirSync(path.dirname(file), { recursive: true }); fs.writeFileSync(file, JSON.stringify(data, null, 2) + "\n", "utf8"); }
 function isHttpUrl(v) { try { const u = new URL(v); return u.protocol === "http:" || u.protocol === "https:"; } catch { return false; } }
+function decodeEntities(s) { return String(s || "").replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&#x27;/gi, "'").replace(/&apos;/g, "'").replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&nbsp;/g, " ").replace(/&#(\d+);/g, (_, n) => String.fromCharCode(Number(n))).replace(/&#x([0-9a-f]+);/gi, (_, n) => String.fromCharCode(parseInt(n, 16))).replace(/\s+/g, " ").trim(); }
 
 function detectStore(url) {
   const h = new URL(url).hostname.toLowerCase();
@@ -48,7 +49,7 @@ function extractMeta(html, prop) {
     new RegExp(`<meta[^>]+name=["']${prop}["'][^>]+content=["']([^"']+)["']`, "i"),
     new RegExp(`<meta[^>]+content=["']([^"']+)["'][^>]+name=["']${prop}["']`, "i"),
   ];
-  for (const re of patterns) { const m = html.match(re); if (m?.[1]) return m[1].trim(); }
+  for (const re of patterns) { const m = html.match(re); if (m?.[1]) return decodeEntities(m[1].trim()); }
   return "";
 }
 
@@ -56,7 +57,7 @@ function extractTitle(html) {
   const og = extractMeta(html, "og:title") || extractMeta(html, "twitter:title");
   if (og) return og.replace(/\s*[|\-–—]\s*Amazon.*$/i, "").replace(/\s*[|\-–—]\s*AliExpress.*$/i, "").trim();
   const m = html.match(/<title[^>]*>([^<]+)<\/title>/i);
-  return m?.[1]?.replace(/\s*[|\-–—]\s*Amazon.*$/i, "").replace(/\s*[|\-–—]\s*AliExpress.*$/i, "").trim() || "";
+  return decodeEntities(m?.[1]?.replace(/\s*[|\-–—]\s*Amazon.*$/i, "").replace(/\s*[|\-–—]\s*AliExpress.*$/i, "").trim() || "");
 }
 
 function extractImage(html) {
@@ -69,10 +70,11 @@ function extractImage(html) {
 function guessCategory(name) {
   const n = name.toLowerCase();
   if (/laptop|notebook|macbook|thinkpad/.test(n)) return "Laptops";
-  if (/mouse|teclado|keyboard|monitor|ssd|gpu|ram|cpu|motherboard|hub|dock/.test(n)) return "PC & Componentes";
+  if (/phone|smartphone|iphone|android|pixel \d|galaxy s\d|redmagic|oneplus|nothing phone|motorola edge|redmi note|poco x\d/.test(n)) return "Smartphones";
+  if (/\b(memoria ram|ram kit|sodimm|dimm)\b/.test(n) || (/\b(ddr4|ddr5)\b/.test(n) && !/\b(laptop|notebook|desktop|tower|computer|all-in-one|aio|macbook|imac|nuc|mini pc|pc gamer|gaming pc)\b/.test(n))) return "Memorias RAM";
+  if (/mouse|teclado|keyboard|monitor|ssd|gpu|cpu|motherboard|hub|dock/.test(n)) return "PC & Componentes";
   if (/gaming|gamer|gamepad|controller|headset gamer|rtx|playstation|xbox/.test(n)) return "Gaming";
   if (/headphone|earbud|speaker|audio|microphone|mic/.test(n)) return "Audio";
-  if (/phone|smartphone|iphone|android/.test(n)) return "Smartphones";
   if (/smart home|alexa|google home|plug|bulb|camera/.test(n)) return "Smart Home";
   return "Accesorios";
 }
@@ -132,7 +134,8 @@ async function processUrl(raw) {
 
 function run(cmd, args) {
   log(`run: ${cmd} ${args.join(" ")}`);
-  const r = spawnSync(cmd, args, { cwd: ROOT, stdio: "inherit", shell: process.platform === "win32" });
+  const quoted = process.platform === "win32" && cmd.includes(" ") ? `"${cmd}"` : cmd;
+  const r = spawnSync(quoted, args, { cwd: ROOT, stdio: "inherit", shell: process.platform === "win32" });
   return r.status ?? 1;
 }
 

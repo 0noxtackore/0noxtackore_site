@@ -1,13 +1,21 @@
-﻿# Batch inicial - verificados por process-product-links.mjs
-# Amazon
-https://www.amazon.com/dp/B00SAYCXWG
-https://www.amazon.com/dp/B0CXGTGPZQ
-https://www.amazon.com/dp/B0B2MM1W65
-https://www.amazon.com/dp/B0DRM949PC
-https://www.amazon.com/dp/B0CYSWTLZY
-# AliExpress
-https://www.aliexpress.com/item/1005011794618639.html
-https://www.aliexpress.com/item/1005007168889184.html
-https://www.aliexpress.com/item/1005007921521644.html
-https://www.aliexpress.com/item/1005013127475158.html
-https://www.aliexpress.com/item/1005009843409591.html
+﻿# 20 productos PC gamer / computadores HP, Dell, Lenovo
+https://www.amazon.com/dp/B0FJX9FNKN
+https://www.amazon.com/dp/B0FGQ6JJ2V
+https://www.amazon.com/dp/B0GWRG3P4M
+https://www.amazon.com/dp/B0C51CP29B
+https://www.amazon.com/dp/B0D64R5N2X
+https://www.amazon.com/dp/B0F9MRQ328
+https://www.amazon.com/dp/B0GR4VR6GH
+https://www.amazon.com/dp/B0GHPN426G
+https://www.amazon.com/dp/B0F642M1R3
+https://www.amazon.com/dp/B0CK4T8WFX
+https://www.amazon.com/dp/B0F2BC93CN
+https://www.amazon.com/dp/B0CYVT6V9J
+https://www.amazon.com/dp/B0DXVFWSS7
+https://www.amazon.com/dp/B0DW46GYQB
+https://www.amazon.com/dp/B0DW4BWBL9
+https://www.amazon.com/dp/B0BHJJ9Y77
+https://www.amazon.com/dp/B0BPTKD797
+https://www.amazon.com/dp/B09NBWL8J5
+https://www.amazon.com/dp/B0FS1X4MPY
+https://www.amazon.com/dp/B0GCLJJ5TL

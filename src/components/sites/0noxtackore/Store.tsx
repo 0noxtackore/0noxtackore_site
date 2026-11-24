@@ -82,6 +82,9 @@ export function Store({ locale, products: records }: Props) {
   };
 
   const toggleCategory = (c: string) => {
+    setSelectedCategories((prev) => (prev.includes(c) ? [] : [c]));
+  };
+  const toggleCategoryMulti = (c: string) => {
     setSelectedCategories((prev) => (prev.includes(c) ? prev.filter((x) => x !== c) : [...prev, c]));
   };
   const toggleStore = (s: string) => {
@@ -93,6 +96,7 @@ export function Store({ locale, products: records }: Props) {
     if (n.includes("gaming") || n.includes("juego")) return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M6 8h12a3 3 0 0 1 3 3v4a2 2 0 0 1-2 2h-2l-2-2h-6l-2 2H5a2 2 0 0 1-2-2v-4a3 3 0 0 1 3-3z"/><path d="M8 11h2m-1-1v2m6 .5h.01M17 12.5h.01"/></svg>;
     if (n.includes("pc") || n.includes("component") || n.includes("comput")) return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="4" y="4" width="16" height="11" rx="2"/><path d="M8 20h8M12 15v5"/></svg>;
     if (n.includes("laptop") || n.includes("portátil") || n.includes("portatil")) return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="4" y="5" width="16" height="11" rx="1.5"/><path d="M2.5 19h19"/></svg>;
+    if (n.includes("memoria") || n.includes("ram")) return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M7 6V4m5 2V4m5 2V4M7 18v2m5-2v2m5-2v2M7 10h2v4H7zm4 0h2v4h-2zm4 0h2v4h-2z"/></svg>;
     if (n.includes("accesor")) return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2v4m0 12v4m10-10h-4M6 12H2m15.07-7.07-2.83 2.83M9.76 14.24l-2.83 2.83m0-10.14 2.83 2.83m4.48 4.48 2.83 2.83"/></svg>;
     return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M20 7 12 3 4 7v10l8 4 8-4z"/><path d="M12 22V12m8-5-8 5-8-5"/></svg>;
   };
@@ -207,7 +211,7 @@ export function Store({ locale, products: records }: Props) {
                   <div className={styles.storeFilterGroupTitle}>{locale === "es" ? "Categoría" : "Category"}</div>
                   {categories.map((c) => (
                     <label key={c} className={styles.storeFilterOption}>
-                      <input type="checkbox" checked={selectedCategories.includes(c)} onChange={() => toggleCategory(c)} />
+                      <input type="checkbox" checked={selectedCategories.includes(c)} onChange={() => toggleCategoryMulti(c)} />
                       <span>{c}</span>
                     </label>
                   ))}

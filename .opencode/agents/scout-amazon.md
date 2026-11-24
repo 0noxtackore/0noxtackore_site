@@ -26,7 +26,7 @@ Eres el **scout de Amazon** de la tienda de afiliados 0NOXTACKORE. Tu misión: e
    - `description`: 1-2 frases en inglés resumiendo qué es (solo con datos visibles en la página).
    - `priceHint`: precio aproximado si lo ves claro (opcional; formato "≈ USD 999").
 4. **Si `webfetch` falla o muestra anti-bot** ("Robot Check", "Sorry! Something went wrong"), descarta ese candidato y prueba con otro. **Fallback obligatorio a la Wayback Machine**: si `webfetch` falla o hay anti-bot, consulta `https://archive.org/wayback/available?url=<URL_CANONICA>` y, si hay copia archivada, webfetch a `https://web.archive.org/web/<timestamp>/<URL>`; si usas la copia archivada, marca `"source": "amazon-wayback"`. Máximo 8 intentos totales; no te estanques.
-5. Asigna `category` de esta lista exacta: `"Laptops"` | `"PC & Componentes"` | `"Gaming"` | `"Accesorios"` | `"Otros"`.
+5. Asigna `category` de esta lista exacta: `"Laptops"` | `"PC & Componentes"` | `"Memorias RAM"` | `"Gaming"` | `"Accesorios"` | `"Audio"` | `"Smartphones"` | `"Smart Home"` | `"Otros"`.
 6. Rellena `why`: por qué merece estar en la tienda (rating alto, muchas reviews, relación calidad-precio, marca fiable). **Nunca inventes precios, specs ni valoraciones**: si no lo ves, déjalo vacío.
 
 ## Salida
