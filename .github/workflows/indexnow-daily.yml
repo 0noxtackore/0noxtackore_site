@@ -1,6 +1,8 @@
-name: IndexNow Daily Ping
+name: IndexNow Ping
 
 on:
+  push:
+    branches: [main]
   schedule:
     - cron: "0 14 * * *"
   workflow_dispatch:
@@ -9,7 +11,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: indexnow-daily
+  group: indexnow-ping
   cancel-in-progress: false
 
 jobs:
