@@ -47,14 +47,14 @@ export const heroSlides: HeroSlide[] = [
   {
     desktop: "/sites/0noxtackore/photos/hero-section/hero_v.webp",
     mobile: "/sites/0noxtackore/photos/hero-section/mobile/hero_v.webp",
-    alt: "",
+    alt: "Espacio de trabajo tecnológico con ambiente creativo",
     blur: "data:image/webp;base64,UklGRiwAAABXRUJQVlA4ICAAAACQAQCdASoIAAQABABoJZwAAudZuFQA/uywglLMigAAAA==",
     objectPositionDesktop: "left",
   },
   {
     desktop: "/sites/0noxtackore/photos/hero-section/hero_vi.webp",
     mobile: "/sites/0noxtackore/photos/hero-section/mobile/hero_vi.webp",
-    alt: "",
+    alt: "Tecnología y diseño digital en un entorno moderno",
     blur: "data:image/webp;base64,UklGRiwAAABXRUJQVlA4ICAAAACQAQCdASoIAAQAAudP3WAA8pHI0R+EvAAAAA==",
   },
 ];

@@ -128,7 +128,7 @@ export function Store({ locale, products: records }: Props) {
         <section className={styles.storeHero}>
           <div className={styles.storeHeroBg} aria-hidden="true">
             {HERO_VIDEOS.map((src, i) => (
-              <video key={src} className={`${styles.storeHeroBgVideo} ${i === heroVideo ? styles.storeHeroBgVideoActive : ""}`} autoPlay muted loop playsInline preload={i === 0 ? "metadata" : "none"}>
+              <video key={src} className={`${styles.storeHeroBgVideo} ${i === heroVideo ? styles.storeHeroBgVideoActive : ""}`} autoPlay muted loop playsInline preload={i === 0 ? "metadata" : "none"} aria-label={locale === "es" ? "Video de fondo de la tienda 0NOXTACKORE" : "0NOXTACKORE store background video"} title={locale === "es" ? "Video de fondo de la tienda 0NOXTACKORE" : "0NOXTACKORE store background video"}>
                 <source src={src} type="video/mp4" />
               </video>
             ))}
