@@ -31,6 +31,21 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
     return () => window.clearInterval(timer);
   }, [slides.length]);
 
+  useEffect(() => {
+    if (slides.length < 2) return;
+    const preloadIndexes = [active, (active + 1) % slides.length, (active + 2) % slides.length];
+    for (const i of preloadIndexes) {
+      const slide = slides[i];
+      if (!slide) continue;
+      const imgDesktop = new window.Image();
+      imgDesktop.decoding = "async";
+      imgDesktop.src = slide.desktop;
+      const imgMobile = new window.Image();
+      imgMobile.decoding = "async";
+      imgMobile.src = slide.mobile;
+    }
+  }, [active, slides]);
+
   const first = slides[0];
 
   return (
