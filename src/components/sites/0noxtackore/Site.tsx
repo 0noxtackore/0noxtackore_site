@@ -24,7 +24,7 @@ import { siteUrl, type Area } from "./data";
 import { HeroSlider } from "./HeroSlider";
 import { ShareButtons } from "./ShareButtons";
 import styles from "./site.module.css";
-import { getPagePath, type Locale } from "@/lib/i18n";
+import { getAreaKey, getPageKey, getPagePath, type Locale } from "@/lib/i18n";
 
 function FacebookIcon() {
   return (
@@ -91,9 +91,13 @@ function useScrollToSection() {
     let targetId: string | undefined;
 
     if (path.startsWith("/areas/")) {
-      targetId = `area-${path.slice("/areas/".length)}`;
+      const slug = path.slice("/areas/".length);
+      const areaKey = getAreaKey(slug);
+      targetId = `area-${areaKey ?? slug}`;
     } else {
-      targetId = sectionTargets[path];
+      const slug = path.slice(1);
+      const pageKey = getPageKey(slug);
+      targetId = sectionTargets[path] ?? (pageKey ? sectionTargets[`/${pageKey}`] : undefined);
     }
 
     if (!targetId) return;
