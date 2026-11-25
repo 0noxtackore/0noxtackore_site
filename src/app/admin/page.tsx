@@ -207,6 +207,9 @@ export default function AdminPage() {
   const [filterStatus, setFilterStatus] = useState<"all" | "active" | "hidden">("all");
   const [xp, setXp] = useState(0);
   const [rewardMsg, setRewardMsg] = useState("");
+  const [categories, setCategories] = useState<{ id: string; name: string }[]>([]);
+  const [newCategory, setNewCategory] = useState("");
+  const [translating, setTranslating] = useState<Set<string>>(new Set());
 
   const allowedEmail = (process.env.NEXT_PUBLIC_ADMIN_EMAIL ?? "").trim().toLowerCase();
   const isAllowed = !!user && (!allowedEmail || user.email?.toLowerCase() === allowedEmail);
@@ -248,6 +251,65 @@ export default function AdminPage() {
     }
   }
 
+  async function loadCategories() {
+    try {
+      const snap = await getDocs(query(collection(db, "categories"), orderBy("name", "asc")));
+      setCategories(snap.docs.map((d) => ({ id: d.id, name: String((d.data() as { name?: string }).name ?? "") })).filter((c) => c.name));
+    } catch (e) {
+      // If categories collection doesn't exist yet, keep empty - not fatal
+      console.error("Error cargando categorías", e);
+    }
+  }
+
+  async function addCategory() {
+    const name = newCategory.trim();
+    if (!name) return;
+    if (categories.some((c) => c.name.toLowerCase() === name.toLowerCase())) {
+      flash("Esa categoría ya existe.", "info");
+      return;
+    }
+    try {
+      await addDoc(collection(db, "categories"), { name, createdAt: new Date().toISOString() });
+      setNewCategory("");
+      await loadCategories();
+      flash("Categoría agregada.", "success");
+    } catch (e) {
+      flash(`Error creando categoría: ${String(e)}`, "error");
+    }
+  }
+
+  async function removeCategory(id: string) {
+    try {
+      await deleteDoc(doc(db, "categories", id));
+      await loadCategories();
+    } catch (e) {
+      flash(`Error eliminando categoría: ${String(e)}`, "error");
+    }
+  }
+
+  async function translateField(field: "name" | "description" | "badge" | "priceNote", from: "es" | "en", to: "es" | "en") {
+    const srcKey = `${field}${from === "es" ? "Es" : "En"}` as keyof FormState;
+    const dstKey = `${field}${to === "es" ? "Es" : "En"}` as keyof FormState;
+    const text = String(form[srcKey] ?? "").trim();
+    if (!text) return;
+    const key = `${field}-${from}-${to}`;
+    setTranslating((prev) => new Set(prev).add(key));
+    try {
+      const res = await fetch("/api/admin/translate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text, from, to }),
+      });
+      const json = (await res.json()) as { text?: string; error?: string };
+      if (!res.ok || !json.text) throw new Error(json.error || "Traducción falló");
+      setForm((prev) => ({ ...prev, [dstKey]: json.text }));
+    } catch (e) {
+      flash(`Error traduciendo: ${String(e)}`, "error");
+    } finally {
+      setTranslating((prev) => { const next = new Set(prev); next.delete(key); return next; });
+    }
+  }
+
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (u) => {
       setUser(u);
@@ -257,7 +319,10 @@ export default function AdminPage() {
   }, []);
 
   useEffect(() => {
-    if (isAllowed) void loadProducts();
+    if (isAllowed) {
+      void loadProducts();
+      void loadCategories();
+    }
   }, [isAllowed]);
 
   async function handleLogin(e: React.FormEvent) {
@@ -729,8 +794,14 @@ export default function AdminPage() {
             </div>
 
             {/* Paso 1: link */}
-            <div style={{ marginBottom: 24, padding: 16, background: "#f8fafc", border: "1px solid #e5e7eb", borderRadius: 12 }}>
+            <div style={{ marginBottom: 24, padding: 18, background: "#fafafa", border: "1px solid #e5e5e5", borderRadius: 14 }}>
               <div style={sectionTitle}>1 · Pega el link del producto</div>
+              <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 10 }}>
+                <a href="https://www.amazon.com/" target="_blank" rel="noopener noreferrer" style={{ ...btnBase, textDecoration: "none" }}>Abrir Amazon</a>
+                <a href="https://www.aliexpress.com/" target="_blank" rel="noopener noreferrer" style={{ ...btnBase, textDecoration: "none" }}>Abrir AliExpress</a>
+                <a href="https://www.amazon.com/gp/bestsellers/electronics/" target="_blank" rel="noopener noreferrer" style={{ ...btnBase, textDecoration: "none" }}>Amazon Tech</a>
+                <a href="https://www.aliexpress.com/category/44/consumer-electronics.html" target="_blank" rel="noopener noreferrer" style={{ ...btnBase, textDecoration: "none" }}>AliExpress Tech</a>
+              </div>
               <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
                 <input
                   style={{ ...inputStyle, flex: "1 1 260px" }}
@@ -742,8 +813,8 @@ export default function AdminPage() {
                   {extracting ? "Extrayendo..." : "Extraer datos"}
                 </button>
               </div>
-              <p style={{ fontSize: 12, color: "#6b7280", margin: "8px 0 0" }}>
-                La extracción es best-effort: rellena lo posible y revisa el resto a mano.
+              <p style={{ fontSize: 12, color: "#737373", margin: "8px 0 0" }}>
+                Abre la tienda, copia el link del producto y pégalo aquí. La extracción rellena lo posible; revisa antes de guardar.
               </p>
             </div>
 
@@ -761,7 +832,11 @@ export default function AdminPage() {
                   </div>
                   <div>
                     <label style={labelStyle}>Categoría</label>
-                    <input style={inputStyle} placeholder="Ej. Gadgets, Oficina..." value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} />
+                    <select style={inputStyle} value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })}>
+                      <option value="">Selecciona una categoría</option>
+                      {categories.map((c) => <option key={c.id} value={c.name}>{c.name}</option>)}
+                      {form.category && !categories.some((c) => c.name === form.category) && <option value={form.category}>{form.category}</option>}
+                    </select>
                   </div>
                   <div style={{ gridColumn: "1 / -1" }}>
                     <label style={labelStyle}>URL afiliada</label>
@@ -788,35 +863,70 @@ export default function AdminPage() {
                     />
                   </div>
                 </div>
+
+                <div style={{ marginTop: 14, padding: 14, border: "1px solid #e5e5e5", borderRadius: 12, background: "#fff" }}>
+                  <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", color: "#737373", marginBottom: 8 }}>Gestor de categorías</div>
+                  <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 10 }}>
+                    <input style={{ ...inputStyle, flex: "1 1 220px" }} placeholder="Nueva categoría..." value={newCategory} onChange={(e) => setNewCategory(e.target.value)} />
+                    <button type="button" style={btnBase} onClick={() => void addCategory()}>Agregar categoría</button>
+                  </div>
+                  <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                    {categories.length === 0 && <span style={{ fontSize: 12, color: "#737373" }}>Aún no hay categorías guardadas.</span>}
+                    {categories.map((c) => (
+                      <span key={c.id} style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "6px 10px", border: "1px solid #e5e5e5", borderRadius: 999, fontSize: 12, background: "#fafafa" }}>
+                        {c.name}
+                        <button type="button" onClick={() => void removeCategory(c.id)} style={{ border: 0, background: "transparent", cursor: "pointer", color: "#525252", fontSize: 12 }}>×</button>
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
                 {form.imageUrl && (
                   <div style={{ marginTop: 12, display: "flex", gap: 12, alignItems: "center" }}>
                     <div style={{ width: 64, height: 64, border: "1px solid #e5e7eb", borderRadius: 10, overflow: "hidden", background: "#f9fafb", display: "grid", placeItems: "center" }}>
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img src={form.imageUrl} alt="Vista previa" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
                     </div>
-                    <span style={{ fontSize: 12, color: "#6b7280" }}>Vista previa</span>
+                    <span style={{ fontSize: 12, color: "#737373" }}>Vista previa</span>
                   </div>
                 )}
               </div>
 
               {/* Paso 3: contenido ES */}
               <div style={{ marginBottom: 24 }}>
-                <div style={sectionTitle}>3 · Contenido en español</div>
+                <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "center", flexWrap: "wrap", marginBottom: 12 }}>
+                  <div style={{ ...sectionTitle, margin: 0 }}>3 · Contenido en español</div>
+                  <button type="button" style={btnBase} disabled={translating.size > 0} onClick={() => { void translateField("name", "en", "es"); void translateField("description", "en", "es"); void translateField("badge", "en", "es"); void translateField("priceNote", "en", "es"); }}>
+                    {[...translating].some((k) => k.endsWith("-en-es")) ? "Traduciendo..." : "Traducir EN → ES"}
+                  </button>
+                </div>
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 12 }}>
                   <div>
-                    <label style={labelStyle}>Nombre ES *</label>
+                    <div style={{ display: "flex", justifyContent: "space-between", gap: 8, alignItems: "center" }}>
+                      <label style={labelStyle}>Nombre ES *</label>
+                      <button type="button" style={{ ...btnBase, padding: "2px 8px", fontSize: 11 }} disabled={translating.has("name-es-en")} onClick={() => void translateField("name", "es", "en")}>{translating.has("name-es-en") ? "..." : "ES→EN"}</button>
+                    </div>
                     <input style={inputStyle} value={form.nameEs} onChange={(e) => setForm({ ...form, nameEs: e.target.value })} required />
                   </div>
                   <div>
-                    <label style={labelStyle}>Badge ES (opcional)</label>
+                    <div style={{ display: "flex", justifyContent: "space-between", gap: 8, alignItems: "center" }}>
+                      <label style={labelStyle}>Badge ES (opcional)</label>
+                      <button type="button" style={{ ...btnBase, padding: "2px 8px", fontSize: 11 }} disabled={translating.has("badge-es-en")} onClick={() => void translateField("badge", "es", "en")}>{translating.has("badge-es-en") ? "..." : "ES→EN"}</button>
+                    </div>
                     <input style={inputStyle} placeholder="Ej. Top ventas" value={form.badgeEs} onChange={(e) => setForm({ ...form, badgeEs: e.target.value })} />
                   </div>
                   <div>
-                    <label style={labelStyle}>Precio nota ES</label>
+                    <div style={{ display: "flex", justifyContent: "space-between", gap: 8, alignItems: "center" }}>
+                      <label style={labelStyle}>Precio nota ES</label>
+                      <button type="button" style={{ ...btnBase, padding: "2px 8px", fontSize: 11 }} disabled={translating.has("priceNote-es-en")} onClick={() => void translateField("priceNote", "es", "en")}>{translating.has("priceNote-es-en") ? "..." : "ES→EN"}</button>
+                    </div>
                     <input style={inputStyle} value={form.priceNoteEs} onChange={(e) => setForm({ ...form, priceNoteEs: e.target.value })} />
                   </div>
                   <div style={{ gridColumn: "1 / -1" }}>
-                    <label style={labelStyle}>Descripción ES</label>
+                    <div style={{ display: "flex", justifyContent: "space-between", gap: 8, alignItems: "center" }}>
+                      <label style={labelStyle}>Descripción ES</label>
+                      <button type="button" style={{ ...btnBase, padding: "2px 8px", fontSize: 11 }} disabled={translating.has("description-es-en")} onClick={() => void translateField("description", "es", "en")}>{translating.has("description-es-en") ? "..." : "ES→EN"}</button>
+                    </div>
                     <textarea style={{ ...inputStyle, minHeight: 90, resize: "vertical" }} value={form.descriptionEs} onChange={(e) => setForm({ ...form, descriptionEs: e.target.value })} />
                   </div>
                 </div>
@@ -824,22 +934,39 @@ export default function AdminPage() {
 
               {/* Paso 4: contenido EN */}
               <div style={{ marginBottom: 24 }}>
-                <div style={sectionTitle}>4 · Contenido en inglés</div>
+                <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "center", flexWrap: "wrap", marginBottom: 12 }}>
+                  <div style={{ ...sectionTitle, margin: 0 }}>4 · Contenido en inglés</div>
+                  <button type="button" style={btnBase} disabled={translating.size > 0} onClick={() => { void translateField("name", "es", "en"); void translateField("description", "es", "en"); void translateField("badge", "es", "en"); void translateField("priceNote", "es", "en"); }}>
+                    {[...translating].some((k) => k.endsWith("-es-en")) ? "Traduciendo..." : "Traducir ES → EN"}
+                  </button>
+                </div>
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 12 }}>
                   <div>
-                    <label style={labelStyle}>Nombre EN *</label>
+                    <div style={{ display: "flex", justifyContent: "space-between", gap: 8, alignItems: "center" }}>
+                      <label style={labelStyle}>Nombre EN *</label>
+                      <button type="button" style={{ ...btnBase, padding: "2px 8px", fontSize: 11 }} disabled={translating.has("name-en-es")} onClick={() => void translateField("name", "en", "es")}>{translating.has("name-en-es") ? "..." : "EN→ES"}</button>
+                    </div>
                     <input style={inputStyle} value={form.nameEn} onChange={(e) => setForm({ ...form, nameEn: e.target.value })} required />
                   </div>
                   <div>
-                    <label style={labelStyle}>Badge EN (opcional)</label>
+                    <div style={{ display: "flex", justifyContent: "space-between", gap: 8, alignItems: "center" }}>
+                      <label style={labelStyle}>Badge EN (opcional)</label>
+                      <button type="button" style={{ ...btnBase, padding: "2px 8px", fontSize: 11 }} disabled={translating.has("badge-en-es")} onClick={() => void translateField("badge", "en", "es")}>{translating.has("badge-en-es") ? "..." : "EN→ES"}</button>
+                    </div>
                     <input style={inputStyle} placeholder="E.g. Best seller" value={form.badgeEn} onChange={(e) => setForm({ ...form, badgeEn: e.target.value })} />
                   </div>
                   <div>
-                    <label style={labelStyle}>Precio nota EN</label>
+                    <div style={{ display: "flex", justifyContent: "space-between", gap: 8, alignItems: "center" }}>
+                      <label style={labelStyle}>Precio nota EN</label>
+                      <button type="button" style={{ ...btnBase, padding: "2px 8px", fontSize: 11 }} disabled={translating.has("priceNote-en-es")} onClick={() => void translateField("priceNote", "en", "es")}>{translating.has("priceNote-en-es") ? "..." : "EN→ES"}</button>
+                    </div>
                     <input style={inputStyle} value={form.priceNoteEn} onChange={(e) => setForm({ ...form, priceNoteEn: e.target.value })} />
                   </div>
                   <div style={{ gridColumn: "1 / -1" }}>
-                    <label style={labelStyle}>Descripción EN</label>
+                    <div style={{ display: "flex", justifyContent: "space-between", gap: 8, alignItems: "center" }}>
+                      <label style={labelStyle}>Descripción EN</label>
+                      <button type="button" style={{ ...btnBase, padding: "2px 8px", fontSize: 11 }} disabled={translating.has("description-en-es")} onClick={() => void translateField("description", "en", "es")}>{translating.has("description-en-es") ? "..." : "EN→ES"}</button>
+                    </div>
                     <textarea style={{ ...inputStyle, minHeight: 90, resize: "vertical" }} value={form.descriptionEn} onChange={(e) => setForm({ ...form, descriptionEn: e.target.value })} />
                   </div>
                 </div>
