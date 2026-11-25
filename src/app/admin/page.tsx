@@ -155,6 +155,29 @@ const sectionTitle: React.CSSProperties = {
   margin: "0 0 12px",
 };
 
+const XP_KEY = "0noxtackore_admin_xp";
+const XP_PER_PRODUCT = 25;
+const TROPHIES = [
+  { min: 1, name: "Primer lanzamiento", icon: "🚀" },
+  { min: 5, name: "Catálogo en marcha", icon: "⚡" },
+  { min: 10, name: "Curador tech", icon: "🧠" },
+  { min: 25, name: "Arquitecto de tienda", icon: "🏗️" },
+  { min: 50, name: "Maestro del catálogo", icon: "🏆" },
+  { min: 100, name: "Leyenda 0NOXTACKORE", icon: "👑" },
+];
+
+function getLevel(xp: number) {
+  return Math.floor(xp / 100) + 1;
+}
+
+function getUnlockedTrophies(productsAdded: number) {
+  return TROPHIES.filter((t) => productsAdded >= t.min);
+}
+
+function getNextTrophy(productsAdded: number) {
+  return TROPHIES.find((t) => productsAdded < t.min) ?? null;
+}
+
 function StatCard({ label, value, accent }: { label: string; value: number | string; accent?: string }) {
   return (
     <div style={{ flex: "1 1 140px", background: "#fff", border: "1px solid #e5e5e5", borderRadius: 16, padding: "18px 20px", boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
@@ -182,9 +205,30 @@ export default function AdminPage() {
   const [search, setSearch] = useState("");
   const [filterStore, setFilterStore] = useState<"all" | StoreName>("all");
   const [filterStatus, setFilterStatus] = useState<"all" | "active" | "hidden">("all");
+  const [xp, setXp] = useState(0);
+  const [rewardMsg, setRewardMsg] = useState("");
 
   const allowedEmail = (process.env.NEXT_PUBLIC_ADMIN_EMAIL ?? "").trim().toLowerCase();
   const isAllowed = !!user && (!allowedEmail || user.email?.toLowerCase() === allowedEmail);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const raw = window.localStorage.getItem(XP_KEY);
+    const n = raw ? Number(raw) : 0;
+    if (Number.isFinite(n) && n >= 0) setXp(n);
+  }, []);
+
+  function awardXp() {
+    setXp((prev) => {
+      const next = prev + XP_PER_PRODUCT;
+      if (typeof window !== "undefined") window.localStorage.setItem(XP_KEY, String(next));
+      const added = Math.floor(next / XP_PER_PRODUCT);
+      const unlocked = TROPHIES.find((t) => t.min === added);
+      setRewardMsg(unlocked ? `+${XP_PER_PRODUCT} XP · Trofeo desbloqueado: ${unlocked.icon} ${unlocked.name}` : `+${XP_PER_PRODUCT} XP por nuevo producto`);
+      window.setTimeout(() => setRewardMsg(""), 4000);
+      return next;
+    });
+  }
 
   function flash(msg: string, kind: StatusKind = "info") {
     setStatus(msg);
@@ -327,6 +371,7 @@ export default function AdminPage() {
           updatedAt: new Date().toISOString(),
         });
         flash("Producto creado.", "success");
+        awardXp();
       }
       setForm(emptyForm());
       setPasteUrl("");
@@ -494,6 +539,45 @@ export default function AdminPage() {
             <button style={btnBase} onClick={() => signOut(auth)}>Salir</button>
           </div>
         </header>
+
+        {/* Gamification */}
+        {(() => {
+          const productsAdded = Math.floor(xp / XP_PER_PRODUCT);
+          const level = getLevel(xp);
+          const unlocked = getUnlockedTrophies(productsAdded);
+          const nextTrophy = getNextTrophy(productsAdded);
+          const prevMin = unlocked.length ? unlocked[unlocked.length - 1].min : 0;
+          const progress = nextTrophy ? Math.min(100, ((productsAdded - prevMin) / (nextTrophy.min - prevMin)) * 100) : 100;
+          return (
+            <div style={{ ...cardStyle, marginBottom: 20, padding: 20 }}>
+              <div style={{ display: "flex", justifyContent: "space-between", gap: 16, flexWrap: "wrap", alignItems: "center", marginBottom: 14 }}>
+                <div>
+                  <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#737373", marginBottom: 4 }}>Progreso del panel</div>
+                  <div style={{ fontSize: 22, fontWeight: 700, color: "#0a0a0a", letterSpacing: "-0.02em" }}>Nivel {level} · {xp} XP</div>
+                </div>
+                <div style={{ fontSize: 13, color: "#525252" }}>{productsAdded} producto{productsAdded === 1 ? "" : "s"} cargado{productsAdded === 1 ? "" : "s"}</div>
+              </div>
+              <div style={{ height: 8, background: "#e5e5e5", borderRadius: 999, overflow: "hidden", marginBottom: 12 }}>
+                <div style={{ width: `${progress}%`, height: "100%", background: "#0a0a0a", transition: "width .3s ease" }} />
+              </div>
+              <div style={{ display: "flex", justifyContent: "space-between", gap: 12, flexWrap: "wrap", fontSize: 12, color: "#525252", marginBottom: 12 }}>
+                <span>{nextTrophy ? `Siguiente trofeo: ${nextTrophy.icon} ${nextTrophy.name} (${productsAdded}/${nextTrophy.min})` : "Todos los trofeos desbloqueados"}</span>
+                <span>+{XP_PER_PRODUCT} XP por producto nuevo</span>
+              </div>
+              <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                {TROPHIES.map((t) => {
+                  const on = productsAdded >= t.min;
+                  return (
+                    <div key={t.name} title={t.name} style={{ padding: "8px 10px", borderRadius: 10, border: "1px solid " + (on ? "#0a0a0a" : "#e5e5e5"), background: on ? "#0a0a0a" : "#fafafa", color: on ? "#fff" : "#737373", fontSize: 12, fontWeight: 600 }}>
+                      {t.icon} {t.name}
+                    </div>
+                  );
+                })}
+              </div>
+              {rewardMsg && <div style={{ marginTop: 12, padding: "10px 12px", borderRadius: 10, background: "#0a0a0a", color: "#fff", fontSize: 13, fontWeight: 600 }}>{rewardMsg}</div>}
+            </div>
+          );
+        })()}
 
         {/* Status */}
         {status && (
