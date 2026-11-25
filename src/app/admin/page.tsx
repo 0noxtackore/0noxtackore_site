@@ -489,13 +489,14 @@ export default function AdminPage() {
       badgeEs: form.badgeEs.trim() || undefined,
       badgeEn: form.badgeEn.trim() || undefined,
     };
+    const cleanPayload = Object.fromEntries(Object.entries(payload).filter(([, v]) => v !== undefined));
     try {
       if (form.id) {
-        await updateDoc(doc(db, "products", form.id), { ...payload, updatedAt: new Date().toISOString() });
+        await updateDoc(doc(db, "products", form.id), { ...cleanPayload, updatedAt: new Date().toISOString() });
         flash("Producto actualizado.", "success");
       } else {
         await addDoc(collection(db, "products"), {
-          ...payload,
+          ...cleanPayload,
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
         });
