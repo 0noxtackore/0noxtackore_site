@@ -93,72 +93,73 @@ function formatDate(iso?: string): string {
 
 const inputStyle: React.CSSProperties = {
   width: "100%",
-  padding: "10px 12px",
-  border: "1px solid #d1d5db",
-  borderRadius: 10,
+  padding: "11px 13px",
+  border: "1px solid #d4d4d4",
+  borderRadius: 12,
   fontSize: 14,
   background: "#fff",
-  color: "#0f1720",
+  color: "#0a0a0a",
   outline: "none",
   boxSizing: "border-box",
 };
 const labelStyle: React.CSSProperties = {
   display: "block",
-  fontSize: 13,
+  fontSize: 12,
   fontWeight: 600,
   marginBottom: 6,
-  color: "#374151",
+  color: "#404040",
+  letterSpacing: "0.01em",
 };
 const cardStyle: React.CSSProperties = {
   background: "#fff",
-  border: "1px solid #e5e7eb",
-  borderRadius: 16,
+  border: "1px solid #e5e5e5",
+  borderRadius: 18,
   padding: 24,
   marginBottom: 20,
-  boxShadow: "0 1px 2px rgba(15,23,32,0.04)",
+  boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
 };
 const btnBase: React.CSSProperties = {
   padding: "9px 14px",
   borderRadius: 10,
-  border: "1px solid #d1d5db",
+  border: "1px solid #d4d4d4",
   background: "#fff",
-  color: "#0f1720",
-  fontSize: 14,
+  color: "#171717",
+  fontSize: 13,
   fontWeight: 600,
   cursor: "pointer",
 };
 const btnPrimary: React.CSSProperties = {
   ...btnBase,
-  background: "#0f1720",
-  borderColor: "#0f1720",
+  background: "#0a0a0a",
+  borderColor: "#0a0a0a",
   color: "#fff",
 };
 const btnBlue: React.CSSProperties = {
   ...btnBase,
-  background: "#0078d4",
-  borderColor: "#0078d4",
+  background: "#171717",
+  borderColor: "#171717",
   color: "#fff",
 };
 const btnDanger: React.CSSProperties = {
   ...btnBase,
-  color: "#b91c1c",
-  borderColor: "#fecaca",
+  color: "#171717",
+  borderColor: "#d4d4d4",
   background: "#fff",
 };
 const sectionTitle: React.CSSProperties = {
-  fontSize: 13,
+  fontSize: 12,
   fontWeight: 700,
-  letterSpacing: "0.06em",
+  letterSpacing: "0.08em",
   textTransform: "uppercase",
-  color: "#6b7280",
+  color: "#737373",
   margin: "0 0 12px",
 };
 
 function StatCard({ label, value, accent }: { label: string; value: number | string; accent?: string }) {
   return (
-    <div style={{ flex: "1 1 140px", background: "#fff", border: "1px solid #e5e7eb", borderRadius: 14, padding: "16px 18px", boxShadow: "0 1px 2px rgba(15,23,32,0.04)" }}>
-      <div style={{ fontSize: 26, fontWeight: 800, color: accent ?? "#0f1720", lineHeight: 1.1 }}>{value}</div>
-      <div style={{ fontSize: 13, color: "#6b7280", marginTop: 4 }}>{label}</div>
+    <div style={{ flex: "1 1 140px", background: "#fff", border: "1px solid #e5e5e5", borderRadius: 16, padding: "18px 20px", boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
+      <div style={{ fontSize: 28, fontWeight: 700, color: accent ?? "#0a0a0a", lineHeight: 1.1, letterSpacing: "-0.02em" }}>{value}</div>
+      <div style={{ fontSize: 12, color: "#737373", marginTop: 6, fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.04em" }}>{label}</div>
     </div>
   );
 }
@@ -462,22 +463,22 @@ export default function AdminPage() {
   }
 
   const statusColors: Record<StatusKind, React.CSSProperties> = {
-    info: { background: "#f0f7ff", borderColor: "#bfdbfe", color: "#1e40af" },
-    success: { background: "#f0fdf4", borderColor: "#bbf7d0", color: "#166534" },
-    error: { background: "#fef2f2", borderColor: "#fecaca", color: "#991b1b" },
+    info: { background: "#fafafa", borderColor: "#e5e5e5", color: "#171717" },
+    success: { background: "#fafafa", borderColor: "#d4d4d4", color: "#0a0a0a" },
+    error: { background: "#171717", borderColor: "#171717", color: "#fff" },
   };
 
   return (
-    <div style={{ minHeight: "100vh", background: "#f5f7fa", fontFamily: "system-ui, sans-serif" }}>
-      <div style={{ maxWidth: 1120, margin: "0 auto", padding: "24px 20px 64px" }}>
+    <div style={{ minHeight: "100vh", background: "#f5f5f5", fontFamily: "system-ui, sans-serif", color: "#0a0a0a" }}>
+      <div style={{ maxWidth: 1120, margin: "0 auto", padding: "28px 20px 64px" }}>
         {/* Header */}
-        <header style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 16, flexWrap: "wrap", marginBottom: 24 }}>
+        <header style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 16, flexWrap: "wrap", marginBottom: 28, padding: "20px 24px", background: "#fff", border: "1px solid #e5e5e5", borderRadius: 18, boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/sites/0noxtackore/logo.webp" alt="0NOXTACKORE" width={150} height={47} style={{ height: 40, width: "auto" }} />
-            <div style={{ borderLeft: "1px solid #d1d5db", paddingLeft: 14 }}>
-              <div style={{ fontSize: 18, fontWeight: 800, color: "#0f1720", lineHeight: 1.2 }}>Panel de tienda</div>
-              <div style={{ fontSize: 13, color: "#6b7280" }}>{user.email}</div>
+            <img src="/sites/0noxtackore/logo.webp" alt="0NOXTACKORE" width={150} height={47} style={{ height: 38, width: "auto" }} />
+            <div style={{ borderLeft: "1px solid #e5e5e5", paddingLeft: 14 }}>
+              <div style={{ fontSize: 18, fontWeight: 700, color: "#0a0a0a", lineHeight: 1.2, letterSpacing: "-0.01em" }}>Panel de tienda</div>
+              <div style={{ fontSize: 12, color: "#737373", marginTop: 2 }}>{user.email}</div>
             </div>
           </div>
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
