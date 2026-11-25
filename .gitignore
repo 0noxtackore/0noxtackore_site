@@ -55,3 +55,6 @@ tmp/products/
 .venv/
 
 apikey.txt
+
+# Local admin launcher (localhost-only, do not publish)
+admin-local.bat
