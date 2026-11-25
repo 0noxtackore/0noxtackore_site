@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
@@ -211,6 +211,14 @@ export default function AdminPage() {
   const [categories, setCategories] = useState<{ id: string; name: string }[]>([]);
   const [newCategory, setNewCategory] = useState("");
   const [translating, setTranslating] = useState<Set<string>>(new Set());
+  const [autoTranslate, setAutoTranslate] = useState(true);
+  const autoTimers = useRef<Record<string, ReturnType<typeof setTimeout> | undefined>>({});
+  const autoGuard = useRef<Record<string, string>>({});
+  const suppressAuto = useRef(false);
+  const prevEs = useRef({ name: "", description: "", badge: "", priceNote: "" });
+  const prevEn = useRef({ name: "", description: "", badge: "", priceNote: "" });
+  const formRef = useRef(form);
+  formRef.current = form;
 
   const allowedEmail = (process.env.NEXT_PUBLIC_ADMIN_EMAIL ?? "").trim().toLowerCase();
   const isAllowed = !!user && (!allowedEmail || user.email?.toLowerCase() === allowedEmail);
@@ -232,6 +240,11 @@ export default function AdminPage() {
       window.setTimeout(() => setRewardMsg(""), 4000);
       return next;
     });
+  }
+
+  function suppressAutoBriefly(ms = 600) {
+    suppressAuto.current = true;
+    window.setTimeout(() => { suppressAuto.current = false; }, ms);
   }
 
   function flash(msg: string, kind: StatusKind = "info") {
@@ -291,7 +304,7 @@ export default function AdminPage() {
   async function translateField(field: "name" | "description" | "badge" | "priceNote", from: "es" | "en", to: "es" | "en") {
     const srcKey = `${field}${from === "es" ? "Es" : "En"}` as keyof FormState;
     const dstKey = `${field}${to === "es" ? "Es" : "En"}` as keyof FormState;
-    const text = String(form[srcKey] ?? "").trim();
+    const text = String(formRef.current[srcKey] ?? "").trim();
     if (!text) return;
     const key = `${field}-${from}-${to}`;
     setTranslating((prev) => new Set(prev).add(key));
@@ -303,6 +316,7 @@ export default function AdminPage() {
       });
       const json = (await res.json()) as { text?: string; error?: string };
       if (!res.ok || !json.text) throw new Error(json.error || "Traducción falló");
+      autoGuard.current[String(dstKey)] = json.text;
       setForm((prev) => ({ ...prev, [dstKey]: json.text }));
     } catch (e) {
       flash(`Error traduciendo: ${String(e)}`, "error");
@@ -310,6 +324,52 @@ export default function AdminPage() {
       setTranslating((prev) => { const next = new Set(prev); next.delete(key); return next; });
     }
   }
+
+  useEffect(() => {
+    if (!autoTranslate || suppressAuto.current) {
+      prevEs.current = { name: form.nameEs, description: form.descriptionEs, badge: form.badgeEs, priceNote: form.priceNoteEs };
+      return;
+    }
+    const pairs: Array<["name" | "description" | "badge" | "priceNote", string, string]> = [
+      ["name", form.nameEs, "nameEs"],
+      ["description", form.descriptionEs, "descriptionEs"],
+      ["badge", form.badgeEs, "badgeEs"],
+      ["priceNote", form.priceNoteEs, "priceNoteEs"],
+    ];
+    for (const [field, value, key] of pairs) {
+      const prev = prevEs.current[field];
+      if (value === prev) continue;
+      prevEs.current[field] = value;
+      if (autoGuard.current[key] === value) { delete autoGuard.current[key]; continue; }
+      const timerKey = `${field}-es-en`;
+      if (autoTimers.current[timerKey]) clearTimeout(autoTimers.current[timerKey]);
+      if (!value.trim()) continue;
+      autoTimers.current[timerKey] = setTimeout(() => { void translateField(field, "es", "en"); }, 900);
+    }
+  }, [autoTranslate, form.nameEs, form.descriptionEs, form.badgeEs, form.priceNoteEs]);
+
+  useEffect(() => {
+    if (!autoTranslate || suppressAuto.current) {
+      prevEn.current = { name: form.nameEn, description: form.descriptionEn, badge: form.badgeEn, priceNote: form.priceNoteEn };
+      return;
+    }
+    const pairs: Array<["name" | "description" | "badge" | "priceNote", string, string]> = [
+      ["name", form.nameEn, "nameEn"],
+      ["description", form.descriptionEn, "descriptionEn"],
+      ["badge", form.badgeEn, "badgeEn"],
+      ["priceNote", form.priceNoteEn, "priceNoteEn"],
+    ];
+    for (const [field, value, key] of pairs) {
+      const prev = prevEn.current[field];
+      if (value === prev) continue;
+      prevEn.current[field] = value;
+      if (autoGuard.current[key] === value) { delete autoGuard.current[key]; continue; }
+      const timerKey = `${field}-en-es`;
+      if (autoTimers.current[timerKey]) clearTimeout(autoTimers.current[timerKey]);
+      if (!value.trim()) continue;
+      autoTimers.current[timerKey] = setTimeout(() => { void translateField(field, "en", "es"); }, 900);
+    }
+  }, [autoTranslate, form.nameEn, form.descriptionEn, form.badgeEn, form.priceNoteEn]);
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (u) => {
@@ -362,6 +422,7 @@ export default function AdminPage() {
       if (!res.ok || !d) throw new Error(json.error || "extract failed");
 
       const store: StoreName = d.store === "AliExpress" || d.store === "DHgate" || d.store === "RedMagic" ? d.store : "Amazon";
+      suppressAutoBriefly();
       setForm((f) => ({
         ...f,
         store,
@@ -384,6 +445,7 @@ export default function AdminPage() {
       }
     } catch (err) {
       flash(`No se pudo extraer: ${String(err)}. Puedes llenar el formulario manualmente.`, "error");
+      suppressAutoBriefly();
       setForm((f) => ({ ...f, affiliateUrl: f.affiliateUrl || pasteUrl.trim() }));
     } finally {
       setExtracting(false);
@@ -439,6 +501,7 @@ export default function AdminPage() {
         flash("Producto creado.", "success");
         awardXp();
       }
+      suppressAutoBriefly();
       setForm(emptyForm());
       setPasteUrl("");
       setView("list");
@@ -471,6 +534,7 @@ export default function AdminPage() {
   }
 
   function editProduct(p: StoreProductRecord) {
+    suppressAutoBriefly();
     setForm({
       id: p.id,
       active: p.active,
@@ -493,6 +557,7 @@ export default function AdminPage() {
   }
 
   function newProduct() {
+    suppressAutoBriefly();
     setForm(emptyForm());
     setPasteUrl("");
     setView("form");
@@ -795,7 +860,7 @@ export default function AdminPage() {
           <div style={cardStyle}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20, gap: 12, flexWrap: "wrap" }}>
               <h2 style={{ margin: 0, fontSize: 20 }}>{form.id ? "Editar producto" : "Nuevo producto"}</h2>
-              <button style={btnBase} onClick={() => { setView("list"); setForm(emptyForm()); setPasteUrl(""); }}>
+              <button style={btnBase} onClick={() => { suppressAutoBriefly(); setView("list"); setForm(emptyForm()); setPasteUrl(""); }}>
                 ← Volver a productos
               </button>
             </div>
@@ -903,41 +968,35 @@ export default function AdminPage() {
                 )}
               </div>
 
+              {/* Auto-traducci?n */}
+              <div style={{ marginBottom: 16, padding: "12px 14px", border: "1px solid #e5e5e5", borderRadius: 12, background: "#fff", display: "flex", justifyContent: "space-between", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
+                <label style={{ display: "flex", gap: 10, alignItems: "center", fontSize: 13, color: "#171717", fontWeight: 600 }}>
+                  <input type="checkbox" checked={autoTranslate} onChange={(e) => setAutoTranslate(e.target.checked)} />
+                  Traducci?n autom?tica ES ? EN
+                </label>
+                <span style={{ fontSize: 12, color: "#737373" }}>
+                  {translating.size > 0 ? "Traduciendo..." : "Al escribir en un idioma, se rellena el otro autom?ticamente."}
+                </span>
+              </div>
+
               {/* Paso 3: contenido ES */}
               <div style={{ marginBottom: 24 }}>
-                <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "center", flexWrap: "wrap", marginBottom: 12 }}>
-                  <div style={{ ...sectionTitle, margin: 0 }}>3 · Contenido en español</div>
-                  <button type="button" style={btnBase} disabled={translating.size > 0} onClick={() => { void translateField("name", "en", "es"); void translateField("description", "en", "es"); void translateField("badge", "en", "es"); void translateField("priceNote", "en", "es"); }}>
-                    {[...translating].some((k) => k.endsWith("-en-es")) ? "Traduciendo..." : "Traducir EN → ES"}
-                  </button>
-                </div>
+                <div style={sectionTitle}>3 ? Contenido en espa?ol</div>
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 12 }}>
                   <div>
-                    <div style={{ display: "flex", justifyContent: "space-between", gap: 8, alignItems: "center" }}>
-                      <label style={labelStyle}>Nombre ES *</label>
-                      <button type="button" style={{ ...btnBase, padding: "2px 8px", fontSize: 11 }} disabled={translating.has("name-es-en")} onClick={() => void translateField("name", "es", "en")}>{translating.has("name-es-en") ? "..." : "ES→EN"}</button>
-                    </div>
+                    <label style={labelStyle}>Nombre ES *</label>
                     <input style={inputStyle} value={form.nameEs} onChange={(e) => setForm({ ...form, nameEs: e.target.value })} required />
                   </div>
                   <div>
-                    <div style={{ display: "flex", justifyContent: "space-between", gap: 8, alignItems: "center" }}>
-                      <label style={labelStyle}>Badge ES (opcional)</label>
-                      <button type="button" style={{ ...btnBase, padding: "2px 8px", fontSize: 11 }} disabled={translating.has("badge-es-en")} onClick={() => void translateField("badge", "es", "en")}>{translating.has("badge-es-en") ? "..." : "ES→EN"}</button>
-                    </div>
+                    <label style={labelStyle}>Badge ES (opcional)</label>
                     <input style={inputStyle} placeholder="Ej. Top ventas" value={form.badgeEs} onChange={(e) => setForm({ ...form, badgeEs: e.target.value })} />
                   </div>
                   <div>
-                    <div style={{ display: "flex", justifyContent: "space-between", gap: 8, alignItems: "center" }}>
-                      <label style={labelStyle}>Precio nota ES</label>
-                      <button type="button" style={{ ...btnBase, padding: "2px 8px", fontSize: 11 }} disabled={translating.has("priceNote-es-en")} onClick={() => void translateField("priceNote", "es", "en")}>{translating.has("priceNote-es-en") ? "..." : "ES→EN"}</button>
-                    </div>
+                    <label style={labelStyle}>Precio nota ES</label>
                     <input style={inputStyle} value={form.priceNoteEs} onChange={(e) => setForm({ ...form, priceNoteEs: e.target.value })} />
                   </div>
                   <div style={{ gridColumn: "1 / -1" }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", gap: 8, alignItems: "center" }}>
-                      <label style={labelStyle}>Descripción ES</label>
-                      <button type="button" style={{ ...btnBase, padding: "2px 8px", fontSize: 11 }} disabled={translating.has("description-es-en")} onClick={() => void translateField("description", "es", "en")}>{translating.has("description-es-en") ? "..." : "ES→EN"}</button>
-                    </div>
+                    <label style={labelStyle}>Descripci?n ES</label>
                     <textarea style={{ ...inputStyle, minHeight: 90, resize: "vertical" }} value={form.descriptionEs} onChange={(e) => setForm({ ...form, descriptionEs: e.target.value })} />
                   </div>
                 </div>
@@ -945,39 +1004,22 @@ export default function AdminPage() {
 
               {/* Paso 4: contenido EN */}
               <div style={{ marginBottom: 24 }}>
-                <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "center", flexWrap: "wrap", marginBottom: 12 }}>
-                  <div style={{ ...sectionTitle, margin: 0 }}>4 · Contenido en inglés</div>
-                  <button type="button" style={btnBase} disabled={translating.size > 0} onClick={() => { void translateField("name", "es", "en"); void translateField("description", "es", "en"); void translateField("badge", "es", "en"); void translateField("priceNote", "es", "en"); }}>
-                    {[...translating].some((k) => k.endsWith("-es-en")) ? "Traduciendo..." : "Traducir ES → EN"}
-                  </button>
-                </div>
+                <div style={sectionTitle}>4 ? Contenido en ingl?s</div>
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 12 }}>
                   <div>
-                    <div style={{ display: "flex", justifyContent: "space-between", gap: 8, alignItems: "center" }}>
-                      <label style={labelStyle}>Nombre EN *</label>
-                      <button type="button" style={{ ...btnBase, padding: "2px 8px", fontSize: 11 }} disabled={translating.has("name-en-es")} onClick={() => void translateField("name", "en", "es")}>{translating.has("name-en-es") ? "..." : "EN→ES"}</button>
-                    </div>
+                    <label style={labelStyle}>Nombre EN *</label>
                     <input style={inputStyle} value={form.nameEn} onChange={(e) => setForm({ ...form, nameEn: e.target.value })} required />
                   </div>
                   <div>
-                    <div style={{ display: "flex", justifyContent: "space-between", gap: 8, alignItems: "center" }}>
-                      <label style={labelStyle}>Badge EN (opcional)</label>
-                      <button type="button" style={{ ...btnBase, padding: "2px 8px", fontSize: 11 }} disabled={translating.has("badge-en-es")} onClick={() => void translateField("badge", "en", "es")}>{translating.has("badge-en-es") ? "..." : "EN→ES"}</button>
-                    </div>
+                    <label style={labelStyle}>Badge EN (opcional)</label>
                     <input style={inputStyle} placeholder="E.g. Best seller" value={form.badgeEn} onChange={(e) => setForm({ ...form, badgeEn: e.target.value })} />
                   </div>
                   <div>
-                    <div style={{ display: "flex", justifyContent: "space-between", gap: 8, alignItems: "center" }}>
-                      <label style={labelStyle}>Precio nota EN</label>
-                      <button type="button" style={{ ...btnBase, padding: "2px 8px", fontSize: 11 }} disabled={translating.has("priceNote-en-es")} onClick={() => void translateField("priceNote", "en", "es")}>{translating.has("priceNote-en-es") ? "..." : "EN→ES"}</button>
-                    </div>
+                    <label style={labelStyle}>Precio nota EN</label>
                     <input style={inputStyle} value={form.priceNoteEn} onChange={(e) => setForm({ ...form, priceNoteEn: e.target.value })} />
                   </div>
                   <div style={{ gridColumn: "1 / -1" }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", gap: 8, alignItems: "center" }}>
-                      <label style={labelStyle}>Descripción EN</label>
-                      <button type="button" style={{ ...btnBase, padding: "2px 8px", fontSize: 11 }} disabled={translating.has("description-en-es")} onClick={() => void translateField("description", "en", "es")}>{translating.has("description-en-es") ? "..." : "EN→ES"}</button>
-                    </div>
+                    <label style={labelStyle}>Descripci?n EN</label>
                     <textarea style={{ ...inputStyle, minHeight: 90, resize: "vertical" }} value={form.descriptionEn} onChange={(e) => setForm({ ...form, descriptionEn: e.target.value })} />
                   </div>
                 </div>
@@ -995,7 +1037,7 @@ export default function AdminPage() {
                     {saving ? "Guardando..." : form.id ? "Guardar cambios" : "Crear producto"}
                   </button>
                   {form.id && (
-                    <button type="button" style={btnBase} onClick={() => { setForm(emptyForm()); setPasteUrl(""); setView("list"); }}>
+                    <button type="button" style={btnBase} onClick={() => { suppressAutoBriefly(); setForm(emptyForm()); setPasteUrl(""); setView("list"); }}>
                       Cancelar edición
                     </button>
                   )}
