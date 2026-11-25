@@ -423,7 +423,7 @@ export default function AdminPage() {
 
   if (!authReady) {
     return (
-      <div style={{ minHeight: "100vh", display: "grid", placeItems: "center", background: "#f5f7fa", fontFamily: "system-ui, sans-serif", color: "#6b7280" }}>
+      <div style={{ minHeight: "100vh", display: "grid", placeItems: "center", background: "#0a0a0a", fontFamily: "system-ui, sans-serif", color: "#a3a3a3" }}>
         Cargando...
       </div>
     );
@@ -431,18 +431,20 @@ export default function AdminPage() {
 
   if (!user) {
     return (
-      <div style={{ minHeight: "100vh", display: "grid", placeItems: "center", padding: 24, background: "radial-gradient(circle at top, #eef4fb, #f5f7fa)", fontFamily: "system-ui, sans-serif" }}>
-        <div style={{ width: "100%", maxWidth: 440, background: "#fff", borderRadius: 16, border: "1px solid #e5e7eb", boxShadow: "0 12px 32px rgba(15,23,32,0.08)", padding: 32 }}>
-          <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.08em", color: "#0078d4", textTransform: "uppercase", marginBottom: 8 }}>0NOXTACKORE</div>
-          <h1 style={{ fontSize: 28, lineHeight: 1.2, margin: "0 0 8px", color: "#0f1720" }}>Admin tienda</h1>
-          <p style={{ fontSize: 14, color: "#5f6b76", margin: "0 0 24px", lineHeight: 1.5 }}>Acceso solo para administrador.</p>
+      <div style={{ minHeight: "100vh", display: "grid", placeItems: "center", padding: 24, background: "#0a0a0a", fontFamily: "system-ui, sans-serif" }}>
+        <div style={{ width: "100%", maxWidth: 440, background: "#fff", borderRadius: 20, border: "1px solid #e5e5e5", boxShadow: "0 24px 64px rgba(0,0,0,0.35)", padding: 36 }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/sites/0noxtackore/logo.webp" alt="0NOXTACKORE" width={180} height={56} style={{ height: 44, width: "auto", display: "block", marginBottom: 24 }} />
+          <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", color: "#737373", textTransform: "uppercase", marginBottom: 8 }}>Panel de administración</div>
+          <h1 style={{ fontSize: 30, lineHeight: 1.15, margin: "0 0 8px", color: "#0a0a0a", fontWeight: 700 }}>Admin tienda</h1>
+          <p style={{ fontSize: 14, color: "#525252", margin: "0 0 28px", lineHeight: 1.5 }}>Acceso solo para administrador.</p>
           <form onSubmit={handleLogin}>
-            <label style={{ ...labelStyle, color: "#0f1720" }}>Email</label>
-            <input style={{ ...inputStyle, marginBottom: 14 }} value={email} onChange={(e) => setEmail(e.target.value)} type="email" autoComplete="email" required />
-            <label style={{ ...labelStyle, color: "#0f1720" }}>Contraseña</label>
-            <input style={{ ...inputStyle, marginBottom: 18 }} value={password} onChange={(e) => setPassword(e.target.value)} type="password" autoComplete="current-password" required />
-            {authError && <div style={{ color: "#b91c1c", fontSize: 13, marginBottom: 14, background: "#fef2f2", border: "1px solid #fecaca", padding: "10px 12px", borderRadius: 8, whiteSpace: "pre-wrap" }}>{authError}</div>}
-            <button style={{ width: "100%", padding: "12px 16px", background: "#0f1720", color: "#fff", border: 0, borderRadius: 10, cursor: "pointer", fontSize: 15, fontWeight: 600 }} type="submit">Entrar</button>
+            <label style={{ ...labelStyle, color: "#171717" }}>Email</label>
+            <input style={{ ...inputStyle, marginBottom: 14, borderColor: "#d4d4d4", color: "#0a0a0a" }} value={email} onChange={(e) => setEmail(e.target.value)} type="email" autoComplete="email" required />
+            <label style={{ ...labelStyle, color: "#171717" }}>Contraseña</label>
+            <input style={{ ...inputStyle, marginBottom: 18, borderColor: "#d4d4d4", color: "#0a0a0a" }} value={password} onChange={(e) => setPassword(e.target.value)} type="password" autoComplete="current-password" required />
+            {authError && <div style={{ color: "#991b1b", fontSize: 13, marginBottom: 14, background: "#fafafa", border: "1px solid #e5e5e5", padding: "10px 12px", borderRadius: 8, whiteSpace: "pre-wrap" }}>{authError}</div>}
+            <button style={{ width: "100%", padding: "13px 16px", background: "#0a0a0a", color: "#fff", border: 0, borderRadius: 10, cursor: "pointer", fontSize: 15, fontWeight: 600, letterSpacing: "0.01em" }} type="submit">Entrar</button>
           </form>
         </div>
       </div>
