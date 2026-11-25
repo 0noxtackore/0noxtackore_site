@@ -193,6 +193,7 @@ export default function AdminPage() {
   const [authReady, setAuthReady] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [authError, setAuthError] = useState("");
   const [products, setProducts] = useState<StoreProductRecord[]>([]);
   const [loading, setLoading] = useState(false);
@@ -621,7 +622,34 @@ export default function AdminPage() {
             <label style={{ ...labelStyle, color: "#171717" }}>Email</label>
             <input style={{ ...inputStyle, marginBottom: 14, borderColor: "#d4d4d4", color: "#0a0a0a" }} value={email} onChange={(e) => setEmail(e.target.value)} type="email" autoComplete="email" required />
             <label style={{ ...labelStyle, color: "#171717" }}>Contraseña</label>
-            <input style={{ ...inputStyle, marginBottom: 18, borderColor: "#d4d4d4", color: "#0a0a0a" }} value={password} onChange={(e) => setPassword(e.target.value)} type="password" autoComplete="current-password" required />
+            <div style={{ position: "relative", marginBottom: 18 }}>
+              <input
+                style={{ ...inputStyle, marginBottom: 0, borderColor: "#d4d4d4", color: "#0a0a0a", paddingRight: 44 }}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                type={showPassword ? "text" : "password"}
+                autoComplete="current-password"
+                required
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword((v) => !v)}
+                aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                style={{ position: "absolute", right: 10, top: "50%", transform: "translateY(-50%)", border: 0, background: "transparent", padding: 4, cursor: "pointer", color: "#525252", display: "grid", placeItems: "center" }}
+              >
+                {showPassword ? (
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
+                    <line x1="1" y1="1" x2="23" y2="23" />
+                  </svg>
+                ) : (
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                    <circle cx="12" cy="12" r="3" />
+                  </svg>
+                )}
+              </button>
+            </div>
             {authError && <div style={{ color: "#991b1b", fontSize: 13, marginBottom: 14, background: "#fafafa", border: "1px solid #e5e5e5", padding: "10px 12px", borderRadius: 8, whiteSpace: "pre-wrap" }}>{authError}</div>}
             <button style={{ width: "100%", padding: "13px 16px", background: "#0a0a0a", color: "#fff", border: 0, borderRadius: 10, cursor: "pointer", fontSize: 15, fontWeight: 600, letterSpacing: "0.01em" }} type="submit">Entrar</button>
           </form>
