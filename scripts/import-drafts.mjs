@@ -118,7 +118,7 @@ function toFields(item, now, amazonTag, aliTrackId) {
   const affiliateUrl = applyAffiliateTag(item.affiliateUrl, item.store, amazonTag, aliTrackId);
   const fields = {
     active: { booleanValue: false },
-    store: { stringValue: item.store === "AliExpress" ? "AliExpress" : "Amazon" },
+    store: { stringValue: ["Amazon","AliExpress","DHgate","RedMagic"].includes(item.store) ? item.store : "Amazon" },
     category: { stringValue: String(item.category ?? "") },
     affiliateUrl: { stringValue: affiliateUrl },
     imageUrl: { stringValue: String(item.imageUrl ?? "") },

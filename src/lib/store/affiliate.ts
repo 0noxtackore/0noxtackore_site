@@ -14,6 +14,12 @@ export function withAffiliateTracking(url: string, store: StoreName): string {
       if (trackId) u.searchParams.set("aff_trace_key", trackId);
       return u.toString();
     }
+    if (store === "DHgate" && host.includes("dhgate.")) {
+      return u.toString();
+    }
+    if (store === "RedMagic" && (host.includes("redmagic.") || host.includes("redmagic.gg"))) {
+      return u.toString();
+    }
     return url;
   } catch {
     return url;

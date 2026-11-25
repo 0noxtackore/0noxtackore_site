@@ -1,4 +1,4 @@
-export type StoreName = "Amazon" | "AliExpress";
+export type StoreName = "Amazon" | "AliExpress" | "DHgate" | "RedMagic";
 
 export type StoreProductRecord = {
   id: string;

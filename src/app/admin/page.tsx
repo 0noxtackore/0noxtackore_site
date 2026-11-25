@@ -62,7 +62,8 @@ const emptyForm = (): FormState => ({
 function toRecord(id: string, data: Record<string, unknown>): StoreProductRecord {
   const s = (k: string) => (typeof data[k] === "string" ? (data[k] as string) : "");
   const b = (k: string) => data[k] === true;
-  const store = s("store") === "AliExpress" ? "AliExpress" : "Amazon";
+  const rawStore = s("store");
+  const store: StoreName = rawStore === "AliExpress" || rawStore === "DHgate" || rawStore === "RedMagic" ? rawStore : "Amazon";
   return {
     id,
     active: b("active"),
@@ -360,7 +361,7 @@ export default function AdminPage() {
         | undefined;
       if (!res.ok || !d) throw new Error(json.error || "extract failed");
 
-      const store: StoreName = d.store === "AliExpress" ? "AliExpress" : "Amazon";
+      const store: StoreName = d.store === "AliExpress" || d.store === "DHgate" || d.store === "RedMagic" ? d.store : "Amazon";
       setForm((f) => ({
         ...f,
         store,
@@ -371,8 +372,8 @@ export default function AdminPage() {
         nameEn: f.nameEn || d.name,
         descriptionEs: f.descriptionEs || d.description,
         descriptionEn: f.descriptionEn || d.description,
-        priceNoteEs: f.priceNoteEs || (store === "Amazon" ? "Precio en Amazon" : "Precio en AliExpress"),
-        priceNoteEn: f.priceNoteEn || (store === "Amazon" ? "Price on Amazon" : "Price on AliExpress"),
+        priceNoteEs: f.priceNoteEs || (store === "Amazon" ? "Precio en Amazon" : store === "AliExpress" ? "Precio en AliExpress" : store === "DHgate" ? "Precio en DHgate" : "Precio en RedMagic"),
+        priceNoteEn: f.priceNoteEn || (store === "Amazon" ? "Price on Amazon" : store === "AliExpress" ? "Price on AliExpress" : store === "DHgate" ? "Price on DHgate" : "Price on RedMagic"),
       }));
       if (!json.ok) {
         flash(d.warning || "Extracción incompleta. Rellena el resto del formulario a mano.", "error");
@@ -506,6 +507,8 @@ export default function AdminPage() {
       hidden: products.length - active,
       amazon: products.filter((p) => p.store === "Amazon").length,
       aliexpress: products.filter((p) => p.store === "AliExpress").length,
+      dhgate: products.filter((p) => p.store === "DHgate").length,
+      redmagic: products.filter((p) => p.store === "RedMagic").length,
     };
   }, [products]);
 
@@ -660,6 +663,8 @@ export default function AdminPage() {
               <StatCard label="Ocultos" value={loading ? "…" : stats.hidden} accent="#9ca3af" />
               <StatCard label="Amazon" value={loading ? "…" : stats.amazon} accent="#ff9900" />
               <StatCard label="AliExpress" value={loading ? "…" : stats.aliexpress} accent="#e62e04" />
+              <StatCard label="DHgate" value={loading ? "…" : stats.dhgate} accent="#f5a623" />
+              <StatCard label="RedMagic" value={loading ? "…" : stats.redmagic} accent="#e60012" />
             </div>
 
             {/* Toolbar */}
@@ -679,6 +684,8 @@ export default function AdminPage() {
                   <option value="all">Todas las tiendas</option>
                   <option value="Amazon">Amazon</option>
                   <option value="AliExpress">AliExpress</option>
+                  <option value="DHgate">DHgate</option>
+                  <option value="RedMagic">RedMagic</option>
                 </select>
                 <select style={inputStyle} value={filterStatus} onChange={(e) => setFilterStatus(e.target.value as typeof filterStatus)}>
                   <option value="all">Todos los estados</option>
@@ -697,7 +704,7 @@ export default function AdminPage() {
                   <div style={{ fontSize: 40, marginBottom: 8 }}>🛍️</div>
                   <h3 style={{ margin: "0 0 8px", fontSize: 18 }}>Aún no hay productos</h3>
                   <p style={{ color: "#6b7280", margin: "0 0 20px", fontSize: 14 }}>
-                    Pega un link de Amazon o AliExpress y crea tu primer producto.
+                    Pega un link de Amazon, AliExpress, DHgate o RedMagic y crea tu primer producto.
                   </p>
                   <button style={btnBlue} onClick={newProduct}>Crear el primero</button>
                 </div>
@@ -738,9 +745,9 @@ export default function AdminPage() {
                               fontWeight: 700,
                               padding: "2px 8px",
                               borderRadius: 999,
-                              background: p.store === "Amazon" ? "#fff7ed" : "#fef2f2",
-                              color: p.store === "Amazon" ? "#c2410c" : "#b91c1c",
-                              border: `1px solid ${p.store === "Amazon" ? "#fed7aa" : "#fecaca"}`,
+                              background: p.store === "Amazon" ? "#fff7ed" : p.store === "AliExpress" ? "#fef2f2" : p.store === "DHgate" ? "#fffaf0" : "#fef2f2",
+                              color: p.store === "Amazon" ? "#c2410c" : p.store === "AliExpress" ? "#b91c1c" : p.store === "DHgate" ? "#b45309" : "#be123c",
+                              border: `1px solid ${p.store === "Amazon" ? "#fed7aa" : p.store === "AliExpress" ? "#fecaca" : p.store === "DHgate" ? "#fde68a" : "#fecdd3"}`,
                             }}
                           >
                             {p.store}
@@ -799,13 +806,15 @@ export default function AdminPage() {
               <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 10 }}>
                 <a href="https://www.amazon.com/" target="_blank" rel="noopener noreferrer" style={{ ...btnBase, textDecoration: "none" }}>Abrir Amazon</a>
                 <a href="https://www.aliexpress.com/" target="_blank" rel="noopener noreferrer" style={{ ...btnBase, textDecoration: "none" }}>Abrir AliExpress</a>
-                <a href="https://www.amazon.com/gp/bestsellers/electronics/" target="_blank" rel="noopener noreferrer" style={{ ...btnBase, textDecoration: "none" }}>Amazon Tech</a>
-                <a href="https://www.aliexpress.com/category/44/consumer-electronics.html" target="_blank" rel="noopener noreferrer" style={{ ...btnBase, textDecoration: "none" }}>AliExpress Tech</a>
+                <a href="https://www.dhgate.com/" target="_blank" rel="noopener noreferrer" style={{ ...btnBase, textDecoration: "none" }}>Abrir DHgate</a>
+                <a href="https://www.redmagic.gg/" target="_blank" rel="noopener noreferrer" style={{ ...btnBase, textDecoration: "none" }}>Abrir RedMagic</a>
+                <a href="https://www.huion.com/" target="_blank" rel="noopener noreferrer" style={{ ...btnBase, textDecoration: "none" }}>Huion</a>
+                <a href="https://www.banggood.com/" target="_blank" rel="noopener noreferrer" style={{ ...btnBase, textDecoration: "none" }}>Banggood</a>
               </div>
               <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
                 <input
                   style={{ ...inputStyle, flex: "1 1 260px" }}
-                  placeholder="https://www.amazon.com/dp/... o enlace de AliExpress"
+                  placeholder="https://www.amazon.com/dp/... o enlace de otra tienda"
                   value={pasteUrl}
                   onChange={(e) => setPasteUrl(e.target.value)}
                 />
@@ -828,6 +837,8 @@ export default function AdminPage() {
                     <select style={inputStyle} value={form.store} onChange={(e) => setForm({ ...form, store: e.target.value as StoreName })}>
                       <option value="Amazon">Amazon</option>
                       <option value="AliExpress">AliExpress</option>
+                      <option value="DHgate">DHgate</option>
+                      <option value="RedMagic">RedMagic</option>
                     </select>
                   </div>
                   <div>

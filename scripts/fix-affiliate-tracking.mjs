@@ -26,6 +26,8 @@ function withTag(url, store, amazonTag, aliTrackId) {
     const host = u.hostname.toLowerCase();
     if (store === "Amazon" && host.includes("amazon.")) { if (amazonTag) u.searchParams.set("tag", amazonTag); return u.toString(); }
     if (store === "AliExpress" && host.includes("aliexpress.")) { if (aliTrackId) u.searchParams.set("aff_trace_key", aliTrackId); return u.toString(); }
+    if (store === "DHgate" && host.includes("dhgate.")) { return u.toString(); }
+    if (store === "RedMagic" && host.includes("redmagic.")) { return u.toString(); }
     return url;
   } catch { return url; }
 }

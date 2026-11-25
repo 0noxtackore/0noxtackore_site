@@ -28,7 +28,7 @@ function docToProduct(doc: FirestoreDoc): StoreProductRecord | null {
   if (!id) return null;
   const f = doc.fields;
   const store = str(f, "store");
-  if (store !== "Amazon" && store !== "AliExpress") return null;
+  if (store !== "Amazon" && store !== "AliExpress" && store !== "DHgate" && store !== "RedMagic") return null;
   return {
     id,
     active: bool(f, "active"),

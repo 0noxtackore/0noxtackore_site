@@ -30,6 +30,8 @@ function detectStore(url) {
   const h = new URL(url).hostname.toLowerCase();
   if (h.includes("amazon.")) return "Amazon";
   if (h.includes("aliexpress.")) return "AliExpress";
+  if (h.includes("dhgate.")) return "DHgate";
+  if (h.includes("redmagic.")) return "RedMagic";
   return null;
 }
 
@@ -95,7 +97,7 @@ async function processUrl(raw) {
   const original = raw.trim();
   if (!isHttpUrl(original)) return { ok: false, url: original, reason: "URL inválida" };
   const store = detectStore(original);
-  if (!store) return { ok: false, url: original, reason: "Solo Amazon/AliExpress" };
+  if (!store) return { ok: false, url: original, reason: "Solo Amazon/AliExpress/DHgate/RedMagic" };
   const affiliateUrl = cleanUrl(original);
   let html;
   try { html = await fetchHtml(affiliateUrl); }
@@ -120,8 +122,8 @@ async function processUrl(raw) {
       affiliateUrl,
       imageUrl,
       imageSource: "affiliate",
-      priceNoteEs: store === "Amazon" ? "Ver precio en Amazon" : "Ver precio en AliExpress",
-      priceNoteEn: store === "Amazon" ? "See price on Amazon" : "See price on AliExpress",
+      priceNoteEs: store === "Amazon" ? "Ver precio en Amazon" : store === "AliExpress" ? "Ver precio en AliExpress" : store === "DHgate" ? "Ver precio en DHgate" : "Ver precio en RedMagic",
+      priceNoteEn: store === "Amazon" ? "See price on Amazon" : store === "AliExpress" ? "See price on AliExpress" : store === "DHgate" ? "See price on DHgate" : "See price on RedMagic",
       nameEs: shortName,
       nameEn: shortName,
       descriptionEs: descEs,

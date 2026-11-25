@@ -86,7 +86,7 @@ function validate(doc) {
   if (!descEn) reasons.push("falta descriptionEn");
   if (!isHttpUrl(affiliateUrl)) reasons.push("affiliateUrl inválida");
   if (!isHttpUrl(imageUrl)) reasons.push("imageUrl inválida");
-  if (!["Amazon", "AliExpress"].includes(store)) reasons.push("store inválida");
+  if (!["Amazon","AliExpress","DHgate","RedMagic"].includes(store)) reasons.push("store inv?lida");
   if (!category) reasons.push("falta category");
   if (nameEs.length > 180 || nameEn.length > 180) reasons.push("nombre demasiado largo");
   if (descEs.length < 20 || descEn.length < 20) reasons.push("descripción demasiado corta");

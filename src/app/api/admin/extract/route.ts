@@ -7,7 +7,7 @@ type Extracted = {
   name: string;
   description: string;
   imageUrl: string;
-  store: "Amazon" | "AliExpress" | "";
+  store: "Amazon" | "AliExpress" | "DHgate" | "RedMagic" | "";
   priceNote: string;
   affiliateUrl: string;
   source: "direct" | "wayback" | "scraperapi";
@@ -39,16 +39,18 @@ function decodeHtml(s: string) {
     .trim();
 }
 
-function detectStore(url: string): "Amazon" | "AliExpress" | "" {
+function detectStore(url: string): "Amazon" | "AliExpress" | "DHgate" | "RedMagic" | "" {
   try {
     const h = new URL(url).hostname.toLowerCase();
     if (h.includes("amazon.")) return "Amazon";
     if (h.includes("aliexpress.")) return "AliExpress";
+    if (h.includes("dhgate.")) return "DHgate";
+    if (h.includes("redmagic.")) return "RedMagic";
   } catch {}
   return "";
 }
 
-function withAffiliateTag(url: string, store: "Amazon" | "AliExpress" | "", amazonTag: string, aliTrackId: string) {
+function withAffiliateTag(url: string, store: "Amazon" | "AliExpress" | "DHgate" | "RedMagic" | "", amazonTag: string, aliTrackId: string) {
   try {
     const u = new URL(url);
     const host = u.hostname.toLowerCase();
@@ -164,7 +166,7 @@ function extractJsonLd(html: string): { name?: string; description?: string; ima
   return out;
 }
 
-function extractFields(html: string, store: "Amazon" | "AliExpress" | "") {
+function extractFields(html: string, store: "Amazon" | "AliExpress" | "DHgate" | "RedMagic" | "") {
   const ld = extractJsonLd(html);
 
   const title = decodeHtml(
@@ -204,7 +206,11 @@ function extractFields(html: string, store: "Amazon" | "AliExpress" | "") {
       ? "Precio en Amazon / Price on Amazon"
       : store === "AliExpress"
         ? "Precio en AliExpress / Price on AliExpress"
-        : "";
+        : store === "DHgate"
+          ? "Precio en DHgate / Price on DHgate"
+          : store === "RedMagic"
+            ? "Precio en RedMagic / Price on RedMagic"
+            : "";
 
   return { title, description, imageUrl, priceNote };
 }
@@ -235,7 +241,11 @@ export async function POST(req: Request) {
         ? "Precio en Amazon / Price on Amazon"
         : store === "AliExpress"
           ? "Precio en AliExpress / Price on AliExpress"
-          : "";
+          : store === "DHgate"
+            ? "Precio en DHgate / Price on DHgate"
+            : store === "RedMagic"
+              ? "Precio en RedMagic / Price on RedMagic"
+              : "";
 
     const partial = (warning: string, status = 200) =>
       NextResponse.json(
@@ -281,7 +291,7 @@ export async function POST(req: Request) {
       } else {
         const reason = directError || wb.error || "bloqueado por la tienda";
         return partial(
-          `No se pudo extraer el contenido (${reason}). Amazon/AliExpress suelen bloquear servidores. Rellena el formulario a mano: la URL afiliada y la tienda ya están completas.`,
+          `No se pudo extraer el contenido (${reason}). Algunas tiendas bloquean servidores. Rellena el formulario a mano: la URL afiliada y la tienda ya están completas.`,
         );
       }
     }
