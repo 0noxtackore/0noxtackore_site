@@ -31,6 +31,7 @@ export type Content = {
   heroSlides: { desktop: string; mobile: string; alt: string; blur: string; objectPositionDesktop?: string }[];
   areas: (TextBlock & { slug: string; image: string; alt: string; icon: string; blur: string })[];
   philosophy: { paragraphs: string[]; statement: string };
+  why: { kicker: string; title: string; intro: string; points: TextBlock[] };
   recommendation: { title: string; paragraphs: string[]; highlights: string[] };
   values: TextBlock[];
   trust: TextBlock[];
@@ -248,6 +249,17 @@ const es: Content = {
       "Nuestro objetivo no es crear tecnología por crearla, sino desarrollar y acercar soluciones que generen un impacto positivo.",
     ],
     statement: "Construimos tecnología con propósito.",
+  },
+  why: {
+    kicker: "Por qué 0NOXTACKORE",
+    title: "Recomendamos con criterio de ingeniería",
+    intro:
+      "Somos una compañía que desarrolla software y proyectos open source. Ese trabajo diario con tecnología define cómo revisamos un equipo: procesador, memoria RAM, almacenamiento, pantalla, batería y reputación del vendedor.",
+    points: [
+      { title: "Criterio de ingeniería", description: "Evaluamos el equipo por rendimiento y uso real, con la misma mirada técnica que aplicamos a nuestro software." },
+      { title: "Open source con responsabilidad", description: "Respetamos licencias y autores en cada proyecto que desarrollamos o analizamos." },
+      { title: "Transparencia de afiliado", description: "Podemos recibir comisión por compras elegibles. No fabricamos ni vendemos directamente los equipos." },
+    ],
   },
   recommendation: {
     title: "Recomendación y afiliación tecnológica",
@@ -535,6 +547,17 @@ const en: Content = {
       "Our goal is not to create technology for its own sake, but to develop and deliver solutions that generate a positive impact.",
     ],
     statement: "We build technology with purpose.",
+  },
+  why: {
+    kicker: "Why 0NOXTACKORE",
+    title: "Recommendations backed by engineering",
+    intro:
+      "We are a company that builds software and open-source projects. Working with technology every day shapes how we review a device: processor, RAM, storage, display, battery, and seller reputation.",
+    points: [
+      { title: "Engineering criteria", description: "We evaluate devices for real performance and real use, with the same technical judgment we apply to our software." },
+      { title: "Responsible open source", description: "We respect licenses and authors in every project we build or analyze." },
+      { title: "Affiliate transparency", description: "We may earn a commission on eligible purchases. We are not the manufacturers or direct sellers of the devices." },
+    ],
   },
   recommendation: {
     title: "Technology recommendation and affiliation",

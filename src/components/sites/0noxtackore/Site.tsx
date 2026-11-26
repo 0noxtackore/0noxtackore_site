@@ -137,6 +137,7 @@ export function Site({ locale }: { locale: Locale }) {
     megaGroups,
     navLinks,
     philosophy,
+    why,
     recommendation,
     trust,
     values,
@@ -239,6 +240,25 @@ export function Site({ locale }: { locale: Locale }) {
                   {ui.heroPhilosophy}
                 </Link>
               </div>
+            </div>
+          </div>
+        </section>
+
+        <section className={styles.sectionTight} id="por-que" aria-labelledby="why-title">
+          <div className={styles.sectionInner}>
+            <div className={styles.sectionHead}>
+              <div className={styles.sectionKicker}>{why.kicker}</div>
+              <h2 id="why-title" className={styles.sectionTitle}>{why.title}</h2>
+              <p className={styles.sectionText}>{why.intro}</p>
+            </div>
+            <div className={styles.valueGrid}>
+              {why.points.map((point, index) => (
+                <article key={point.title} className={styles.valueCard}>
+                  <span className={styles.valueNumber}>0{index + 1}</span>
+                  <h3 className={styles.valueTitle}>{point.title}</h3>
+                  <p className={styles.valueText}>{point.description}</p>
+                </article>
+              ))}
             </div>
           </div>
         </section>
