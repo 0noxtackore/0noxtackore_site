@@ -1554,6 +1554,27 @@
   gap: 10px;
   margin-top: auto;
   align-items: center;
+  justify-content: center;
+}
+.btnPrimary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: 1px solid #1d4ed8;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+}
+.btnPrimary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(37, 99, 235, 0.35);
+  filter: brightness(1.05);
 }
 .storeDetailBtn {
   display: inline-flex;
@@ -1561,18 +1582,18 @@
   justify-content: center;
   padding: 10px 16px;
   border-radius: 10px;
-  border: 1px solid #d6e0ea;
-  background: #fff;
-  color: var(--ink);
+  border: 1px solid #bfdbfe;
+  background: #eff6ff;
+  color: #1d4ed8;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
-  transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
 }
 .storeDetailBtn:hover {
-  border-color: var(--blue);
-  color: var(--blue);
-  background: #f7fbff;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(37, 99, 235, 0.18);
+  background: #dbeafe;
 }
 .storeModalOverlay {
   position: fixed;
@@ -2319,4 +2340,28 @@
 }
 .storeCatalog .storeCardImage {
   transform: none;
+}
+
+/* Product detail: mismas cards del catálogo. */
+.similarSection .storeGrid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-auto-rows: 1fr;
+  gap: 12px;
+}
+.similarSection .storeCard { align-self: stretch; height: 100%; }
+.similarSection .storeCardBody { flex: 1; padding: 12px; }
+.similarSection .storeCardMeta { margin-bottom: 6px; }
+.similarSection .storeCardTitle { font-size: 15px; line-height: 20px; margin: 6px 0 8px; }
+.similarSection .storeCardDesc { font-size: 12px; line-height: 16px; margin-bottom: 8px; }
+.similarSection .storeCardPrice { font-size: 11px; padding: 5px 8px; margin-bottom: 8px; }
+.similarSection .storeCardActions { margin-top: auto; justify-content: center; }
+.similarSection .storeCardImageBtn { border-radius: 0; overflow: visible; background: transparent; }
+@media (max-width: 1200px) {
+  .similarSection .storeGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 980px) {
+  .similarSection .storeGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 700px) {
+  .similarSection .storeGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }

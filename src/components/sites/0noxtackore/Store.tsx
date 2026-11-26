@@ -269,7 +269,7 @@ export function Store({ locale, products: records }: Props) {
                               height: "100%",
                               boxSizing: "border-box",
                               objectFit: "contain",
-                              borderRadius: 12,
+                              borderRadius: 0,
                               border: "2px solid royalblue",
                               padding: 0,
                             }}

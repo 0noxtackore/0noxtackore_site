@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 
 import { getContent } from "./content";
@@ -28,6 +29,12 @@ function mapProduct(p: StoreProductRecord, locale: Locale) {
     image: p.imageUrl,
     badge: locale === "es" ? p.badgeEs : p.badgeEn,
   };
+}
+
+function truncateText(value: string, maxLength: number) {
+  const text = value.replace(/\s+/g, " ").trim();
+  if (text.length <= maxLength) return text;
+  return `${text.slice(0, Math.max(0, maxLength - 3)).trimEnd()}...`;
 }
 
 export function ProductDetail({ locale, product: record, similar }: Props) {
@@ -90,6 +97,13 @@ export function ProductDetail({ locale, product: record, similar }: Props) {
                 src={product.image}
                 alt={product.name}
                 className={styles.productDetailImage}
+                style={{
+                  boxSizing: "border-box",
+                  objectFit: "contain",
+                  borderRadius: 0,
+                  border: "2px solid royalblue",
+                  padding: 10,
+                }}
               />
             </button>
           </div>
@@ -125,16 +139,36 @@ export function ProductDetail({ locale, product: record, similar }: Props) {
                 {similarProducts.map((p) => (
                   <article key={p.id} className={styles.storeCard}>
                     <Link href={`${storePath}/${p.id}`} className={styles.storeCardImageBtn}>
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={p.image} alt={p.name} loading="lazy" className={styles.storeCardImage} />
+                      <Image
+                        src={p.image}
+                        alt={p.name}
+                        fill
+                        sizes="(max-width: 700px) 50vw, (max-width: 980px) 33vw, 25vw"
+                        quality={70}
+                        loading="lazy"
+                        decoding="async"
+                        fetchPriority="low"
+                        className={styles.storeCardImage}
+                        style={{
+                          inset: 0,
+                          width: "100%",
+                          height: "100%",
+                          boxSizing: "border-box",
+                          objectFit: "contain",
+                          borderRadius: 0,
+                          border: "2px solid royalblue",
+                          padding: 0,
+                        }}
+                        onError={(e) => { e.currentTarget.style.display = "none"; }}
+                      />
                       {p.badge ? <span className={styles.storeBadge}>{p.badge}</span> : null}
                     </Link>
                     <div className={styles.storeCardBody}>
                       <p className={styles.storeCardMeta}>
                         {p.category} · {p.store}
                       </p>
-                      <h3 className={styles.storeCardTitle}>{p.name}</h3>
-                      <p className={styles.storeCardDesc}>{p.description}</p>
+                      <h3 className={styles.storeCardTitle}>{truncateText(p.name, 60)}</h3>
+                      <p className={styles.storeCardDesc}>{truncateText(p.description, 100)}</p>
                       <p className={styles.storeCardPrice}>{p.priceNote}</p>
                       <div className={styles.storeCardActions}>
                         <Link href={`${storePath}/${p.id}`} className={styles.storeDetailBtn}>
