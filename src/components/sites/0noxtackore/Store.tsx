@@ -94,6 +94,12 @@ export function Store({ locale, products: records }: Props) {
     setSelectedStores((prev) => (prev.includes(s) ? prev.filter((x) => x !== s) : [...prev, s]));
   };
 
+  const truncateText = (value: string, maxLength: number) => {
+    const text = value.replace(/\s+/g, " ").trim();
+    if (text.length <= maxLength) return text;
+    return `${text.slice(0, Math.max(0, maxLength - 3)).trimEnd()}...`;
+  };
+
   const categoryIcon = (name: string) => {
     const n = name.toLowerCase();
     if (n.includes("gaming") || n.includes("juego")) return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M6 8h12a3 3 0 0 1 3 3v4a2 2 0 0 1-2 2h-2l-2-2h-6l-2 2H5a2 2 0 0 1-2-2v-4a3 3 0 0 1 3-3z"/><path d="M8 11h2m-1-1v2m6 .5h.01M17 12.5h.01"/></svg>;
@@ -253,9 +259,9 @@ export function Store({ locale, products: records }: Props) {
                         <div className={styles.storeCardBody}>
                           <p className={styles.storeCardMeta}>{product.category} · {product.store}</p>
                           <h3 className={styles.storeCardTitle}>
-                            <Link href={`${storePath}/${product.id}`} className={styles.storeCardTitleLink}>{product.name}</Link>
+                            <Link href={`${storePath}/${product.id}`} className={styles.storeCardTitleLink}>{truncateText(product.name, 60)}</Link>
                           </h3>
-                          <p className={styles.storeCardDesc}>{product.description}</p>
+                          <p className={styles.storeCardDesc}>{truncateText(product.description, 100)}</p>
                           <p className={styles.storeCardPrice}>{product.priceNote}</p>
                           <div className={styles.storeCardActions}>
                             <Link href={`${storePath}/${product.id}`} className={styles.storeDetailBtn}>{store.viewDetails}</Link>
