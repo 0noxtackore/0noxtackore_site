@@ -1556,7 +1556,7 @@
   align-items: center;
   justify-content: center;
 }
-.btnPrimary {
+.page a.btnPrimary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1574,8 +1574,8 @@
   box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
   transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
 }
-.btnPrimary:visited { color: #fff; text-decoration: none; }
-.btnPrimary:hover {
+.page a.btnPrimary:visited { color: #fff; text-decoration: none; }
+.page a.btnPrimary:hover {
   color: #fff;
   text-decoration: none;
   transform: translateY(-1px);
