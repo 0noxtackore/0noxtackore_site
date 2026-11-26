@@ -858,7 +858,7 @@ export default function AdminPage() {
                       <div style={{ width: 72, height: 72, background: "#f3f4f6", borderRadius: 10, overflow: "hidden", display: "grid", placeItems: "center", flexShrink: 0 }}>
                         {p.imageUrl ? (
                           // eslint-disable-next-line @next/next/no-img-element
-                          <img src={p.imageUrl} alt={p.nameEs || p.nameEn || "Producto"} style={{ width: "100%", height: "100%", objectFit: "contain" }} />
+                          <img src={p.imageUrl} alt={p.nameEs || p.nameEn || "Producto"} style={{ width: "100%", height: "100%", boxSizing: "border-box", objectFit: "contain", borderRadius: 10, border: "2px solid royalblue" }} />
                         ) : (
                           <span style={{ fontSize: 22, opacity: 0.4 }}>📦</span>
                         )}

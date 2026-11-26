@@ -264,14 +264,14 @@ export function Store({ locale, products: records }: Props) {
                             fetchPriority="low"
                             className={styles.storeCardImage}
                             style={{
-                              inset: 6,
-                              width: "calc(100% - 12px)",
-                              height: "calc(100% - 12px)",
+                              inset: 0,
+                              width: "100%",
+                              height: "100%",
                               boxSizing: "border-box",
                               objectFit: "contain",
                               borderRadius: 12,
                               border: "2px solid royalblue",
-                              padding: 10,
+                              padding: 0,
                             }}
                             onError={(e) => { e.currentTarget.style.display = "none"; }}
                           />
