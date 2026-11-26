@@ -13,10 +13,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { key: "home" as const, priority: 1, changeFrequency: "weekly" as const },
     { key: "guia" as const, priority: 0.8, changeFrequency: "monthly" as const },
     { key: "acerca" as const, priority: 0.8, changeFrequency: "monthly" as const },
+    { key: "privacidad" as const, priority: 0.5, changeFrequency: "yearly" as const },
     { key: "tienda" as const, priority: 0.8, changeFrequency: "weekly" as const },
   ];
 
-  const pathFor = (locale: "es" | "en", key: "home" | "guia" | "acerca" | "tienda") =>
+  const pathFor = (locale: "es" | "en", key: "home" | "guia" | "acerca" | "tienda" | "privacidad") =>
     key === "home" ? `/${locale}` : `/${locale}/${getPageSlug(locale, key)}`;
 
   const entries: MetadataRoute.Sitemap = [];

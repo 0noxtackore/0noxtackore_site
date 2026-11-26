@@ -68,6 +68,13 @@ export type Content = {
       back: string;
       captions: Record<string, string>;
     };
+    privacidad: {
+      title: string;
+      description: string;
+      kicker: string;
+      lead: string;
+      sections: TextBlock[];
+    };
     acerca: {
       title: string;
       description: string;
@@ -330,6 +337,7 @@ const es: Content = {
       { label: "Guía para elegir laptop", href: localizedHref("es", "/guia") },
       { label: "Tienda", href: localizedHref("es", "/tienda") },
       { label: "Acerca de", href: localizedHref("es", "/acerca") },
+      { label: "Privacidad", href: localizedHref("es", "/privacidad") },
     ] },
     { title: "Servicios", links: [
       { label: "Desarrollo de software", href: localizedHref("es", "/areas/desarrollo-de-software") },
@@ -385,6 +393,19 @@ const es: Content = {
     labels: { whatsapp: "WhatsApp", x: "X", linkedin: "LinkedIn", facebook: "Facebook", copy: "Copiar enlace", copied: "¡Enlace copiado!", shareOn: "Compartir en" },
   },
   pages: {
+    privacidad: {
+      title: "Política de privacidad",
+      description: "Qué datos maneja 0NOXTACKORE, cómo funcionan las cookies de analítica y qué ocurre con los enlaces de afiliado.",
+      kicker: "Privacidad",
+      lead: "0NOXTACKORE es un proyecto de recomendación de tecnología. No pedimos datos personales para leer el sitio y no vendemos información de los visitantes.",
+      sections: [
+        { title: "Datos que manejamos", description: "El acceso al panel de administración usa Firebase Authentication. Las preferencias de cookies se guardan en el navegador del visitante." },
+        { title: "Analítica y cookies", description: "Si aceptas las cookies, cargamos Google Analytics, Google Tag Manager y las herramientas de Vercel para medir el uso del sitio. Si las rechazas, esas etiquetas no se cargan." },
+        { title: "Enlaces de afiliado", description: "Algunos enlaces a tiendas pueden generar una comisión si realizas una compra elegible. El precio y las condiciones se muestran en la tienda correspondiente." },
+        { title: "No vendemos datos", description: "No vendemos ni cedemos información personal de los visitantes." },
+        { title: "Contacto", description: "Puedes escribirnos a través de los canales publicados en la sección Contacto: YouTube, Facebook e Instagram." },
+      ],
+    },
     guia: {
       title: "Cómo elegir una laptop con buena relación calidad-precio",
       description: "Guía práctica para evaluar procesador, memoria RAM, almacenamiento y batería antes de comprar una laptop, con criterios claros y sin promesas vacías.",
@@ -628,6 +649,7 @@ const en: Content = {
       { label: "Laptop buying guide", href: localizedHref("en", "/guia") },
       { label: "Store", href: localizedHref("en", "/tienda") },
       { label: "About", href: localizedHref("en", "/acerca") },
+      { label: "Privacy", href: localizedHref("en", "/privacidad") },
     ] },
     { title: "Services", links: [
       { label: "Software development", href: localizedHref("en", "/areas/desarrollo-de-software") },
@@ -682,6 +704,19 @@ const en: Content = {
     labels: { whatsapp: "WhatsApp", x: "X", linkedin: "LinkedIn", facebook: "Facebook", copy: "Copy link", copied: "Link copied!", shareOn: "Share on" },
   },
   pages: {
+    privacidad: {
+      title: "Privacy policy",
+      description: "What data 0NOXTACKORE handles, how analytics cookies work, and how affiliate links are handled.",
+      kicker: "Privacy",
+      lead: "0NOXTACKORE is a technology recommendation project. We do not ask for personal data to read the site and we do not sell visitor information.",
+      sections: [
+        { title: "Data we handle", description: "Admin access uses Firebase Authentication. Cookie preferences are stored in the visitor's browser." },
+        { title: "Analytics and cookies", description: "If you accept cookies, we load Google Analytics, Google Tag Manager, and Vercel tools to measure site usage. If you reject them, those tags are not loaded." },
+        { title: "Affiliate links", description: "Some store links may earn a commission on eligible purchases. Prices and terms are shown on the corresponding store." },
+        { title: "We do not sell data", description: "We do not sell or share visitors' personal information." },
+        { title: "Contact", description: "You can reach us through the channels listed on the Contact page: YouTube, Facebook, and Instagram." },
+      ],
+    },
     guia: {
       title: "How to choose a laptop with good value for money",
       description: "A practical guide to evaluating processor, RAM, storage and battery before buying a laptop, with clear criteria and no empty promises.",

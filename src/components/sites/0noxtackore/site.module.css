@@ -2382,3 +2382,10 @@
 @media (max-width: 700px) {
   .storeCatalog .storeCatalogMain .storeGrid { grid-template-columns: 1fr; }
 }
+
+/* Accesibilidad: enlaces del footer y botones de compartir con contraste suficiente. */
+.page a.footerLink { color: #bcd3e8; }
+.page a.footerLink:hover { color: #fff; }
+.page .shareButton.shareWhatsapp { background: #0a7a36; color: #fff; }
+.page .shareButton.shareFacebook { background: #0b5ed7; color: #fff; }
+.page .shareButton.shareLinkedin { background: #084b8a; color: #fff; }

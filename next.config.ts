@@ -33,6 +33,7 @@ const defaultLocale = "es";
 
 const nextConfig: NextConfig = {
   output: "standalone",
+  poweredByHeader: false,
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "**.alicdn.com", pathname: "/**" },
@@ -117,6 +118,14 @@ const nextConfig: NextConfig = {
     ].join("; ");
 
     return [
+      {
+        source: "/_next/static/:path*",
+        headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
+      },
+      {
+        source: "/sites/:path*",
+        headers: [{ key: "Cache-Control", value: "public, max-age=604800, stale-while-revalidate=86400" }],
+      },
       {
         source: "/:path*",
         headers: [
