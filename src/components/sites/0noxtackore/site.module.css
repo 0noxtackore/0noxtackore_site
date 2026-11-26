@@ -2318,10 +2318,5 @@
   background: transparent;
 }
 .storeCatalog .storeCardImage {
-  inset: 6px;
-  width: calc(100% - 12px);
-  height: calc(100% - 12px);
-  border-radius: 12px;
-  border: 2px solid royalblue;
   transform: none;
 }

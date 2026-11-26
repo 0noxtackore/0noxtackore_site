@@ -263,6 +263,16 @@ export function Store({ locale, products: records }: Props) {
                             decoding="async"
                             fetchPriority="low"
                             className={styles.storeCardImage}
+                            style={{
+                              inset: 6,
+                              width: "calc(100% - 12px)",
+                              height: "calc(100% - 12px)",
+                              boxSizing: "border-box",
+                              objectFit: "contain",
+                              borderRadius: 12,
+                              border: "2px solid royalblue",
+                              padding: 10,
+                            }}
                             onError={(e) => { e.currentTarget.style.display = "none"; }}
                           />
                           {product.badge ? <span className={styles.storeBadge}>{product.badge}</span> : null}
