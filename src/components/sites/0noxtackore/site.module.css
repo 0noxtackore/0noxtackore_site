@@ -2371,3 +2371,14 @@
 @media (max-width: 700px) {
   .similarSection .storeGrid { grid-template-columns: 1fr; }
 }
+
+/* FIX: va al final para que no sea sobrescrito por la regla base de 4 columnas. */
+@media (max-width: 1200px) {
+  .storeCatalog .storeCatalogMain .storeGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 980px) {
+  .storeCatalog .storeCatalogMain .storeGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 700px) {
+  .storeCatalog .storeCatalogMain .storeGrid { grid-template-columns: 1fr; }
+}
