@@ -20,6 +20,7 @@ import {
 
 import { auth, db, firebaseConfigured } from "@/lib/firebase/client";
 import type { StoreProductInput, StoreProductRecord, StoreName } from "@/lib/store/types";
+import { STORE_CATEGORIES } from "@/lib/store/categories";
 
 type FormState = {
   id?: string;
@@ -209,8 +210,6 @@ export default function AdminPage() {
   const [filterStatus, setFilterStatus] = useState<"all" | "active" | "hidden">("all");
   const [xp, setXp] = useState(0);
   const [rewardMsg, setRewardMsg] = useState("");
-  const [categories, setCategories] = useState<{ id: string; name: string }[]>([]);
-  const [newCategory, setNewCategory] = useState("");
   const [translating, setTranslating] = useState<Set<string>>(new Set());
   const [autoTranslate, setAutoTranslate] = useState(true);
   const autoTimers = useRef<Record<string, ReturnType<typeof setTimeout> | undefined>>({});
@@ -266,41 +265,6 @@ export default function AdminPage() {
     }
   }
 
-  async function loadCategories() {
-    try {
-      const snap = await getDocs(query(collection(db, "categories"), orderBy("name", "asc")));
-      setCategories(snap.docs.map((d) => ({ id: d.id, name: String((d.data() as { name?: string }).name ?? "") })).filter((c) => c.name));
-    } catch (e) {
-      // If categories collection doesn't exist yet, keep empty - not fatal
-      console.error("Error cargando categorías", e);
-    }
-  }
-
-  async function addCategory() {
-    const name = newCategory.trim();
-    if (!name) return;
-    if (categories.some((c) => c.name.toLowerCase() === name.toLowerCase())) {
-      flash("Esa categoría ya existe.", "info");
-      return;
-    }
-    try {
-      await addDoc(collection(db, "categories"), { name, createdAt: new Date().toISOString() });
-      setNewCategory("");
-      await loadCategories();
-      flash("Categoría agregada.", "success");
-    } catch (e) {
-      flash(`Error creando categoría: ${String(e)}`, "error");
-    }
-  }
-
-  async function removeCategory(id: string) {
-    try {
-      await deleteDoc(doc(db, "categories", id));
-      await loadCategories();
-    } catch (e) {
-      flash(`Error eliminando categoría: ${String(e)}`, "error");
-    }
-  }
 
   async function translateField(field: "name" | "description" | "badge" | "priceNote", from: "es" | "en", to: "es" | "en") {
     const srcKey = `${field}${from === "es" ? "Es" : "En"}` as keyof FormState;
@@ -383,7 +347,6 @@ export default function AdminPage() {
   useEffect(() => {
     if (isAllowed) {
       void loadProducts();
-      void loadCategories();
     }
   }, [isAllowed]);
 
@@ -939,8 +902,8 @@ export default function AdminPage() {
                     <label style={labelStyle}>Categoría</label>
                     <select style={inputStyle} value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })}>
                       <option value="">Selecciona una categoría</option>
-                      {categories.map((c) => <option key={c.id} value={c.name}>{c.name}</option>)}
-                      {form.category && !categories.some((c) => c.name === form.category) && <option value={form.category}>{form.category}</option>}
+                      {STORE_CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
+                      {form.category && !STORE_CATEGORIES.includes(form.category) && <option value={form.category}>{form.category}</option>}
                     </select>
                   </div>
                   <div style={{ gridColumn: "1 / -1" }}>
@@ -966,23 +929,6 @@ export default function AdminPage() {
                       onChange={(e) => { const f = e.target.files?.[0]; if (f) void handleImageUpload(f); }}
                       style={{ fontSize: 13, width: "100%" }}
                     />
-                  </div>
-                </div>
-
-                <div style={{ marginTop: 14, padding: 14, border: "1px solid #e5e5e5", borderRadius: 12, background: "#fff" }}>
-                  <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", color: "#737373", marginBottom: 8 }}>Gestor de categorías</div>
-                  <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 10 }}>
-                    <input style={{ ...inputStyle, flex: "1 1 220px" }} placeholder="Nueva categoría..." value={newCategory} onChange={(e) => setNewCategory(e.target.value)} />
-                    <button type="button" style={btnBase} onClick={() => void addCategory()}>Agregar categoría</button>
-                  </div>
-                  <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                    {categories.length === 0 && <span style={{ fontSize: 12, color: "#737373" }}>Aún no hay categorías guardadas.</span>}
-                    {categories.map((c) => (
-                      <span key={c.id} style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "6px 10px", border: "1px solid #e5e5e5", borderRadius: 999, fontSize: 12, background: "#fafafa" }}>
-                        {c.name}
-                        <button type="button" onClick={() => void removeCategory(c.id)} style={{ border: 0, background: "transparent", cursor: "pointer", color: "#525252", fontSize: 12 }}>×</button>
-                      </span>
-                    ))}
                   </div>
                 </div>
 

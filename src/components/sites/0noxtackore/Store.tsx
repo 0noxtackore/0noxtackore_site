@@ -55,7 +55,10 @@ export function Store({ locale, products: records }: Props) {
     [locale, records],
   );
 
-  const categories = useMemo(() => Array.from(new Set(products.map((p) => p.category))), [products]);
+  const categories = useMemo(
+    () => Array.from(new Set(products.map((p) => p.category.trim()).filter(Boolean))).sort((a, b) => a.localeCompare(b)),
+    [products],
+  );
   const stores = useMemo(() => Array.from(new Set(products.map((p) => p.store))), [products]);
 
   const filtered = useMemo(() => {
