@@ -70,7 +70,6 @@ export async function getActiveProducts(): Promise<StoreProductRecord[]> {
               value: { booleanValue: true },
             },
           },
-          limit: 100,
         },
       }),
       next: { revalidate: 60 },
