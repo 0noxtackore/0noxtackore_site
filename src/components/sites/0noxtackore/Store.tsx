@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 
 import { getContent } from "./content";
@@ -252,8 +253,18 @@ export function Store({ locale, products: records }: Props) {
                     {filtered.map((product) => (
                       <article key={product.id} className={styles.storeCard}>
                         <Link href={`${storePath}/${product.id}`} className={styles.storeCardImageBtn} aria-label={`${store.viewDetails}: ${product.name}`}>
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img src={product.image} alt={product.name} loading="lazy" className={styles.storeCardImage} onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }} />
+                          <Image
+                            src={product.image}
+                            alt={product.name}
+                            fill
+                            sizes="(max-width: 700px) 50vw, (max-width: 980px) 33vw, (max-width: 1200px) 25vw, 20vw"
+                            quality={70}
+                            loading="lazy"
+                            decoding="async"
+                            fetchPriority="low"
+                            className={styles.storeCardImage}
+                            onError={(e) => { e.currentTarget.style.display = "none"; }}
+                          />
                           {product.badge ? <span className={styles.storeBadge}>{product.badge}</span> : null}
                         </Link>
                         <div className={styles.storeCardBody}>

@@ -33,6 +33,17 @@ const defaultLocale = "es";
 
 const nextConfig: NextConfig = {
   output: "standalone",
+  images: {
+    remotePatterns: [
+      { protocol: "https", hostname: "**.alicdn.com", pathname: "/**" },
+      { protocol: "https", hostname: "**.media-amazon.com", pathname: "/**" },
+      { protocol: "https", hostname: "**.ssl-images-amazon.com", pathname: "/**" },
+      { protocol: "https", hostname: "**.amazon.com", pathname: "/**" },
+      { protocol: "https", hostname: "**.dhgate.com", pathname: "/**" },
+      { protocol: "https", hostname: "**.redmagic.com", pathname: "/**" },
+      { protocol: "https", hostname: "**.supabase.co", pathname: "/**" },
+    ],
+  },
   async redirects() {
     const redirects: { source: string; destination: string; permanent: boolean }[] = [];
 

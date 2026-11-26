@@ -1493,10 +1493,10 @@
   height: 220px;
   object-fit: cover;
   display: block;
-  transition: transform 0.25s ease;
+  transition: border-color 0.2s ease;
 }
 .storeCardImageBtn:hover .storeCardImage {
-  transform: scale(1.02);
+  transform: none;
 }
 .storeBadge {
   position: absolute;
@@ -2313,4 +2313,8 @@
 .storeCatalog .storeCardBody { flex: 1; }
 .storeCatalog .storeCardActions { margin-top: auto; }
 .storeCatalog .storeCardImageBtn { border-radius: 12px; overflow: hidden; }
-.storeCatalog .storeCardImage { border-radius: 12px; }
+.storeCatalog .storeCardImage {
+  border-radius: 12px;
+  border: 2px solid royalblue;
+  transform: none;
+}
