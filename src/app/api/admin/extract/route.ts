@@ -7,6 +7,7 @@ type Extracted = {
   name: string;
   description: string;
   imageUrl: string;
+  images: string[];
   store: "Amazon" | "AliExpress" | "DHgate" | "RedMagic" | "";
   priceNote: string;
   affiliateUrl: string;
@@ -133,8 +134,8 @@ function formatSnapshotDate(ts?: string): string {
   return `${ts.slice(6, 8)}/${ts.slice(4, 6)}/${ts.slice(0, 4)}`;
 }
 
-function extractJsonLd(html: string): { name?: string; description?: string; image?: string } {
-  const out: { name?: string; description?: string; image?: string } = {};
+function extractJsonLd(html: string): { name?: string; description?: string; image?: string; images: string[] } {
+  const out: { name?: string; description?: string; image?: string; images: string[] } = { images: [] };
   const re = /<script[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi;
   let m: RegExpExecArray | null;
   while ((m = re.exec(html))) {
@@ -151,10 +152,12 @@ function extractJsonLd(html: string): { name?: string; description?: string; ima
         if (!isProduct) continue;
         if (!out.name && typeof n.name === "string") out.name = n.name;
         if (!out.description && typeof n.description === "string") out.description = n.description;
-        if (!out.image) {
-          if (typeof n.image === "string") out.image = n.image;
-          else if (Array.isArray(n.image) && typeof n.image[0] === "string") out.image = n.image[0];
+        const imgs = Array.isArray(n.image) ? n.image : n.image ? [n.image] : [];
+        for (const img of imgs) {
+          if (typeof img === "string") out.images.push(img);
+          else if (img && typeof img === "object" && typeof (img as { url?: unknown }).url === "string") out.images.push((img as { url: string }).url);
         }
+        if (!out.image && out.images[0]) out.image = out.images[0];
       }
     } catch {
       /* JSON inválido: ignorar */
@@ -187,16 +190,43 @@ function extractFields(html: string, store: "Amazon" | "AliExpress" | "DHgate" |
     ]) || ld.description || "",
   );
 
-  const imageUrl = decodeHtml(
-    pickMeta(html, [
-      /<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/i,
-      /<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:image["']/i,
-      /<meta[^>]+name=["']twitter:image["'][^>]+content=["']([^"']+)["']/i,
-      /<meta[^>]+content=["']([^"']+)["'][^>]+name=["']twitter:image["']/i,
-      /<img[^>]+id=["']landingImage["'][^>]+src=["']([^"']+)["']/i,
-      /<img[^>]+src=["']([^"']+)["'][^>]+id=["']landingImage["']/i,
-    ]) || ld.image || "",
-  );
+  const imageCandidates: string[] = [];
+  const addImg = (v?: string) => {
+    const s = decodeHtml(v || "").trim();
+    if (!s) return;
+    if (!/^https?:\/\//i.test(s)) return;
+    if (!/\.(jpg|jpeg|png|webp|avif)(\?|#|$)/i.test(s) && !/\/images\//i.test(s) && !/alicdn|media-amazon|dhgate|redmagic/i.test(s)) return;
+    if (!imageCandidates.includes(s)) imageCandidates.push(s);
+  };
+  for (const re of [
+    /<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/gi,
+    /<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:image["']/gi,
+    /<meta[^>]+name=["']twitter:image["'][^>]+content=["']([^"']+)["']/gi,
+    /<meta[^>]+content=["']([^"']+)["'][^>]+name=["']twitter:image["']/gi,
+    /<img[^>]+id=["']landingImage["'][^>]+src=["']([^"']+)["']/gi,
+    /<img[^>]+class=["'][^"']*product[^"']*["'][^>]+src=["']([^"']+)["']/gi,
+  ]) {
+    let mm: RegExpExecArray | null;
+    while ((mm = re.exec(html))) addImg(mm[1]);
+  }
+  for (const img of ld.images) addImg(img);
+  for (const re of [/"hiRes":"([^"]+)"/g, /"large":"([^"]+)"/g, /"mainUrl":"([^"]+)"/g, /"imagePathList"\s*:\s*\[([^\]]+)\]/g, /"images"\s*:\s*\[([^\]]+)\]/g]) {
+    let mm: RegExpExecArray | null;
+    while ((mm = re.exec(html))) {
+      const chunk = mm[1];
+      if (chunk.includes('"')) {
+        for (const im of chunk.matchAll(/"((?:https?:)?\/\/[^"]+)"/g)) addImg(im[1].startsWith("//") ? `https:${im[1]}` : im[1]);
+      } else {
+        addImg(chunk);
+      }
+    }
+  }
+  for (const re of [/data-src=["']([^"']+)["']/gi, /data-zoom-image=["']([^"']+)["']/gi, /src=["']((?:https?:)?\/\/[^"']*(?:alicdn|media-amazon|m\.media-amazon|ae01|ae04|dhgate|redmagic)[^"']+)["']/gi]) {
+    let mm: RegExpExecArray | null;
+    while ((mm = re.exec(html))) addImg(mm[1].startsWith("//") ? `https:${mm[1]}` : mm[1]);
+  }
+  const images = imageCandidates.slice(0, 12);
+  const imageUrl = images[0] || decodeHtml(ld.image || "");
 
   const priceNote =
     store === "Amazon"
@@ -209,7 +239,7 @@ function extractFields(html: string, store: "Amazon" | "AliExpress" | "DHgate" |
             ? "Precio en RedMagic / Price on RedMagic"
             : "";
 
-  return { title, description, imageUrl, priceNote };
+  return { title, description, imageUrl, images, priceNote };
 }
 
 export async function POST(req: Request) {
@@ -248,7 +278,7 @@ export async function POST(req: Request) {
         {
           ok: false,
           error: "blocked",
-          data: { name: "", description: "", imageUrl: "", store, priceNote, affiliateUrl, source: "direct" as const, warning },
+          data: { name: "", description: "", imageUrl: "", images: [] as string[], store, priceNote, affiliateUrl, source: "direct" as const, warning },
         },
         { status },
       );
@@ -292,7 +322,7 @@ export async function POST(req: Request) {
       }
     }
 
-    const { title, description, imageUrl, priceNote: pn } = extractFields(html, store);
+    const { title, description, imageUrl, images, priceNote: pn } = extractFields(html, store);
 
     if (!title) {
       return partial(
@@ -304,6 +334,7 @@ export async function POST(req: Request) {
       name: title.slice(0, 160),
       description: description.slice(0, 300),
       imageUrl,
+      images,
       store,
       priceNote: pn || priceNote,
       affiliateUrl,

@@ -43,6 +43,31 @@ type FormState = {
 type View = "list" | "form";
 type StatusKind = "info" | "success" | "error";
 
+function defaultPriceNotes(store: StoreName): { es: string; en: string } {
+  switch (store) {
+    case "Amazon": return { es: "Precio en Amazon", en: "Price on Amazon" };
+    case "AliExpress": return { es: "Precio en AliExpress", en: "Price on AliExpress" };
+    case "DHgate": return { es: "Precio en DHgate", en: "Price on DHgate" };
+    case "RedMagic": return { es: "Precio en RedMagic", en: "Price on RedMagic" };
+  }
+}
+
+function isDefaultPriceNote(value: string): boolean {
+  const v = value.trim().toLowerCase();
+  return v === "" || /^precio en (amazon|aliexpress|dhgate|redmagic)$/.test(v) || /^price on (amazon|aliexpress|dhgate|redmagic)$/.test(v) || /^ver precio en (amazon|aliexpress|dhgate|redmagic)$/.test(v) || /^see price on (amazon|aliexpress|dhgate|redmagic)$/.test(v);
+}
+
+function detectStoreFromUrl(url: string): StoreName | null {
+  try {
+    const h = new URL(url).hostname.toLowerCase();
+    if (h.includes("amazon.")) return "Amazon";
+    if (h.includes("aliexpress.")) return "AliExpress";
+    if (h.includes("dhgate.")) return "DHgate";
+    if (h.includes("redmagic.")) return "RedMagic";
+  } catch {}
+  return null;
+}
+
 const emptyForm = (): FormState => ({
   active: true,
   store: "Amazon",
@@ -201,6 +226,7 @@ export default function AdminPage() {
   const [saving, setSaving] = useState(false);
   const [extracting, setExtracting] = useState(false);
   const [pasteUrl, setPasteUrl] = useState("");
+  const [extractedImages, setExtractedImages] = useState<string[]>([]);
   const [form, setForm] = useState<FormState>(emptyForm());
   const [status, setStatus] = useState("");
   const [statusKind, setStatusKind] = useState<StatusKind>("info");
@@ -211,6 +237,7 @@ export default function AdminPage() {
   const [xp, setXp] = useState(0);
   const [rewardMsg, setRewardMsg] = useState("");
   const [translating, setTranslating] = useState<Set<string>>(new Set());
+  const [generatingDesc, setGeneratingDesc] = useState(false);
   const [autoTranslate, setAutoTranslate] = useState(true);
   const autoTimers = useRef<Record<string, ReturnType<typeof setTimeout> | undefined>>({});
   const autoGuard = useRef<Record<string, string>>({});
@@ -287,6 +314,28 @@ export default function AdminPage() {
       flash(`Error traduciendo: ${String(e)}`, "error");
     } finally {
       setTranslating((prev) => { const next = new Set(prev); next.delete(key); return next; });
+    }
+  }
+
+  async function generateDescription() {
+    const name = form.nameEs.trim() || form.nameEn.trim();
+    if (!name) { flash("Escribe primero el nombre del producto para generar la descripción.", "error"); return; }
+    setGeneratingDesc(true);
+    try {
+      const res = await fetch("/api/admin/generate-description", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, category: form.category, store: form.store }),
+      });
+      const json = (await res.json()) as { description?: string; error?: string };
+      if (!res.ok || !json.description) throw new Error(json.error || "No se pudo generar la descripción");
+      setForm((prev) => ({ ...prev, descriptionEs: json.description || prev.descriptionEs }));
+      flash("Descripción generada. Revisa y ajusta si es necesario.", "success");
+      if (autoTranslate && json.description) window.setTimeout(() => { void translateField("description", "es", "en"); }, 300);
+    } catch (e) {
+      flash(`Error generando descripción: ${String(e)}`, "error");
+    } finally {
+      setGeneratingDesc(false);
     }
   }
 
@@ -376,6 +425,7 @@ export default function AdminPage() {
             name: string;
             description: string;
             imageUrl: string;
+            images?: string[];
             store: string;
             priceNote: string;
             affiliateUrl: string;
@@ -386,7 +436,12 @@ export default function AdminPage() {
       if (!res.ok || !d) throw new Error(json.error || "extract failed");
 
       const store: StoreName = d.store === "AliExpress" || d.store === "DHgate" || d.store === "RedMagic" ? d.store : "Amazon";
+      const imgs = Array.from(new Set((d.images ?? []).filter((u): u is string => typeof u === "string" && /^https?:\/\//.test(u))));
+      if (d.imageUrl && !imgs.includes(d.imageUrl)) imgs.unshift(d.imageUrl);
+      setExtractedImages(imgs);
       suppressAutoBriefly();
+      const prevNameEn = formRef.current.nameEn;
+      const prevDescEn = formRef.current.descriptionEn;
       setForm((f) => ({
         ...f,
         store,
@@ -397,9 +452,15 @@ export default function AdminPage() {
         nameEn: f.nameEn || d.name,
         descriptionEs: f.descriptionEs || d.description,
         descriptionEn: f.descriptionEn || d.description,
-        priceNoteEs: f.priceNoteEs || (store === "Amazon" ? "Precio en Amazon" : store === "AliExpress" ? "Precio en AliExpress" : store === "DHgate" ? "Precio en DHgate" : "Precio en RedMagic"),
-        priceNoteEn: f.priceNoteEn || (store === "Amazon" ? "Price on Amazon" : store === "AliExpress" ? "Price on AliExpress" : store === "DHgate" ? "Price on DHgate" : "Price on RedMagic"),
+        priceNoteEs: !isDefaultPriceNote(f.priceNoteEs) ? f.priceNoteEs : defaultPriceNotes(store).es,
+        priceNoteEn: !isDefaultPriceNote(f.priceNoteEn) ? f.priceNoteEn : defaultPriceNotes(store).en,
       }));
+      if (autoTranslate) {
+        window.setTimeout(() => {
+          if (d.name && !prevNameEn.trim()) void translateField("name", "es", "en");
+          if (d.description && !prevDescEn.trim()) void translateField("description", "es", "en");
+        }, 700);
+      }
       if (!json.ok) {
         flash(d.warning || "Extracción incompleta. Rellena el resto del formulario a mano.", "error");
       } else if (d.warning) {
@@ -469,6 +530,7 @@ export default function AdminPage() {
       suppressAutoBriefly();
       setForm(emptyForm());
       setPasteUrl("");
+      setExtractedImages([]);
       setView("list");
       await loadProducts();
     } catch (err) {
@@ -500,6 +562,7 @@ export default function AdminPage() {
 
   function editProduct(p: StoreProductRecord) {
     suppressAutoBriefly();
+    setExtractedImages(p.imageUrl ? [p.imageUrl] : []);
     setForm({
       id: p.id,
       active: p.active,
@@ -523,6 +586,7 @@ export default function AdminPage() {
 
   function newProduct() {
     suppressAutoBriefly();
+    setExtractedImages([]);
     setForm(emptyForm());
     setPasteUrl("");
     setView("form");
@@ -852,7 +916,7 @@ export default function AdminPage() {
           <div style={cardStyle}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20, gap: 12, flexWrap: "wrap" }}>
               <h2 style={{ margin: 0, fontSize: 20 }}>{form.id ? "Editar producto" : "Nuevo producto"}</h2>
-              <button style={btnBase} onClick={() => { suppressAutoBriefly(); setView("list"); setForm(emptyForm()); setPasteUrl(""); }}>
+              <button style={btnBase} onClick={() => { suppressAutoBriefly(); setView("list"); setForm(emptyForm()); setPasteUrl(""); setExtractedImages([]); }}>
                 ← Volver a productos
               </button>
             </div>
@@ -891,7 +955,20 @@ export default function AdminPage() {
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 12 }}>
                   <div>
                     <label style={labelStyle}>Tienda</label>
-                    <select style={inputStyle} value={form.store} onChange={(e) => setForm({ ...form, store: e.target.value as StoreName })}>
+                    <select
+                      style={inputStyle}
+                      value={form.store}
+                      onChange={(e) => {
+                        const nextStore = e.target.value as StoreName;
+                        const notes = defaultPriceNotes(nextStore);
+                        setForm((prev) => ({
+                          ...prev,
+                          store: nextStore,
+                          priceNoteEs: isDefaultPriceNote(prev.priceNoteEs) ? notes.es : prev.priceNoteEs,
+                          priceNoteEn: isDefaultPriceNote(prev.priceNoteEn) ? notes.en : prev.priceNoteEn,
+                        }));
+                      }}
+                    >
                       <option value="Amazon">Amazon</option>
                       <option value="AliExpress">AliExpress</option>
                       <option value="DHgate">DHgate</option>
@@ -900,7 +977,7 @@ export default function AdminPage() {
                   </div>
                   <div>
                     <label style={labelStyle}>Categoría</label>
-                    <select style={inputStyle} value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })}>
+                    <select style={inputStyle} value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} required>
                       <option value="">Selecciona una categoría</option>
                       {STORE_CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
                       {form.category && !STORE_CATEGORIES.includes(form.category) && <option value={form.category}>{form.category}</option>}
@@ -908,27 +985,30 @@ export default function AdminPage() {
                   </div>
                   <div style={{ gridColumn: "1 / -1" }}>
                     <label style={labelStyle}>URL afiliada</label>
-                    <input style={inputStyle} value={form.affiliateUrl} onChange={(e) => setForm({ ...form, affiliateUrl: e.target.value })} required />
+                    <input
+                      style={inputStyle}
+                      value={form.affiliateUrl}
+                      onChange={(e) => {
+                        const url = e.target.value;
+                        const detected = detectStoreFromUrl(url);
+                        setForm((prev) => {
+                          if (!detected) return { ...prev, affiliateUrl: url };
+                          const notes = defaultPriceNotes(detected);
+                          return {
+                            ...prev,
+                            affiliateUrl: url,
+                            store: detected,
+                            priceNoteEs: isDefaultPriceNote(prev.priceNoteEs) ? notes.es : prev.priceNoteEs,
+                            priceNoteEn: isDefaultPriceNote(prev.priceNoteEn) ? notes.en : prev.priceNoteEn,
+                          };
+                        });
+                      }}
+                      required
+                    />
                   </div>
                   <div style={{ gridColumn: "1 / -1" }}>
                     <label style={labelStyle}>URL imagen (afiliada o propia)</label>
-                    <input style={inputStyle} value={form.imageUrl} onChange={(e) => setForm({ ...form, imageUrl: e.target.value })} />
-                  </div>
-                  <div>
-                    <label style={labelStyle}>Origen imagen</label>
-                    <select style={inputStyle} value={form.imageSource} onChange={(e) => setForm({ ...form, imageSource: e.target.value as "affiliate" | "custom" })}>
-                      <option value="affiliate">Afiliada / default</option>
-                      <option value="custom">Propia</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label style={labelStyle}>Subir imagen propia (Supabase)</label>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={(e) => { const f = e.target.files?.[0]; if (f) void handleImageUpload(f); }}
-                      style={{ fontSize: 13, width: "100%" }}
-                    />
+                    <input style={inputStyle} value={form.imageUrl} onChange={(e) => setForm({ ...form, imageUrl: e.target.value })} required />
                   </div>
                 </div>
 
@@ -936,27 +1016,57 @@ export default function AdminPage() {
                   <div style={{ marginTop: 12, display: "flex", gap: 12, alignItems: "center" }}>
                     <div style={{ width: 64, height: 64, border: "1px solid #e5e7eb", borderRadius: 10, overflow: "hidden", background: "#f9fafb", display: "grid", placeItems: "center" }}>
                       {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={form.imageUrl} alt="Vista previa" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
+                      <img src={form.imageUrl} alt="Vista previa" style={{ width: "100%", height: "100%", objectFit: "contain" }} onError={(e) => { e.currentTarget.style.display = "none"; }} />
                     </div>
                     <span style={{ fontSize: 12, color: "#737373" }}>Vista previa</span>
                   </div>
                 )}
+                {extractedImages.length > 1 && (
+                  <div style={{ marginTop: 12 }}>
+                    <div style={{ fontSize: 12, fontWeight: 600, color: "#525252", marginBottom: 8 }}>Elige una imagen de la tienda:</div>
+                    <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                      {extractedImages.map((img) => {
+                        const selected = form.imageUrl === img;
+                        return (
+                          <button
+                            key={img}
+                            type="button"
+                            onClick={() => setForm((prev) => ({ ...prev, imageUrl: img, imageSource: "affiliate" }))}
+                            style={{ width: 64, height: 64, borderRadius: 10, border: selected ? "2px solid #0a0a0a" : "1px solid #e5e5e5", background: "#fff", padding: 2, cursor: "pointer", overflow: "hidden" }}
+                            title="Usar esta imagen"
+                          >
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                              src={img}
+                              alt="Opción de imagen del producto"
+                              style={{ width: "100%", height: "100%", objectFit: "contain" }}
+                              onError={(e) => { const btn = e.currentTarget.closest("button"); if (btn) btn.style.display = "none"; }}
+                            />
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+                {form.imageUrl && extractedImages.length <= 1 && (
+                  <div style={{ marginTop: 8, fontSize: 12, color: "#737373" }}>Si la tienda no permite extraer más imágenes, pega otra URL en “URL imagen”.</div>
+                )}
               </div>
 
-              {/* Auto-traducci?n */}
+              {/* Auto-traducción */}
               <div style={{ marginBottom: 16, padding: "12px 14px", border: "1px solid #e5e5e5", borderRadius: 12, background: "#fff", display: "flex", justifyContent: "space-between", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
                 <label style={{ display: "flex", gap: 10, alignItems: "center", fontSize: 13, color: "#171717", fontWeight: 600 }}>
                   <input type="checkbox" checked={autoTranslate} onChange={(e) => setAutoTranslate(e.target.checked)} />
-                  Traducci?n autom?tica ES ? EN
+                  Traducción automática ES ↔ EN
                 </label>
                 <span style={{ fontSize: 12, color: "#737373" }}>
-                  {translating.size > 0 ? "Traduciendo..." : "Al escribir en un idioma, se rellena el otro autom?ticamente."}
+                  {translating.size > 0 ? "Traduciendo..." : "Al escribir en un idioma, se rellena el otro automáticamente."}
                 </span>
               </div>
 
               {/* Paso 3: contenido ES */}
               <div style={{ marginBottom: 24 }}>
-                <div style={sectionTitle}>3 ? Contenido en espa?ol</div>
+                <div style={sectionTitle}>3 · Contenido en español</div>
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 12 }}>
                   <div>
                     <label style={labelStyle}>Nombre ES *</label>
@@ -968,18 +1078,28 @@ export default function AdminPage() {
                   </div>
                   <div>
                     <label style={labelStyle}>Precio nota ES</label>
-                    <input style={inputStyle} value={form.priceNoteEs} onChange={(e) => setForm({ ...form, priceNoteEs: e.target.value })} />
+                    <input style={inputStyle} value={form.priceNoteEs} onChange={(e) => setForm({ ...form, priceNoteEs: e.target.value })} required />
                   </div>
                   <div style={{ gridColumn: "1 / -1" }}>
-                    <label style={labelStyle}>Descripci?n ES</label>
-                    <textarea style={{ ...inputStyle, minHeight: 90, resize: "vertical" }} value={form.descriptionEs} onChange={(e) => setForm({ ...form, descriptionEs: e.target.value })} />
+                    <div style={{ display: "flex", justifyContent: "space-between", gap: 8, alignItems: "center" }}>
+                      <label style={labelStyle}>Descripción ES</label>
+                      <button
+                        type="button"
+                        style={{ ...btnBase, padding: "2px 8px", fontSize: 11 }}
+                        disabled={generatingDesc || !(form.nameEs.trim() || form.nameEn.trim())}
+                        onClick={() => void generateDescription()}
+                      >
+                        {generatingDesc ? "Generando..." : "Generar con IA"}
+                      </button>
+                    </div>
+                    <textarea style={{ ...inputStyle, minHeight: 90, resize: "vertical" }} value={form.descriptionEs} onChange={(e) => setForm({ ...form, descriptionEs: e.target.value })} required />
                   </div>
                 </div>
               </div>
 
               {/* Paso 4: contenido EN */}
               <div style={{ marginBottom: 24 }}>
-                <div style={sectionTitle}>4 ? Contenido en ingl?s</div>
+                <div style={sectionTitle}>4 · Contenido en inglés</div>
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 12 }}>
                   <div>
                     <label style={labelStyle}>Nombre EN *</label>
@@ -991,11 +1111,11 @@ export default function AdminPage() {
                   </div>
                   <div>
                     <label style={labelStyle}>Precio nota EN</label>
-                    <input style={inputStyle} value={form.priceNoteEn} onChange={(e) => setForm({ ...form, priceNoteEn: e.target.value })} />
+                    <input style={inputStyle} value={form.priceNoteEn} onChange={(e) => setForm({ ...form, priceNoteEn: e.target.value })} required />
                   </div>
                   <div style={{ gridColumn: "1 / -1" }}>
-                    <label style={labelStyle}>Descripci?n EN</label>
-                    <textarea style={{ ...inputStyle, minHeight: 90, resize: "vertical" }} value={form.descriptionEn} onChange={(e) => setForm({ ...form, descriptionEn: e.target.value })} />
+                    <label style={labelStyle}>Descripción EN</label>
+                    <textarea style={{ ...inputStyle, minHeight: 90, resize: "vertical" }} value={form.descriptionEn} onChange={(e) => setForm({ ...form, descriptionEn: e.target.value })} required />
                   </div>
                 </div>
               </div>
@@ -1012,7 +1132,7 @@ export default function AdminPage() {
                     {saving ? "Guardando..." : form.id ? "Guardar cambios" : "Crear producto"}
                   </button>
                   {form.id && (
-                    <button type="button" style={btnBase} onClick={() => { suppressAutoBriefly(); setForm(emptyForm()); setPasteUrl(""); setView("list"); }}>
+                    <button type="button" style={btnBase} onClick={() => { suppressAutoBriefly(); setForm(emptyForm()); setPasteUrl(""); setExtractedImages([]); setView("list"); }}>
                       Cancelar edición
                     </button>
                   )}
