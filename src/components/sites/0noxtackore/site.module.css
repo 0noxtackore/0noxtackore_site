@@ -1567,11 +1567,17 @@
   color: #fff;
   font-size: 14px;
   font-weight: 700;
+  text-decoration: none;
+  text-align: center;
+  white-space: nowrap;
   cursor: pointer;
   box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
   transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
 }
+.btnPrimary:visited { color: #fff; text-decoration: none; }
 .btnPrimary:hover {
+  color: #fff;
+  text-decoration: none;
   transform: translateY(-1px);
   box-shadow: 0 8px 18px rgba(37, 99, 235, 0.35);
   filter: brightness(1.05);
