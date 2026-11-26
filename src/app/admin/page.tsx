@@ -232,9 +232,8 @@ export default function AdminPage() {
   const [statusKind, setStatusKind] = useState<StatusKind>("info");
   const [view, setView] = useState<View>("list");
   const [search, setSearch] = useState("");
-  const [filterStore, setFilterStore] = useState<"all" | StoreName>("all");
-  const [filterStatus, setFilterStatus] = useState<"all" | "active" | "hidden">("all");
-  const [showCardDetails, setShowCardDetails] = useState(false);
+  const [activeStoreTab, setActiveStoreTab] = useState<"all" | StoreName>("all");
+  const [currentPage, setCurrentPage] = useState(1);
   const [xp, setXp] = useState(0);
   const [rewardMsg, setRewardMsg] = useState("");
   const [translating, setTranslating] = useState<Set<string>>(new Set());
@@ -610,16 +609,23 @@ export default function AdminPage() {
   const filtered = useMemo(() => {
     const term = search.trim().toLowerCase();
     return products.filter((p) => {
-      if (filterStore !== "all" && p.store !== filterStore) return false;
-      if (filterStatus === "active" && !p.active) return false;
-      if (filterStatus === "hidden" && p.active) return false;
+      if (activeStoreTab !== "all" && p.store !== activeStoreTab) return false;
       if (!term) return true;
       return [p.nameEs, p.nameEn, p.category, p.affiliateUrl]
         .join(" ")
         .toLowerCase()
         .includes(term);
     });
-  }, [products, search, filterStore, filterStatus]);
+  }, [products, search, activeStoreTab]);
+
+  const PAGE_SIZE = 12;
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const page = Math.min(currentPage, totalPages);
+  const pagedProducts = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [search, activeStoreTab]);
 
   if (!firebaseConfigured) {
     return (
@@ -793,32 +799,38 @@ export default function AdminPage() {
             <div style={cardStyle}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, flexWrap: "wrap", marginBottom: 16 }}>
                 <h2 style={{ margin: 0, fontSize: 20 }}>Productos</h2>
-                <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                  <button style={btnBase} onClick={() => setShowCardDetails((v) => !v)}>
-                    {showCardDetails ? "Ocultar títulos/URLs" : "Mostrar títulos/URLs"}
-                  </button>
-                  <button style={btnBlue} onClick={newProduct}>+ Nuevo producto</button>
-                </div>
+                <button style={btnBlue} onClick={newProduct}>+ Nuevo producto</button>
               </div>
-              <div style={{ display: "grid", gridTemplateColumns: "minmax(200px, 1fr) 160px 160px", gap: 10 }}>
-                <input
-                  style={inputStyle}
-                  placeholder="Buscar por nombre, categoría o URL..."
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                />
-                <select style={inputStyle} value={filterStore} onChange={(e) => setFilterStore(e.target.value as typeof filterStore)}>
-                  <option value="all">Todas las tiendas</option>
-                  <option value="Amazon">Amazon</option>
-                  <option value="AliExpress">AliExpress</option>
-                  <option value="DHgate">DHgate</option>
-                  <option value="RedMagic">RedMagic</option>
-                </select>
-                <select style={inputStyle} value={filterStatus} onChange={(e) => setFilterStatus(e.target.value as typeof filterStatus)}>
-                  <option value="all">Todos los estados</option>
-                  <option value="active">Solo activos</option>
-                  <option value="hidden">Solo ocultos</option>
-                </select>
+              <input
+                style={inputStyle}
+                placeholder="Buscar por nombre, categoría o URL..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+              <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 14 }}>
+                {([
+                  { key: "all" as const, label: "Todos", count: stats.total },
+                  { key: "Amazon" as const, label: "Amazon", count: stats.amazon },
+                  { key: "AliExpress" as const, label: "AliExpress", count: stats.aliexpress },
+                  { key: "DHgate" as const, label: "DHgate", count: stats.dhgate },
+                  { key: "RedMagic" as const, label: "RedMagic", count: stats.redmagic },
+                ]).map((tab) => {
+                  const active = activeStoreTab === tab.key;
+                  return (
+                    <button
+                      key={tab.key}
+                      style={{
+                        ...btnBase,
+                        background: active ? "#0a0a0a" : "#fff",
+                        color: active ? "#fff" : "#171717",
+                        borderColor: active ? "#0a0a0a" : "#d4d4d4",
+                      }}
+                      onClick={() => setActiveStoreTab(tab.key)}
+                    >
+                      {tab.label} ({tab.count})
+                    </button>
+                  );
+                })}
               </div>
             </div>
 
@@ -841,7 +853,7 @@ export default function AdminPage() {
                 </div>
               ) : (
                 <div style={{ display: "grid", gap: 12 }}>
-                  {filtered.map((p) => (
+                  {pagedProducts.map((p) => (
                     <div
                       key={p.id}
                       style={{
@@ -865,9 +877,6 @@ export default function AdminPage() {
                       </div>
                       <div style={{ minWidth: 0 }}>
                         <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap", marginBottom: 4 }}>
-                          {showCardDetails && (
-                            <span style={{ fontWeight: 700, fontSize: 15, color: "#0f1720" }}>{p.nameEs || p.nameEn || "(sin nombre)"}</span>
-                          )}
                           <span
                             style={{
                               fontSize: 11,
@@ -898,14 +907,6 @@ export default function AdminPage() {
                             <span style={{ fontSize: 12, color: "#6b7280" }}>· {p.category}</span>
                           )}
                         </div>
-                        {showCardDetails && (
-                          <>
-                            {p.nameEn && p.nameEs && (
-                              <div style={{ fontSize: 13, color: "#6b7280", marginBottom: 2 }}>{p.nameEn}</div>
-                            )}
-                            <div style={{ fontSize: 12, color: "#9ca3af", wordBreak: "break-all" }}>{p.affiliateUrl}</div>
-                          </>
-                        )}
                         <div style={{ fontSize: 12, color: "#9ca3af", marginTop: 2 }}>
                           Actualizado: {formatDate(p.updatedAt)} · Creado: {formatDate(p.createdAt)}
                         </div>
@@ -919,6 +920,27 @@ export default function AdminPage() {
                       </div>
                     </div>
                   ))}
+                </div>
+              )}
+              {filtered.length > 0 && (
+                <div style={{ display: "flex", gap: 6, flexWrap: "wrap", justifyContent: "center", alignItems: "center", marginTop: 18 }}>
+                  <button style={btnBase} disabled={page <= 1} onClick={() => setCurrentPage(page - 1)}>Anterior</button>
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((n) => (
+                    <button
+                      key={n}
+                      style={{
+                        ...btnBase,
+                        minWidth: 32,
+                        background: n === page ? "#0a0a0a" : "#fff",
+                        color: n === page ? "#fff" : "#171717",
+                        borderColor: n === page ? "#0a0a0a" : "#d4d4d4",
+                      }}
+                      onClick={() => setCurrentPage(n)}
+                    >
+                      {n}
+                    </button>
+                  ))}
+                  <button style={btnBase} disabled={page >= totalPages} onClick={() => setCurrentPage(page + 1)}>Siguiente</button>
                 </div>
               )}
             </div>
