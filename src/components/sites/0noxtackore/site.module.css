@@ -2312,8 +2312,15 @@
 }
 .storeCatalog .storeCardBody { flex: 1; }
 .storeCatalog .storeCardActions { margin-top: auto; }
-.storeCatalog .storeCardImageBtn { border-radius: 12px; overflow: hidden; }
+.storeCatalog .storeCardImageBtn {
+  border-radius: 0;
+  overflow: visible;
+  background: transparent;
+}
 .storeCatalog .storeCardImage {
+  inset: 6px;
+  width: calc(100% - 12px);
+  height: calc(100% - 12px);
   border-radius: 12px;
   border: 2px solid royalblue;
   transform: none;

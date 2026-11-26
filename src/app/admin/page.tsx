@@ -234,6 +234,7 @@ export default function AdminPage() {
   const [search, setSearch] = useState("");
   const [filterStore, setFilterStore] = useState<"all" | StoreName>("all");
   const [filterStatus, setFilterStatus] = useState<"all" | "active" | "hidden">("all");
+  const [showCardDetails, setShowCardDetails] = useState(false);
   const [xp, setXp] = useState(0);
   const [rewardMsg, setRewardMsg] = useState("");
   const [translating, setTranslating] = useState<Set<string>>(new Set());
@@ -792,7 +793,12 @@ export default function AdminPage() {
             <div style={cardStyle}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, flexWrap: "wrap", marginBottom: 16 }}>
                 <h2 style={{ margin: 0, fontSize: 20 }}>Productos</h2>
-                <button style={btnBlue} onClick={newProduct}>+ Nuevo producto</button>
+                <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                  <button style={btnBase} onClick={() => setShowCardDetails((v) => !v)}>
+                    {showCardDetails ? "Ocultar títulos/URLs" : "Mostrar títulos/URLs"}
+                  </button>
+                  <button style={btnBlue} onClick={newProduct}>+ Nuevo producto</button>
+                </div>
               </div>
               <div style={{ display: "grid", gridTemplateColumns: "minmax(200px, 1fr) 160px 160px", gap: 10 }}>
                 <input
@@ -859,7 +865,9 @@ export default function AdminPage() {
                       </div>
                       <div style={{ minWidth: 0 }}>
                         <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap", marginBottom: 4 }}>
-                          <span style={{ fontWeight: 700, fontSize: 15, color: "#0f1720" }}>{p.nameEs || p.nameEn || "(sin nombre)"}</span>
+                          {showCardDetails && (
+                            <span style={{ fontWeight: 700, fontSize: 15, color: "#0f1720" }}>{p.nameEs || p.nameEn || "(sin nombre)"}</span>
+                          )}
                           <span
                             style={{
                               fontSize: 11,
@@ -890,10 +898,14 @@ export default function AdminPage() {
                             <span style={{ fontSize: 12, color: "#6b7280" }}>· {p.category}</span>
                           )}
                         </div>
-                        {p.nameEn && p.nameEs && (
-                          <div style={{ fontSize: 13, color: "#6b7280", marginBottom: 2 }}>{p.nameEn}</div>
+                        {showCardDetails && (
+                          <>
+                            {p.nameEn && p.nameEs && (
+                              <div style={{ fontSize: 13, color: "#6b7280", marginBottom: 2 }}>{p.nameEn}</div>
+                            )}
+                            <div style={{ fontSize: 12, color: "#9ca3af", wordBreak: "break-all" }}>{p.affiliateUrl}</div>
+                          </>
                         )}
-                        <div style={{ fontSize: 12, color: "#9ca3af", wordBreak: "break-all" }}>{p.affiliateUrl}</div>
                         <div style={{ fontSize: 12, color: "#9ca3af", marginTop: 2 }}>
                           Actualizado: {formatDate(p.updatedAt)} · Creado: {formatDate(p.createdAt)}
                         </div>
