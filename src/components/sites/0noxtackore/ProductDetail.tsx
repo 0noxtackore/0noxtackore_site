@@ -10,6 +10,7 @@ import { siteUrl } from "./data";
 import { getPagePath, type Locale } from "@/lib/i18n";
 import type { StoreProductRecord } from "@/lib/store/types";
 import { withAffiliateTracking } from "@/lib/store/affiliate";
+import { categoryLabel } from "@/lib/store/category-labels";
 
 type Props = {
   locale: Locale;
@@ -109,7 +110,7 @@ export function ProductDetail({ locale, product: record, similar }: Props) {
           </div>
           <div className={styles.productDetailBody}>
             <p className={styles.storeCardMeta}>
-              {product.category} · {product.store}
+              {categoryLabel(product.category, locale)} · {product.store}
             </p>
             {product.badge ? <span className={styles.storeModalBadge}>{product.badge}</span> : null}
             <h1 className={styles.productDetailTitle}>{product.name}</h1>
@@ -165,7 +166,7 @@ export function ProductDetail({ locale, product: record, similar }: Props) {
                     </Link>
                     <div className={styles.storeCardBody}>
                       <p className={styles.storeCardMeta}>
-                        {p.category} · {p.store}
+                        {categoryLabel(p.category, locale)} · {p.store}
                       </p>
                       <h3 className={styles.storeCardTitle}>{truncateText(p.name, 60)}</h3>
                       <p className={styles.storeCardDesc}>{truncateText(p.description, 100)}</p>

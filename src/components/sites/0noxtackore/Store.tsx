@@ -10,6 +10,7 @@ import { siteUrl } from "./data";
 import { getPagePath, type Locale } from "@/lib/i18n";
 import type { StoreProductRecord } from "@/lib/store/types";
 import { withAffiliateTracking } from "@/lib/store/affiliate";
+import { categoryLabel } from "@/lib/store/category-labels";
 
 type Props = {
   locale: Locale;
@@ -57,8 +58,8 @@ export function Store({ locale, products: records }: Props) {
   );
 
   const categories = useMemo(
-    () => Array.from(new Set(products.map((p) => p.category.trim()).filter(Boolean))).sort((a, b) => a.localeCompare(b)),
-    [products],
+    () => Array.from(new Set(products.map((p) => p.category.trim()).filter(Boolean))).sort((a, b) => categoryLabel(a, locale).localeCompare(categoryLabel(b, locale))),
+    [products, locale],
   );
   const stores = useMemo(() => Array.from(new Set(products.map((p) => p.store))), [products]);
 
@@ -69,12 +70,12 @@ export function Store({ locale, products: records }: Props) {
         (selectedCategories.length === 0 || selectedCategories.includes(p.category)) &&
         (selectedStores.length === 0 || selectedStores.includes(p.store)) &&
         (!badgeOnly || Boolean(p.badge)) &&
-        (!q || p.name.toLowerCase().includes(q) || p.description.toLowerCase().includes(q) || p.category.toLowerCase().includes(q) || p.store.toLowerCase().includes(q)),
+        (!q || p.name.toLowerCase().includes(q) || p.description.toLowerCase().includes(q) || p.category.toLowerCase().includes(q) || categoryLabel(p.category, locale).toLowerCase().includes(q) || p.store.toLowerCase().includes(q)),
     );
-  }, [products, selectedCategories, selectedStores, badgeOnly, query]);
+  }, [products, selectedCategories, selectedStores, badgeOnly, query, locale]);
 
   const activeCategoryLabel =
-    selectedCategories.length === 1 ? selectedCategories[0] : store.allCategories;
+    selectedCategories.length === 1 ? categoryLabel(selectedCategories[0], locale) : store.allCategories;
   const hasActiveFilters =
     selectedCategories.length > 0 || selectedStores.length > 0 || badgeOnly || query.trim() !== "";
 
@@ -181,7 +182,7 @@ export function Store({ locale, products: records }: Props) {
               {categories.map((c) => (
                 <button key={c} type="button" onClick={() => toggleCategory(c)} className={`${styles.storeCategoryChip} ${selectedCategories.includes(c) ? styles.storeCategoryChipActive : ""}`}>
                   <span className={styles.storeCategoryIcon} aria-hidden="true">{categoryIcon(c)}</span>
-                  {c}
+                  {categoryLabel(c, locale)}
                 </button>
               ))}
             </div>
@@ -222,7 +223,7 @@ export function Store({ locale, products: records }: Props) {
                   {categories.map((c) => (
                     <label key={c} className={styles.storeFilterOption}>
                       <input type="checkbox" checked={selectedCategories.includes(c)} onChange={() => toggleCategoryMulti(c)} />
-                      <span>{c}</span>
+                      <span>{categoryLabel(c, locale)}</span>
                     </label>
                   ))}
                 </div>
@@ -278,7 +279,7 @@ export function Store({ locale, products: records }: Props) {
                           {product.badge ? <span className={styles.storeBadge}>{product.badge}</span> : null}
                         </Link>
                         <div className={styles.storeCardBody}>
-                          <p className={styles.storeCardMeta}>{product.category} · {product.store}</p>
+                          <p className={styles.storeCardMeta}>{categoryLabel(product.category, locale)} · {product.store}</p>
                           <h3 className={styles.storeCardTitle}>
                             <Link href={`${storePath}/${product.id}`} className={styles.storeCardTitleLink}>{truncateText(product.name, 60)}</Link>
                           </h3>
