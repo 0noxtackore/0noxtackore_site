@@ -2300,3 +2300,17 @@
 .storeCatalog .storeCardDesc { margin-bottom: 8px; }
 .storeCatalog .storeCardPrice { margin-bottom: 8px; }
 .storeCatalog .storeCardActions { margin-top: 8px; }
+
+/* Grid 4 por fila + cards uniformes + imágenes redondeadas. */
+.storeCatalog .storeCatalogMain .storeGrid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-auto-rows: 1fr;
+}
+.storeCatalog .storeCard {
+  align-self: stretch;
+  height: 100%;
+}
+.storeCatalog .storeCardBody { flex: 1; }
+.storeCatalog .storeCardActions { margin-top: auto; }
+.storeCatalog .storeCardImageBtn { border-radius: 12px; overflow: hidden; }
+.storeCatalog .storeCardImage { border-radius: 12px; }
