@@ -56,11 +56,30 @@ export async function getActiveProducts(): Promise<StoreProductRecord[]> {
   if (!projectId || !apiKey) return [];
 
   try {
-    const url = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/products?pageSize=100&key=${apiKey}`;
-    const res = await fetch(url, { next: { revalidate: 60 } });
+    const url = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents:runQuery?key=${apiKey}`;
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        structuredQuery: {
+          from: [{ collectionId: "products" }],
+          where: {
+            fieldFilter: {
+              field: { fieldPath: "active" },
+              op: "EQUAL",
+              value: { booleanValue: true },
+            },
+          },
+          limit: 100,
+        },
+      }),
+      next: { revalidate: 60 },
+    });
     if (!res.ok) return [];
-    const data = (await res.json()) as { documents?: FirestoreDoc[] };
-    const products = (data.documents ?? [])
+    const data = (await res.json()) as Array<{ document?: FirestoreDoc }>;
+    const products = (Array.isArray(data) ? data : [])
+      .map((row) => row.document)
+      .filter((doc): doc is FirestoreDoc => !!doc)
       .map(docToProduct)
       .filter((p): p is StoreProductRecord => p !== null && p.active);
     return products.sort((a, b) => (b.updatedAt ?? "").localeCompare(a.updatedAt ?? ""));
