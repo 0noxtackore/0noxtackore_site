@@ -36,6 +36,8 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "**.alicdn.com", pathname: "/**" },
+      { protocol: "https", hostname: "**.aliexpress-media.com", pathname: "/**" },
+      { protocol: "https", hostname: "**.aliexpress.com", pathname: "/**" },
       { protocol: "https", hostname: "**.media-amazon.com", pathname: "/**" },
       { protocol: "https", hostname: "**.ssl-images-amazon.com", pathname: "/**" },
       { protocol: "https", hostname: "**.amazon.com", pathname: "/**" },
