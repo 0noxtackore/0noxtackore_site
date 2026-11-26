@@ -71,7 +71,6 @@ function normalizeUrl(raw) {
       "crid",
       "sprefix",
       "dib",
-      "aff_trace_key",
       "dib_tag",
       "qid",
       "sr",
@@ -96,7 +95,7 @@ function normalizeUrl(raw) {
   }
 }
 
-function applyAffiliateTag(url, store, amazonTag, aliTrackId) {
+function applyAffiliateTag(url, store, amazonTag) {
   try {
     const u = new URL(url);
     const host = u.hostname.toLowerCase();
@@ -105,7 +104,6 @@ function applyAffiliateTag(url, store, amazonTag, aliTrackId) {
       return u.toString();
     }
     if (store === "AliExpress" && host.includes("aliexpress.")) {
-      if (aliTrackId) u.searchParams.set("aff_trace_key", aliTrackId);
       return u.toString();
     }
     return url;
@@ -114,8 +112,8 @@ function applyAffiliateTag(url, store, amazonTag, aliTrackId) {
   }
 }
 
-function toFields(item, now, amazonTag, aliTrackId) {
-  const affiliateUrl = applyAffiliateTag(item.affiliateUrl, item.store, amazonTag, aliTrackId);
+function toFields(item, now, amazonTag) {
+  const affiliateUrl = applyAffiliateTag(item.affiliateUrl, item.store, amazonTag);
   const fields = {
     active: { booleanValue: false },
     store: { stringValue: ["Amazon","AliExpress","DHgate","RedMagic"].includes(item.store) ? item.store : "Amazon" },
@@ -203,7 +201,6 @@ async function main() {
   const password = process.env.ADMIN_PASSWORD;
   const projectId = process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID;
   const amazonTag = process.env.AMAZON_TAG || "0noxtackore-20";
-  const aliTrackId = process.env.ALIEXPRESS_TRACK_ID || "0noxtackore";
 
   if (!apiKey || !projectId) {
     fail("Faltan NEXT_PUBLIC_FIREBASE_API_KEY / NEXT_PUBLIC_FIREBASE_PROJECT_ID en .env.local.");
@@ -250,7 +247,7 @@ async function main() {
       continue;
     }
     try {
-      const { fields, affiliateUrl } = toFields(item, new Date().toISOString(), amazonTag, aliTrackId);
+      const { fields, affiliateUrl } = toFields(item, new Date().toISOString(), amazonTag);
       const docName = await createProduct(projectId, token, fields);
       report.imported.push({ nameEs: name, store: item.store, id: docName });
       newSeenUrls.push(affiliateUrl);

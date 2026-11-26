@@ -38,7 +38,7 @@ function detectStore(url) {
 function cleanUrl(raw) {
   const u = new URL(raw.trim());
   u.hash = "";
-  for (const p of ["tag","ref","ref_","th","psc","linkCode","linkId","ascsubtag","content-id","crid","sprefix","dib","dib_tag","qid","sr","keywords","aff_trace_key","utm_source","utm_medium","utm_campaign","utm_content","utm_term","spm","scm","pvid","algo_pvid"]) u.searchParams.delete(p);
+  for (const p of ["tag","ref","ref_","th","psc","linkCode","linkId","ascsubtag","content-id","crid","sprefix","dib","dib_tag","qid","sr","keywords","utm_source","utm_medium","utm_campaign","utm_content","utm_term","spm","scm","pvid","algo_pvid"]) u.searchParams.delete(p);
   let s = u.toString();
   if (s.endsWith("?")) s = s.slice(0, -1);
   return s;

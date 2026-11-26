@@ -10,8 +10,6 @@ export function withAffiliateTracking(url: string, store: StoreName): string {
       return u.toString();
     }
     if (store === "AliExpress" && host.includes("aliexpress.")) {
-      const trackId = process.env.NEXT_PUBLIC_ALIEXPRESS_TRACK_ID || process.env.ALIEXPRESS_TRACK_ID || "0noxtackore";
-      if (trackId) u.searchParams.set("aff_trace_key", trackId);
       return u.toString();
     }
     if (store === "DHgate" && host.includes("dhgate.")) {

@@ -20,12 +20,12 @@ function loadEnvLocal() {
 }
 function fail(msg) { console.error("ERROR:", msg); process.exit(1); }
 function fStr(fields, k) { return fields?.[k]?.stringValue ?? ""; }
-function withTag(url, store, amazonTag, aliTrackId) {
+function withTag(url, store, amazonTag) {
   try {
     const u = new URL(url);
     const host = u.hostname.toLowerCase();
     if (store === "Amazon" && host.includes("amazon.")) { if (amazonTag) u.searchParams.set("tag", amazonTag); return u.toString(); }
-    if (store === "AliExpress" && host.includes("aliexpress.")) { if (aliTrackId) u.searchParams.set("aff_trace_key", aliTrackId); return u.toString(); }
+    if (store === "AliExpress" && host.includes("aliexpress.")) { return u.toString(); }
     if (store === "DHgate" && host.includes("dhgate.")) { return u.toString(); }
     if (store === "RedMagic" && host.includes("redmagic.")) { return u.toString(); }
     return url;
@@ -66,7 +66,6 @@ async function main() {
   const password = process.env.ADMIN_PASSWORD;
   const projectId = process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID;
   const amazonTag = process.env.AMAZON_TAG || "0noxtackore-20";
-  const aliTrackId = process.env.ALIEXPRESS_TRACK_ID || "0noxtackore";
   if (!apiKey || !projectId || !email || !password) fail("Missing env");
   const token = await signIn(email, password, apiKey);
   const docs = await fetchAll(projectId, token);
@@ -74,7 +73,7 @@ async function main() {
   for (const doc of docs) {
     const store = fStr(doc.fields, "store");
     const current = fStr(doc.fields, "affiliateUrl");
-    const next = withTag(current, store, amazonTag, aliTrackId);
+    const next = withTag(current, store, amazonTag);
     if (next !== current) {
       console.log(`${DRY ? "DRY" : "OK "} [${store}] ${fStr(doc.fields, "nameEs")} -> ${next}`);
       if (!DRY) await patchUrl(doc.name, token, next);
