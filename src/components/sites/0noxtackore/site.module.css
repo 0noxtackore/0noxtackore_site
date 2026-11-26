@@ -2312,7 +2312,7 @@
   .storeCatalog .storeCatalogMain .storeGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 @media (max-width: 700px) {
-  .storeCatalog .storeCatalogMain .storeGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .storeCatalog .storeCatalogMain .storeGrid { grid-template-columns: 1fr; }
 }
 
 /* Cuerpo más bajo + recortes con ... */
@@ -2369,5 +2369,5 @@
   .similarSection .storeGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 700px) {
-  .similarSection .storeGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .similarSection .storeGrid { grid-template-columns: 1fr; }
 }
