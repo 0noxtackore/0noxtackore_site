@@ -38,10 +38,9 @@ function detectStore(url) {
 function cleanUrl(raw) {
   const u = new URL(raw.trim());
   u.hash = "";
-  for (const p of ["tag","ref","ref_","th","psc","linkCode","linkId","ascsubtag","content-id","crid","sprefix","dib","dib_tag","qid","sr","keywords","utm_source","utm_medium","utm_campaign","utm_content","utm_term","spm","scm","pvid","algo_pvid"]) u.searchParams.delete(p);
-  let s = u.toString();
-  if (s.endsWith("?")) s = s.slice(0, -1);
-  return s;
+  // No borrar tracking propio/UTM/spm/etc.: los CSVs AliExpress deben conservarse tal cual.
+  if (u.hostname.toLowerCase().includes("amazon.")) u.searchParams.set("tag", "0noxtackore-20");
+  return u.toString();
 }
 
 function extractMeta(html, prop) {
@@ -55,18 +54,158 @@ function extractMeta(html, prop) {
   return "";
 }
 
-function extractTitle(html) {
-  const og = extractMeta(html, "og:title") || extractMeta(html, "twitter:title");
-  if (og) return og.replace(/\s*[|\-–—]\s*Amazon.*$/i, "").replace(/\s*[|\-–—]\s*AliExpress.*$/i, "").trim();
-  const m = html.match(/<title[^>]*>([^<]+)<\/title>/i);
-  return decodeEntities(m?.[1]?.replace(/\s*[|\-–—]\s*Amazon.*$/i, "").replace(/\s*[|\-–—]\s*AliExpress.*$/i, "").trim() || "");
+function cleanTitle(s) {
+  return decodeEntities(String(s || ""))
+    .replace(/\s*[|\-–—:]\s*(Amazon|AliExpress|DHgate|RedMagic).*$/i, "")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
-function extractImage(html) {
-  const og = extractMeta(html, "og:image") || extractMeta(html, "twitter:image");
-  if (isHttpUrl(og)) return og;
-  const m = html.match(/"hiRes":"(https:[^"]+)"/i) || html.match(/"large":"(https:[^"]+)"/i);
-  return m?.[1] ? m[1].replace(/\\u002F/g, "/") : "";
+function isUselessTitle(s) {
+  const t = cleanTitle(s).toLowerCase();
+  if (!t || t.length < 3) return true;
+  return /^(amazon|aliexpress|dhgate|redmagic|404|not found|page not found|access denied|robot check|captcha|just a moment|welcome|home|product|item|undefined|null)$/i.test(t);
+}
+
+function unescapeJsonish(s) {
+  return String(s || "")
+    .replace(/\\u002F/gi, "/")
+    .replace(/\\\//g, "/")
+    .replace(/\\u0026/gi, "&");
+}
+
+function jsonString(s) {
+  try { return JSON.parse(`"${String(s || "").replace(/"/g, '\\"')}"`); }
+  catch { return unescapeJsonish(String(s || "")).replace(/\\"/g, '"'); }
+}
+
+function collectLdNodes(value, out = []) {
+  if (!value) return out;
+  if (Array.isArray(value)) { for (const v of value) collectLdNodes(v, out); return out; }
+  if (typeof value !== "object") return out;
+  out.push(value);
+  for (const k of ["@graph", "mainEntity", "item", "product", "offers", "image"]) collectLdNodes(value[k], out);
+  return out;
+}
+
+function isProductNode(n) {
+  const type = n?.["@type"];
+  if (typeof type === "string") return type.toLowerCase().includes("product");
+  if (Array.isArray(type)) return type.some((t) => String(t).toLowerCase().includes("product"));
+  return false;
+}
+
+function extractJsonLdProducts(html) {
+  const nodes = [];
+  const re = /<script[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi;
+  let m;
+  while ((m = re.exec(html))) {
+    try { collectLdNodes(JSON.parse(m[1].trim()), nodes); } catch { /* JSON-LD inválido */ }
+  }
+  const products = nodes.filter(isProductNode);
+  return products.length ? products : nodes.filter((n) => typeof n?.name === "string" && n.name.trim());
+}
+
+function matchJsonString(html, keys) {
+  for (const key of keys) {
+    const re = new RegExp(`"${key}"\\s*:\\s*"((?:\\\\.|[^"\\\\])+)"`, "i");
+    const m = html.match(re);
+    if (m?.[1]) {
+      const s = cleanTitle(jsonString(m[1]));
+      if (!isUselessTitle(s)) return s;
+    }
+  }
+  return "";
+}
+
+function extractTitle(html) {
+  const ld = extractJsonLdProducts(html);
+  const candidates = [
+    extractMeta(html, "og:title"),
+    extractMeta(html, "twitter:title"),
+    ld.find((n) => typeof n.name === "string" && !isUselessTitle(n.name))?.name || "",
+    extractMeta(html, "title"),
+    (html.match(/id=["']productTitle["'][^>]*>([^<]+)</i) || [])[1] || "",
+    (html.match(/<h1[^>]*>([\s\S]{3,300}?)<\/h1>/i) || [])[1]?.replace(/<[^>]+>/g, " ") || "",
+    matchJsonString(html, ["productTitle", "productName", "subject", "seoTitle", "shortName", "title"]),
+    (html.match(/<title[^>]*>([^<]+)<\/title>/i) || [])[1] || "",
+  ];
+  for (const c of candidates) {
+    const s = cleanTitle(c);
+    if (!isUselessTitle(s)) return s;
+  }
+  return "";
+}
+
+function normalizeImage(v, base = "") {
+  let s = decodeEntities(unescapeJsonish(String(v || ""))).trim().replace(/^['"]|['"]$/g, "");
+  if (!s) return "";
+  if (s.startsWith("//")) s = `https:${s}`;
+  else if (!/^https?:\/\//i.test(s) && base) { try { s = new URL(s, base).toString(); } catch { return ""; } }
+  return isHttpUrl(s) ? s : "";
+}
+
+function addImage(list, v, base = "") {
+  const s = normalizeImage(v, base);
+  if (s && !list.includes(s)) list.push(s);
+}
+
+function imageFromObject(list, value, base = "") {
+  if (!value) return;
+  if (typeof value === "string") { addImage(list, value, base); return; }
+  if (Array.isArray(value)) { for (const v of value) imageFromObject(list, v, base); return; }
+  if (typeof value === "object") {
+    for (const k of ["url", "contentUrl", "src", "image", "imageUrl", "originalUrl", "largeImage", "hiRes", "large", "mainUrl"]) {
+      if (value[k]) imageFromObject(list, value[k], base);
+    }
+  }
+}
+
+function extractImage(html, base = "") {
+  const images = [];
+  for (const n of extractJsonLdProducts(html)) {
+    imageFromObject(images, n.image, base);
+    imageFromObject(images, n.images, base);
+    imageFromObject(images, n.imagePathList, base);
+  }
+  for (const prop of ["og:image", "twitter:image", "image"]) addImage(images, extractMeta(html, prop), base);
+  const patterns = [
+    /<img[^>]+id=["']landingImage["'][^>]+src=["']([^"']+)["']/gi,
+    /data-src=["']([^"']+)["']/gi,
+    /data-zoom-image=["']([^"']+)["']/gi,
+    /data-image=["']([^"']+)["']/gi,
+    /"hiRes"\s*:\s*"([^"]+)"/gi,
+    /"large"\s*:\s*"([^"]+)"/gi,
+    /"mainUrl"\s*:\s*"([^"]+)"/gi,
+    /"imageUrl"\s*:\s*"([^"]+)"/gi,
+    /"imgUrl"\s*:\s*"([^"]+)"/gi,
+    /"originalUrl"\s*:\s*"([^"]+)"/gi,
+    /"imagePathList"\s*:\s*\[([^\]]+)\]/gi,
+    /src=["']((?:https?:)?\/\/[^"']*(?:alicdn|media-amazon|m\.media-amazon|ae01|ae04|dhgate|redmagic)[^"']+)["']/gi,
+  ];
+  for (const re of patterns) {
+    let mm;
+    while ((mm = re.exec(html))) {
+      const chunk = mm[1];
+      if (chunk.includes('"')) {
+        for (const im of chunk.matchAll(/(?:https?:)?\/\/[^"'\s,]+/g)) addImage(images, im[0], base);
+      } else addImage(images, chunk, base);
+    }
+  }
+  return images[0] || "";
+}
+
+function extractDescription(html) {
+  const ld = extractJsonLdProducts(html).find((n) => typeof n.description === "string" && n.description.trim().length >= 20);
+  const text = decodeEntities(
+    ld?.description ||
+    extractMeta(html, "og:description") ||
+    extractMeta(html, "description") ||
+    extractMeta(html, "twitter:description") ||
+    matchJsonString(html, ["productDesc", "description", "shortDescription"]) ||
+    "",
+  ).replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+  return text.length >= 20 ? text.slice(0, 500) : "";
 }
 
 function guessCategory(name) {
@@ -104,15 +243,16 @@ async function processUrl(raw) {
   catch (e) { return { ok: false, url: affiliateUrl, store, reason: `fetch falló: ${e.message}` }; }
 
   const title = extractTitle(html);
-  const imageUrl = extractImage(html);
+  const imageUrl = extractImage(html, original);
   if (!title) return { ok: false, url: affiliateUrl, store, reason: "sin título verificable" };
   if (!isHttpUrl(imageUrl)) return { ok: false, url: affiliateUrl, store, reason: "sin imagen verificable" };
   if (/robot check|captcha|access denied/i.test(html)) return { ok: false, url: affiliateUrl, store, reason: "bloqueado por anti-bot" };
 
   const category = guessCategory(title);
   const shortName = title.length > 140 ? title.slice(0, 137).trim() + "..." : title;
-  const descEs = `Producto tech de ${store} en categoría ${category}. Verifica detalles y precio en la página oficial.`;
-  const descEn = `Tech product from ${store} in the ${category} category. Check details and price on the official page.`;
+  const pageDescription = extractDescription(html);
+  const descEs = pageDescription || `Producto tech de ${store} en categoría ${category}. Verifica detalles y precio en la página oficial.`;
+  const descEn = pageDescription || `Tech product from ${store} in the ${category} category. Check details and price on the official page.`;
   return {
     ok: true,
     item: {

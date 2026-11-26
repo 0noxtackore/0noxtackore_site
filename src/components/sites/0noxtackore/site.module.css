@@ -2242,3 +2242,12 @@
 }
 .lightboxClose:hover { background: rgba(255,255,255,0.24); }
 .lightboxClose svg { width: 22px; height: 22px; }
+
+/* Cards de tienda: contenedor e imagen 1:1. */
+.storeCardImageBtn { aspect-ratio: 1 / 1; }
+.storeCardImage {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1 / 1;
+  box-sizing: border-box;
+}
