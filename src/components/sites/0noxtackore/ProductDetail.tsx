@@ -102,7 +102,7 @@ export function ProductDetail({ locale, product: record, similar }: Props) {
                   objectFit: "contain",
                   borderRadius: 0,
                   border: "2px solid royalblue",
-                  padding: 10,
+                  padding: 0,
                 }}
               />
             </button>

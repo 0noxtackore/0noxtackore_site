@@ -1712,10 +1712,10 @@
   align-items: start;
 }
 .productDetailMedia {
-  background: #f3f6fa;
-  border-radius: 16px;
-  overflow: hidden;
-  border: 1px solid #e6e6e6;
+  background: transparent;
+  border-radius: 0;
+  overflow: visible;
+  border: 0;
 }
 .productDetailImageBtn {
   display: block;

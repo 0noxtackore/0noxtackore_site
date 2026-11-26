@@ -23,6 +23,8 @@ export type Content = {
     name: string;
     tagline: string;
     heroEyebrow: string;
+    heroTitle: string;
+    heroDescription: string;
     intro: string;
     approach: string;
   };
@@ -128,11 +130,11 @@ export type Content = {
 };
 
 const uiEs: Record<string, string> = {
-  announce: "Conoce nuestra filosofía →",
+  announce: "Compara laptops por precio →",
   all: "Todo",
   contact: "Contacto",
-  heroExplore: "Explorar áreas",
-  heroPhilosophy: "Nuestra filosofía",
+  heroExplore: "Ver laptops recomendadas",
+  heroPhilosophy: "Cómo elegimos",
   areasKicker: "Qué hacemos",
   areasTitle: "Áreas de actividad",
   philosophyKicker: "Cómo pensamos",
@@ -169,11 +171,11 @@ const uiEs: Record<string, string> = {
 };
 
 const uiEn: Record<string, string> = {
-  announce: "Learn about our philosophy →",
+  announce: "Compare laptops by price →",
   all: "All",
   contact: "Contact",
-  heroExplore: "Explore areas",
-  heroPhilosophy: "Our philosophy",
+  heroExplore: "See recommended laptops",
+  heroPhilosophy: "How we choose",
   areasKicker: "What we do",
   areasTitle: "Areas of activity",
   philosophyKicker: "How we think",
@@ -215,6 +217,9 @@ const es: Content = {
     name: "0NOXTACKORE",
     tagline: "CREADO PARA EL IMPACTO",
     heroEyebrow: "TECNOLOGÍA CON ALMA",
+    heroTitle: "Compara laptops por precio, RAM y rendimiento antes de comprar",
+    heroDescription:
+      "¿Necesitas una laptop para la universidad, el trabajo o los juegos? Revisa modelos reales de Amazon y AliExpress y compara procesador, RAM, almacenamiento y precio antes de decidir.",
     intro:
       "0NOXTACKORE es una compañía tecnológica independiente fundada en 2023 por Angello Aponte. Se dedica a la ingeniería, desarrollo y evolución de soluciones de software, código abierto e integraciones, y a la selección y recomendación de productos tecnológicos con criterio técnico. No es una tienda de recargas ni un marketplace de juegos.",
     approach:
@@ -483,8 +488,8 @@ const es: Content = {
   ogImage: "/sites/0noxtackore/og/og-en.jpg",
   metadata: {
     home: {
-      title: "0NOXTACKORE: software, código abierto y consultoría tecnológica",
-      description: "0NOXTACKORE es una compañía tecnológica independiente fundada en 2023. Desarrollo de software, open source, integraciones, consultoría y recomendaciones tecnológicas con criterio técnico.",
+      title: "0NOXTACKORE: compara laptops por precio, RAM y rendimiento",
+      description: "Compara laptops y productos tech de Amazon y AliExpress por procesador, RAM, almacenamiento y precio antes de comprar. Recomendaciones con criterio técnico.",
     },
     guia: { title: "Guía para elegir una laptop con buena relación calidad-precio", description: "Guía práctica para evaluar procesador, memoria RAM, almacenamiento y batería antes de comprar una laptop." },
     acerca: { title: "Acerca de 0NOXTACKORE", description: "Conoce a 0NOXTACKORE, compañía tecnológica independiente fundada en 2023. Software, open source, integraciones y curaduría tecnológica." },
@@ -499,6 +504,9 @@ const en: Content = {
     name: "0NOXTACKORE",
     tagline: "BUILT FOR IMPACT",
     heroEyebrow: "TECHNOLOGY WITH SOUL",
+    heroTitle: "Compare laptops by price, RAM, and performance before you buy",
+    heroDescription:
+      "Need a laptop for college, work, or gaming? Review real Amazon and AliExpress models and compare processor, RAM, storage, and price before you decide.",
     intro:
       "0NOXTACKORE is an independent technology company founded in 2023 by Angello Aponte. It focuses on software engineering, development, open source and integrations, and on the selection and recommendation of technology products based on technical criteria. It is not a game top-up store or gaming marketplace.",
     approach:
@@ -770,8 +778,8 @@ const en: Content = {
   ogImage: "/sites/0noxtackore/og/og-en.jpg",
   metadata: {
     home: {
-      title: "0NOXTACKORE: Software, open source and technology consulting",
-      description: "0NOXTACKORE is an independent technology company founded in 2023. Software development, open source, integrations, consulting and technology recommendations based on technical criteria.",
+      title: "0NOXTACKORE: compare laptops by price, RAM, and performance",
+      description: "Compare laptops and tech products from Amazon and AliExpress by processor, RAM, storage, and price before you buy. Recommendations based on technical criteria.",
     },
     guia: { title: "How to choose a laptop with good value for money", description: "A practical guide to evaluating processor, RAM, storage and battery before buying a laptop." },
     acerca: { title: "About 0NOXTACKORE", description: "Meet 0NOXTACKORE, an independent technology company founded in 2023. Software, open source, integrations and technology curation." },
