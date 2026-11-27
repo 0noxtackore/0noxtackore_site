@@ -236,20 +236,30 @@
   gap: 8px;
 }
 .slideDot {
-  width: 8px;
-  height: 8px;
+  position: relative;
+  width: 24px;
+  height: 24px;
   padding: 0;
   border: 0;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.55);
+  background: transparent;
   cursor: pointer;
-  transition: width 0.3s ease, background 0.3s ease;
+  transition: width 0.3s ease;
 }
-.slideDot:hover {
+.slideDot::after {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.55);
+}
+.slideDot:hover::after {
   background: #fff;
 }
 .slideDotActive {
-  width: 26px;
+  width: 42px;
+}
+.slideDotActive::after {
   background: #fff;
 }
 
@@ -2384,7 +2394,12 @@
 }
 
 /* Accesibilidad: enlaces del footer y botones de compartir con contraste suficiente. */
-.page a.footerLink { color: #bcd3e8; }
+.page a.footerLink {
+  color: #bcd3e8;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
 .page a.footerLink:hover { color: #fff; }
 .page .shareButton.shareWhatsapp { background: #0a7a36; color: #fff; }
 .page .shareButton.shareFacebook { background: #0b5ed7; color: #fff; }
