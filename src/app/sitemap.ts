@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 
-import { getPagePath, getPageSlug } from "@/lib/i18n";
+import { getContent } from "@/components/sites/0noxtackore/content";
+import { getAreaSlug, getPagePath, getPageSlug } from "@/lib/i18n";
 import { getActiveProducts } from "@/lib/store/products";
 
 export const revalidate = 3600;
@@ -15,9 +16,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { key: "acerca" as const, priority: 0.8, changeFrequency: "monthly" as const },
     { key: "privacidad" as const, priority: 0.5, changeFrequency: "yearly" as const },
     { key: "tienda" as const, priority: 0.8, changeFrequency: "weekly" as const },
+    { key: "filosofia" as const, priority: 0.5, changeFrequency: "monthly" as const },
+    { key: "recomendaciones" as const, priority: 0.6, changeFrequency: "monthly" as const },
+    { key: "confianza" as const, priority: 0.4, changeFrequency: "monthly" as const },
+    { key: "proyectos" as const, priority: 0.5, changeFrequency: "monthly" as const },
+    { key: "contacto" as const, priority: 0.4, changeFrequency: "yearly" as const },
+    { key: "areas" as const, priority: 0.6, changeFrequency: "monthly" as const },
   ];
 
-  const pathFor = (locale: "es" | "en", key: "home" | "guia" | "acerca" | "tienda" | "privacidad") =>
+  const pathFor = (locale: "es" | "en", key: "home" | "guia" | "acerca" | "tienda" | "privacidad" | "filosofia" | "recomendaciones" | "confianza" | "proyectos" | "contacto" | "areas") =>
     key === "home" ? `/${locale}` : `/${locale}/${getPageSlug(locale, key)}`;
 
   const entries: MetadataRoute.Sitemap = [];
@@ -37,6 +44,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             "x-default": es,
           },
         },
+      });
+    }
+  }
+
+  const areaKeys = getContent("es").areas.map((area) => area.slug);
+  for (const key of areaKeys) {
+    const es = `${base}/es/areas/${getAreaSlug("es", key)}`;
+    const en = `${base}/en/areas/${getAreaSlug("en", key)}`;
+    for (const locale of ["es", "en"] as const) {
+      entries.push({
+        url: locale === "es" ? es : en,
+        lastModified,
+        changeFrequency: "monthly",
+        priority: 0.5,
+        alternates: { languages: { es, en, "x-default": es } },
       });
     }
   }

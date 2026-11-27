@@ -20,6 +20,7 @@ const pageSlugs: Record<string, Record<Locale, string>> = {
   contacto: { es: "contacto", en: "contact" },
   proyectos: { es: "proyectos", en: "projects" },
   privacidad: { es: "privacidad", en: "privacy" },
+  areas: { es: "areas", en: "areas" },
 };
 
 /** Area slugs that differ by locale. Keys are canonical (Spanish) slugs. */

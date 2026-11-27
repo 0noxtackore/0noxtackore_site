@@ -86,22 +86,6 @@ const nextConfig: NextConfig = {
 
     return redirects;
   },
-  async rewrites() {
-    const rewrites: { source: string; destination: string }[] = [];
-    const allSectionSlugs = new Set<string>(sections);
-    for (const pair of Object.values(sectionLocaleSlugs)) {
-      allSectionSlugs.add(pair.es);
-      allSectionSlugs.add(pair.en);
-    }
-
-    for (const locale of ["es", "en"]) {
-      for (const section of allSectionSlugs) {
-        rewrites.push({ source: `/${locale}/${section}`, destination: `/${locale}` });
-      }
-      rewrites.push({ source: `/${locale}/areas/:slug`, destination: `/${locale}` });
-    }
-    return rewrites;
-  },
   async headers() {
     const isDev = process.env.NODE_ENV !== "production";
     const csp = [
