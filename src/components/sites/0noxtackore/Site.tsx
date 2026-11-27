@@ -24,7 +24,7 @@ import { siteUrl, type Area } from "./data";
 import { HeroSlider } from "./HeroSlider";
 import { ShareButtons } from "./ShareButtons";
 import styles from "./site.module.css";
-import { getAreaKey, getPageKey, getPagePath, localizedHref, type Locale } from "@/lib/i18n";
+import { getAreaKey, getPageKey, getPagePath, type Locale } from "@/lib/i18n";
 
 function FacebookIcon() {
   return (
@@ -183,7 +183,7 @@ export function Site({ locale }: { locale: Locale }) {
         <div className={styles.announceInner}>
           <span className={styles.announceStrong}>{brand.name}</span>
           <span>{brand.tagline}</span>
-          <Link className={styles.announceLink} href={getPagePath(locale, "tienda")}>
+          <Link className={styles.announceLink} href={`/${locale}/filosofia`}>
             {ui.announce}
           </Link>
         </div>
@@ -229,14 +229,16 @@ export function Site({ locale }: { locale: Locale }) {
             <div className={styles.heroCopy}>
               <span className={styles.eyebrow}>{brand.heroEyebrow}</span>
               <h1 id="hero-title" className={styles.heroTitle}>
-                {brand.heroTitle}
+                {brand.tagline}
               </h1>
-              <p className={styles.heroDescription}>{brand.heroDescription}</p>
+              <p className={styles.heroDescription}>
+                <BrandIntro text={brand.intro} name={brand.name} />
+              </p>
               <div className={styles.heroActions}>
-                <Link className={`${styles.button} ${styles.buttonBlue}`} href={getPagePath(locale, "tienda")}>
+                <Link className={`${styles.button} ${styles.buttonBlue}`} href={`/${locale}/areas`}>
                   {ui.heroExplore}
                 </Link>
-                <Link className={`${styles.button} ${styles.buttonOutline}`} href={localizedHref(locale, "/recomendaciones")}>
+                <Link className={`${styles.button} ${styles.buttonOutline}`} href={`/${locale}/filosofia`}>
                   {ui.heroPhilosophy}
                 </Link>
               </div>
