@@ -106,9 +106,9 @@ const nextConfig: NextConfig = {
     const isDev = process.env.NODE_ENV !== "production";
     const csp = [
       "default-src 'self'",
-      `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""} https://www.googletagmanager.com https://va.vercel-scripts.com`,
-      "connect-src 'self' https://vitals.vercel-insights.com https://va.vercel-scripts.com https://www.google-analytics.com https://region1.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://*.googleapis.com https://*.firebaseapp.com https://*.supabase.co",
-      "img-src 'self' data: blob: https:",
+      `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}`,
+      "connect-src 'self' https://*.googleapis.com https://*.firebaseapp.com https://*.supabase.co",
+      "img-src 'self' data: blob: https://*.alicdn.com https://*.aliexpress-media.com https://*.media-amazon.com https://*.ssl-images-amazon.com https://*.dhgate.com https://*.redmagic.com https://*.supabase.co",
       "style-src 'self' 'unsafe-inline'",
       "font-src 'self' data:",
       "frame-ancestors 'self'",

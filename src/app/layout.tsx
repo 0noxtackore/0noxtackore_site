@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 
-import { ConsentGate } from "@/components/sites/0noxtackore/ConsentGate";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -20,10 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" dir="ltr" className="h-full antialiased" suppressHydrationWarning>
-      <body className="min-h-full flex flex-col">
-        {children}
-        <ConsentGate />
-      </body>
+      <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );
 }
