@@ -8,7 +8,7 @@ import { siteUrl } from "./data";
 import { defaultSiteLocale, sitePath, type Locale, type SiteLocale } from "@/lib/i18n";
 
 export function Privacy({ locale, siteLocale = defaultSiteLocale[locale] }: { locale: Locale; siteLocale?: SiteLocale }) {
-  const content = getContent(locale);
+  const content = getContent(locale, siteLocale);
   const page = content.pages.privacidad;
   const canonical = sitePath("privacidad", siteLocale);
 

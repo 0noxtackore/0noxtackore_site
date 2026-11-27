@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 
 import { getContent } from "@/components/sites/0noxtackore/content";
-import { SITE_LOCALES, siteAreaPath, sitePath, siteProductPath, type PageKey } from "@/lib/i18n";
+import { INDEXED_LOCALES, siteAreaPath, sitePath, siteProductPath, type PageKey } from "@/lib/i18n";
 import { getActiveProducts } from "@/lib/store/products";
 
 export const revalidate = 3600;
@@ -25,7 +25,7 @@ const PAGES: { key: PageKey | "home"; priority: number; changeFrequency: "weekly
 function loc(path: string) { return `${base}${path}`; }
 function languages(paths: string[]) {
   const out: Record<string, string> = {};
-  SITE_LOCALES.forEach((locale) => { out[locale.toUpperCase()] = loc(paths[SITE_LOCALES.indexOf(locale)]); });
+  INDEXED_LOCALES.forEach((locale) => { out[locale.toUpperCase()] = loc(paths[INDEXED_LOCALES.indexOf(locale)]); });
   out["x-default"] = loc(paths[0]);
   return out;
 }
@@ -35,8 +35,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const entries: MetadataRoute.Sitemap = [];
 
   for (const item of PAGES) {
-    const paths = SITE_LOCALES.map((siteLocale) => sitePath(item.key, siteLocale));
-    for (let i = 0; i < SITE_LOCALES.length; i++) {
+    const paths = INDEXED_LOCALES.map((siteLocale) => sitePath(item.key, siteLocale));
+    for (let i = 0; i < INDEXED_LOCALES.length; i++) {
       entries.push({
         url: loc(paths[i]),
         lastModified,
@@ -48,8 +48,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }
 
   for (const area of getContent("es").areas) {
-    const paths = SITE_LOCALES.map((siteLocale) => siteAreaPath(area.slug, siteLocale));
-    for (let i = 0; i < SITE_LOCALES.length; i++) {
+    const paths = INDEXED_LOCALES.map((siteLocale) => siteAreaPath(area.slug, siteLocale));
+    for (let i = 0; i < INDEXED_LOCALES.length; i++) {
       entries.push({
         url: loc(paths[i]),
         lastModified,
@@ -63,9 +63,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   try {
     const products = await getActiveProducts();
     for (const product of products) {
-      const paths = SITE_LOCALES.map((siteLocale) => siteProductPath(product.id, siteLocale));
+      const paths = INDEXED_LOCALES.map((siteLocale) => siteProductPath(product.id, siteLocale));
       const modified = product.updatedAt ? new Date(product.updatedAt) : lastModified;
-      for (let i = 0; i < SITE_LOCALES.length; i++) {
+      for (let i = 0; i < INDEXED_LOCALES.length; i++) {
         entries.push({
           url: loc(paths[i]),
           lastModified: modified,

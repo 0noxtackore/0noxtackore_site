@@ -39,7 +39,7 @@ function truncateText(value: string, maxLength: number) {
 }
 
 export function ProductDetail({ locale, product: record, similar, siteLocale = defaultSiteLocale[locale] }: Props & { siteLocale?: SiteLocale }) {
-  const content = getContent(locale);
+  const content = getContent(locale, siteLocale);
   const store = content.pages.tienda;
   const product = mapProduct(record, locale);
   const similarProducts = similar.map((p) => mapProduct(p, locale));

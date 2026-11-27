@@ -18,7 +18,7 @@ const officialLinks = [
 ];
 
 export function About({ locale, siteLocale = defaultSiteLocale[locale] }: { locale: Locale; siteLocale?: SiteLocale }) {
-  const content = getContent(locale);
+  const content = getContent(locale, siteLocale);
   const about = content.pages.acerca;
   const aboutUrl = `${siteUrl}${sitePath("acerca", siteLocale)}`;
 

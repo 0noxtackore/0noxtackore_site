@@ -3,12 +3,7 @@ import { notFound } from "next/navigation";
 
 import { getContent } from "@/components/sites/0noxtackore/content";
 import { siteUrl } from "@/components/sites/0noxtackore/data";
-import { isSiteLocale, languageOf, sitePath, SITE_LOCALES, type SiteLocale } from "@/lib/i18n";
-
-export function generateStaticParams() {
-  const pages = ["home", "guide", "about", "store", "philosophy", "recommendations", "trust", "projects", "contact", "privacy", "areas"];
-  return pages.flatMap((page) => SITE_LOCALES.map((siteLocale) => ({ page, siteLocale })));
-}
+import { INDEXED_LOCALES, isIndexedLocale, isSiteLocale, languageOf, sitePath, type SiteLocale } from "@/lib/i18n";
 
 export const viewport: Viewport = { themeColor: "#0078d4" };
 
@@ -16,7 +11,7 @@ export async function generateMetadata({ params }: { params: Promise<{ siteLocal
   const { siteLocale: value } = await params;
   if (!isSiteLocale(value)) return {};
   const locale = languageOf(value);
-  const content = getContent(locale);
+  const content = getContent(locale, value);
   const meta = content.metadata.home;
   const canonical = sitePath("home", value);
   return {
@@ -30,9 +25,7 @@ export async function generateMetadata({ params }: { params: Promise<{ siteLocal
     alternates: {
       canonical,
       languages: {
-        "es-VE": sitePath("home", "es-ve"),
-        "en-US": sitePath("home", "en-us"),
-        "es-CO": sitePath("home", "es-co"),
+        ...Object.fromEntries(INDEXED_LOCALES.map((loc) => [loc, sitePath("home", loc)])),
         "x-default": sitePath("home", "es-ve"),
       },
     },
@@ -46,7 +39,7 @@ export async function generateMetadata({ params }: { params: Promise<{ siteLocal
       images: [{ url: content.ogImage, width: 1200, height: 630 }],
     },
     twitter: { card: "summary_large_image", title: meta.title, description: meta.description, images: [content.ogImage] },
-    robots: { index: true, follow: true },
+    robots: { index: isIndexedLocale(value), follow: true },
   };
 }
 
@@ -55,7 +48,7 @@ export default async function SiteLocaleLayout({ children, params }: Readonly<{ 
   if (!isSiteLocale(value)) notFound();
   const siteLocale: SiteLocale = value;
   const locale = languageOf(siteLocale);
-  const content = getContent(locale);
+  const content = getContent(locale, siteLocale);
   const ogImageUrl = new URL(content.ogImage, siteUrl).toString();
   const organizationId = `${siteUrl}/#organization`;
   const founderId = `${siteUrl}/#founder`;

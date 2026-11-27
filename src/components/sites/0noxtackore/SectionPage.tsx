@@ -14,7 +14,7 @@ const SOCIALS = [
 ];
 
 export function SectionPage({ locale, section, siteLocale = defaultSiteLocale[locale] }: { locale: Locale; section: SectionKey; siteLocale?: SiteLocale }) {
-  const content = getContent(locale);
+  const content = getContent(locale, siteLocale);
   const meta = sectionMeta(locale, section);
   const back = locale === "es" ? "Volver al inicio" : "Back to home";
 

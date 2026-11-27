@@ -5,7 +5,7 @@ import { AreaPage } from "@/components/sites/0noxtackore/AreaPage";
 import { getContent } from "@/components/sites/0noxtackore/content";
 import { ProductDetail } from "@/components/sites/0noxtackore/ProductDetail";
 import { getActiveProductById, getActiveProducts } from "@/lib/store/products";
-import { getAreaKey, isSiteLocale, languageOf, siteAreaPath, siteProductPath } from "@/lib/i18n";
+import { INDEXED_LOCALES, getAreaKey, isIndexedLocale, isSiteLocale, languageOf, siteAreaPath, siteProductPath } from "@/lib/i18n";
 
 type Props = { params: Promise<{ page: string; siteLocale: string; slug: string }> };
 
@@ -25,19 +25,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       alternates: {
         canonical,
         languages: {
-          "es-VE": siteProductPath(slug, "es-ve"),
-          "en-US": siteProductPath(slug, "en-us"),
-          "es-CO": siteProductPath(slug, "es-co"),
+          ...Object.fromEntries(INDEXED_LOCALES.map((loc) => [loc, siteProductPath(slug, loc)])),
           "x-default": siteProductPath(slug, "es-ve"),
         },
       },
-      robots: { index: true, follow: true },
+      robots: { index: isIndexedLocale(value), follow: true },
     };
   }
 
   if (page === "areas") {
     const key = getAreaKey(slug);
-    const area = key ? getContent(locale).areas.find((item) => item.slug === key) : null;
+    const area = key ? getContent(locale, value).areas.find((item) => item.slug === key) : null;
     if (!area || !key) return {};
     const canonical = siteAreaPath(key, value);
     return {
@@ -46,13 +44,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       alternates: {
         canonical,
         languages: {
-          "es-VE": siteAreaPath(key, "es-ve"),
-          "en-US": siteAreaPath(key, "en-us"),
-          "es-CO": siteAreaPath(key, "es-co"),
+          ...Object.fromEntries(INDEXED_LOCALES.map((loc) => [loc, siteAreaPath(key, loc)])),
           "x-default": siteAreaPath(key, "es-ve"),
         },
       },
-      robots: { index: true, follow: true },
+      robots: { index: isIndexedLocale(value), follow: true },
     };
   }
 

@@ -7,7 +7,7 @@ import styles from "./site.module.css";
 import { defaultSiteLocale, sitePath, type Locale, type SiteLocale } from "@/lib/i18n";
 
 export function AreaPage({ locale, areaSlug, siteLocale = defaultSiteLocale[locale] }: { locale: Locale; areaSlug: string; siteLocale?: SiteLocale }) {
-  const content = getContent(locale);
+  const content = getContent(locale, siteLocale);
   const area = content.areas.find((item) => item.slug === areaSlug);
   const back = locale === "es" ? "Volver a áreas" : "Back to areas";
 

@@ -5,7 +5,7 @@ import styles from "./site.module.css";
 import { getContent } from "./content";
 
 export function NotFoundContent({ locale, siteLocale = defaultSiteLocale[locale] }: { locale: Locale; siteLocale?: SiteLocale }) {
-  const content = getContent(locale);
+  const content = getContent(locale, siteLocale);
   const isEs = locale === "es";
 
   return (

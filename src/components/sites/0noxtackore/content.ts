@@ -837,6 +837,12 @@ const en: Content = {
   },
 };
 
-export function getContent(locale: Locale): Content {
-  return locale === "en" ? en : es;
+import uiTranslations from "./ui-translations.json";
+
+export function getContent(locale: Locale, siteLocale?: string): Content {
+  const base = locale === "en" ? en : es;
+  if (!siteLocale) return base;
+  const overrides = (uiTranslations as Record<string, Record<string, string>>)[siteLocale];
+  if (!overrides) return base;
+  return { ...base, ui: { ...base.ui, ...overrides } };
 }

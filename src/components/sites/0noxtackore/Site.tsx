@@ -126,7 +126,7 @@ function BrandIntro({ text, name }: { text: string; name: string }) {
 
 export function Site({ locale, siteLocale = defaultSiteLocale[locale] }: { locale: Locale; siteLocale?: SiteLocale }) {
   useScrollToSection();
-  const content = getContent(locale);
+  const content = getContent(locale, siteLocale);
   const {
     brand,
     areas,

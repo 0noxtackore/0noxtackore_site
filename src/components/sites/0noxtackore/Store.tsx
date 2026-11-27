@@ -24,7 +24,7 @@ const HERO_VIDEOS = [
 ];
 
 export function Store({ locale, products: records, siteLocale = defaultSiteLocale[locale] }: Props & { siteLocale?: SiteLocale }) {
-  const content = getContent(locale);
+  const content = getContent(locale, siteLocale);
   const store = content.pages.tienda;
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedStores, setSelectedStores] = useState<string[]>([]);

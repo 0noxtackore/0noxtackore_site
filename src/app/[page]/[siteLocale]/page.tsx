@@ -10,7 +10,7 @@ import { sectionMeta, type SectionKey } from "@/components/sites/0noxtackore/sec
 import { Site } from "@/components/sites/0noxtackore/Site";
 import { Store } from "@/components/sites/0noxtackore/Store";
 import { getActiveProducts } from "@/lib/store/products";
-import { isSiteLocale, languageOf, sitePath, type PageKey } from "@/lib/i18n";
+import { INDEXED_LOCALES, isIndexedLocale, isSiteLocale, languageOf, sitePath, type PageKey } from "@/lib/i18n";
 
 type Props = { params: Promise<{ page: string; siteLocale: string }> };
 
@@ -41,7 +41,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { page: pageName, siteLocale: value } = await params;
   if (!isSiteLocale(value) || !PAGE_MAP[pageName]) return {};
   const locale = languageOf(value);
-  const content = getContent(locale);
+  const content = getContent(locale, value);
   const key = PAGE_MAP[pageName];
   const canonical = sitePath(key, value);
 
@@ -60,13 +60,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     alternates: {
       canonical,
       languages: {
-        "es-VE": sitePath(key, "es-ve"),
-        "en-US": sitePath(key, "en-us"),
-        "es-CO": sitePath(key, "es-co"),
+        ...Object.fromEntries(INDEXED_LOCALES.map((loc) => [loc, sitePath(key, loc)])),
         "x-default": sitePath(key, "es-ve"),
       },
     },
-    robots: { index: true, follow: true },
+    robots: { index: isIndexedLocale(value), follow: true },
   };
 }
 

@@ -1,10 +1,13 @@
+import { ALL_SITE_LOCALES, INDEXED_SITE_LOCALES } from "./site-locales";
+
 export type Locale = "es" | "en";
 
 export const locales: Locale[] = ["es", "en"];
 export const defaultLocale: Locale = "es";
 
-export const SITE_LOCALES = ["es-ve", "en-us", "es-co"] as const;
-export type SiteLocale = (typeof SITE_LOCALES)[number];
+export const SITE_LOCALES = ALL_SITE_LOCALES;
+export const INDEXED_LOCALES = INDEXED_SITE_LOCALES;
+export type SiteLocale = (typeof ALL_SITE_LOCALES)[number];
 
 export const defaultSiteLocale: Record<Locale, SiteLocale> = {
   es: "es-ve",
@@ -19,20 +22,40 @@ export function isSiteLocale(value: string): value is SiteLocale {
   return (SITE_LOCALES as readonly string[]).includes(value);
 }
 
+export function isIndexedLocale(value: string): boolean {
+  return (INDEXED_LOCALES as readonly string[]).includes(value);
+}
+
 export function languageOf(siteLocale: SiteLocale | string): Locale {
   return String(siteLocale).toLowerCase().startsWith("es") ? "es" : "en";
 }
 
 /** Country from Cloudflare, language from the browser. URL locale remains the source of truth. */
-export function siteLocaleFromRequest(country: string | null, acceptLanguage: string | null): SiteLocale {
-  const lang = (acceptLanguage ?? "").toLowerCase();
-  const cc = (country ?? "").toUpperCase();
+const COUNTRY_LOCALE: Record<string, SiteLocale> = {
+  VE: "es-ve", CO: "es-co", MX: "es-mx", AR: "es-ar", ES: "es-es",
+  BR: "pt-br", PT: "pt-pt", FR: "fr-fr", DE: "de-de", IT: "it-it",
+  NL: "nl-nl", SE: "sv-se", DK: "da-dk", FI: "fi-fi", PL: "pl-pl",
+  TR: "tr-tr", JP: "ja-jp", KR: "ko-kr", CN: "zh-cn", TW: "zh-cn",
+};
 
-  if (lang.startsWith("es")) return cc === "CO" ? "es-co" : "es-ve";
-  if (lang.startsWith("en")) return "en-us";
-  if (cc === "VE") return "es-ve";
-  if (cc === "CO") return "es-co";
-  if (["US", "GB", "CA", "AU", "IE", "NZ"].includes(cc)) return "en-us";
+const LANGUAGE_LOCALE: Record<string, SiteLocale> = {
+  es: "es-ve", en: "en-us", pt: "pt-br", fr: "fr-fr", de: "de-de", it: "it-it",
+  nl: "nl-nl", sv: "sv-se", da: "da-dk", fi: "fi-fi", pl: "pl-pl", tr: "tr-tr",
+  ja: "ja-jp", ko: "ko-kr", zh: "zh-cn",
+};
+
+export function siteLocaleFromRequest(country: string | null, acceptLanguage: string | null): SiteLocale {
+  const cc = (country ?? "").toUpperCase();
+  const preferred = (acceptLanguage ?? "")
+    .split(",")
+    .map((part) => part.trim().split(";")[0].toLowerCase())
+    .filter(Boolean);
+
+  if (COUNTRY_LOCALE[cc]) return COUNTRY_LOCALE[cc];
+  for (const tag of preferred) {
+    const language = tag.split("-")[0];
+    if (LANGUAGE_LOCALE[language]) return LANGUAGE_LOCALE[language];
+  }
   return "en-us";
 }
 

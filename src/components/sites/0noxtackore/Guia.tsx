@@ -9,7 +9,7 @@ import { siteUrl } from "./data";
 import { defaultSiteLocale, sitePath, type Locale, type SiteLocale } from "@/lib/i18n";
 
 export function Guia({ locale, siteLocale = defaultSiteLocale[locale] }: { locale: Locale; siteLocale?: SiteLocale }) {
-  const content = getContent(locale);
+  const content = getContent(locale, siteLocale);
   const guide = content.pages.guia;
   const { share } = content;
   const guideUrl = `${siteUrl}${sitePath("guia", siteLocale)}`;
