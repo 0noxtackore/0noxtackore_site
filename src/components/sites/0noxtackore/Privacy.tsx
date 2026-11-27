@@ -5,12 +5,12 @@ import Link from "next/link";
 import { getContent } from "./content";
 import styles from "./site.module.css";
 import { siteUrl } from "./data";
-import { localizedHref, type Locale } from "@/lib/i18n";
+import { defaultSiteLocale, sitePath, type Locale, type SiteLocale } from "@/lib/i18n";
 
-export function Privacy({ locale }: { locale: Locale }) {
+export function Privacy({ locale, siteLocale = defaultSiteLocale[locale] }: { locale: Locale; siteLocale?: SiteLocale }) {
   const content = getContent(locale);
   const page = content.pages.privacidad;
-  const canonical = localizedHref(locale, "/privacidad");
+  const canonical = sitePath("privacidad", siteLocale);
 
   return (
     <div className={styles.page}>
@@ -29,11 +29,11 @@ export function Privacy({ locale }: { locale: Locale }) {
       />
       <header className={styles.guideHeader}>
         <div className={styles.guideHeaderInner}>
-          <Link className={styles.guideLogoLink} href={`/${locale}`}>
+          <Link className={styles.guideLogoLink} href={sitePath("home", siteLocale)}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/sites/0noxtackore/logo.webp" alt="0NOXTACKORE" className={styles.guideLogo} width={180} height={36} />
           </Link>
-          <Link href={`/${locale}`} className={styles.guideBack}>
+          <Link href={sitePath("home", siteLocale)} className={styles.guideBack}>
             {locale === "es" ? "Volver al inicio" : "Back to home"}
           </Link>
         </div>

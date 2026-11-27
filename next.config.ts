@@ -1,36 +1,5 @@
 import type { NextConfig } from "next";
 
-const sections = [
-  "areas",
-  "filosofia",
-  "recomendaciones",
-  "proyectos",
-  "contacto",
-  "confianza",
-  "faq",
-  "compartir",
-  "social",
-];
-
-const sectionLocaleSlugs: Record<string, { es: string; en: string }> = {
-  filosofia: { es: "filosofia", en: "philosophy" },
-  recomendaciones: { es: "recomendaciones", en: "recommendations" },
-  proyectos: { es: "proyectos", en: "projects" },
-  contacto: { es: "contacto", en: "contact" },
-  confianza: { es: "confianza", en: "trust" },
-};
-
-const areaLocaleSlugs: Record<string, { es: string; en: string }> = {
-  "desarrollo-de-software": { es: "desarrollo-de-software", en: "software-development" },
-  "ingenieria-open-source": { es: "ingenieria-open-source", en: "open-source-engineering" },
-  "tecnologias-e-integraciones": { es: "tecnologias-e-integraciones", en: "technologies-and-integrations" },
-  "productos-tecnologicos": { es: "productos-tecnologicos", en: "technology-products" },
-  "recomendacion-y-afiliacion": { es: "recomendacion-y-afiliacion", en: "recommendation-and-affiliation" },
-  "consultoria-tecnica": { es: "consultoria-tecnica", en: "technical-consulting" },
-};
-
-const defaultLocale = "es";
-
 const nextConfig: NextConfig = {
   output: "standalone",
   poweredByHeader: false,
@@ -49,40 +18,51 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     const redirects: { source: string; destination: string; permanent: boolean }[] = [];
+    const add = (source: string, destination: string) => redirects.push({ source, destination, permanent: true });
 
-    // Keep pre-i18n URLs working: /guia, /acerca, /areas/... → /es/...
-    for (const section of sections) {
-      redirects.push({ source: `/${section}`, destination: `/${defaultLocale}/${section}`, permanent: true });
-    }
-    redirects.push(
-      { source: "/areas/:slug", destination: `/${defaultLocale}/areas/:slug`, permanent: true },
-      { source: "/guia", destination: `/${defaultLocale}/guia`, permanent: true },
-      { source: "/acerca", destination: `/${defaultLocale}/acerca`, permanent: true },
-      { source: "/tienda", destination: `/${defaultLocale}/tienda`, permanent: true },
-      // Locale-correct page slugs
-      { source: "/en/guia", destination: "/en/guide", permanent: true },
-      { source: "/en/acerca", destination: "/en/about", permanent: true },
-      { source: "/en/tienda", destination: "/en/store", permanent: true },
-      { source: "/es/guide", destination: "/es/guia", permanent: true },
-      { source: "/es/about", destination: "/es/acerca", permanent: true },
-      { source: "/es/store", destination: "/es/tienda", permanent: true },
-    );
+    // Old root entries
+    add("/guia", "/guide/es-ve");
+    add("/acerca", "/about/es-ve");
+    add("/tienda", "/store/es-ve");
+    add("/filosofia", "/philosophy/es-ve");
+    add("/recomendaciones", "/recommendations/es-ve");
+    add("/confianza", "/trust/es-ve");
+    add("/proyectos", "/projects/es-ve");
+    add("/contacto", "/contact/es-ve");
+    add("/privacidad", "/privacy/es-ve");
+    add("/areas", "/areas/es-ve");
 
-    // Locale-correct section slugs
-    for (const pair of Object.values(sectionLocaleSlugs)) {
-      redirects.push(
-        { source: `/en/${pair.es}`, destination: `/en/${pair.en}`, permanent: true },
-        { source: `/es/${pair.en}`, destination: `/es/${pair.es}`, permanent: true },
-      );
+    // Old locale homes
+    add("/es", "/home/es-ve");
+    add("/en", "/home/en-us");
+
+    const pageMap: Record<string, string> = {
+      guia: "guide", guide: "guide",
+      acerca: "about", about: "about",
+      tienda: "store", store: "store",
+      filosofia: "philosophy", philosophy: "philosophy",
+      recomendaciones: "recommendations", recommendations: "recommendations",
+      confianza: "trust", trust: "trust",
+      proyectos: "projects", projects: "projects",
+      contacto: "contact", contact: "contact",
+      privacidad: "privacy", privacy: "privacy",
+      areas: "areas",
+    };
+    const localeMap: Record<string, string> = { es: "es-ve", en: "en-us" };
+
+    for (const [oldSlug, page] of Object.entries(pageMap)) {
+      for (const [oldLocale, siteLocale] of Object.entries(localeMap)) {
+        add(`/${oldLocale}/${oldSlug}`, `/${page}/${siteLocale}`);
+      }
     }
 
-    // Locale-correct area slugs
-    for (const pair of Object.values(areaLocaleSlugs)) {
-      redirects.push(
-        { source: `/en/areas/${pair.es}`, destination: `/en/areas/${pair.en}`, permanent: true },
-        { source: `/es/areas/${pair.en}`, destination: `/es/areas/${pair.es}`, permanent: true },
-      );
+    // Product and area details
+    for (const [oldLocale, siteLocale] of Object.entries(localeMap)) {
+      add(`/${oldLocale}/tienda/:id`, `/store/${siteLocale}/:id`);
+      add(`/${oldLocale}/store/:id`, `/store/${siteLocale}/:id`);
+      add(`/${oldLocale}/areas/:slug`, `/areas/${siteLocale}/:slug`);
     }
+    add("/areas/:slug", "/areas/es-ve/:slug");
 
     return redirects;
   },

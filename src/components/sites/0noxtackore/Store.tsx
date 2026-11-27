@@ -7,7 +7,7 @@ import { useEffect, useMemo, useState } from "react";
 import { getContent } from "./content";
 import styles from "./site.module.css";
 import { siteUrl } from "./data";
-import { getPagePath, type Locale } from "@/lib/i18n";
+import { defaultSiteLocale, sitePath, type Locale, type SiteLocale } from "@/lib/i18n";
 import type { StoreProductRecord } from "@/lib/store/types";
 import { withAffiliateTracking } from "@/lib/store/affiliate";
 import { categoryLabel } from "@/lib/store/category-labels";
@@ -23,7 +23,7 @@ const HERO_VIDEOS = [
   "/sites/0noxtackore/videos/hero_video_iii.mp4",
 ];
 
-export function Store({ locale, products: records }: Props) {
+export function Store({ locale, products: records, siteLocale = defaultSiteLocale[locale] }: Props & { siteLocale?: SiteLocale }) {
   const content = getContent(locale);
   const store = content.pages.tienda;
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
@@ -31,7 +31,7 @@ export function Store({ locale, products: records }: Props) {
   const [badgeOnly, setBadgeOnly] = useState(false);
   const [query, setQuery] = useState("");
   const [heroVideo, setHeroVideo] = useState(0);
-  const storePath = getPagePath(locale, "tienda");
+  const storePath = sitePath("tienda", siteLocale);
   const storeUrl = `${siteUrl}${storePath}`;
 
   useEffect(() => {
@@ -128,11 +128,11 @@ export function Store({ locale, products: records }: Props) {
       <div className={styles.page}>
         <header className={styles.guideHeader}>
           <div className={styles.guideHeaderInner}>
-            <Link href={`/${locale}`} className={styles.guideLogoLink}>
+            <Link href={sitePath("home", siteLocale)} className={styles.guideLogoLink}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/sites/0noxtackore/logo.webp" alt="0NOXTACKORE" className={styles.guideLogo} width={180} height={36} />
             </Link>
-            <Link href={`/${locale}`} className={styles.guideBack}>{store.back}</Link>
+            <Link href={sitePath("home", siteLocale)} className={styles.guideBack}>{store.back}</Link>
           </div>
         </header>
 

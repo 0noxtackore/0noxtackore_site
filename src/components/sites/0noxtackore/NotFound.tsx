@@ -1,10 +1,10 @@
 import Link from "next/link";
 
-import { getPagePath, type Locale } from "@/lib/i18n";
+import { defaultSiteLocale, sitePath, type Locale, type SiteLocale } from "@/lib/i18n";
 import styles from "./site.module.css";
 import { getContent } from "./content";
 
-export function NotFoundContent({ locale }: { locale: Locale }) {
+export function NotFoundContent({ locale, siteLocale = defaultSiteLocale[locale] }: { locale: Locale; siteLocale?: SiteLocale }) {
   const content = getContent(locale);
   const isEs = locale === "es";
 
@@ -12,7 +12,7 @@ export function NotFoundContent({ locale }: { locale: Locale }) {
     <div className={styles.page}>
       <header className={styles.guideHeader}>
         <div className={styles.guideHeaderInner}>
-          <Link className={styles.guideLogoLink} href={`/${locale}`} aria-label={content.brand.name}>
+          <Link className={styles.guideLogoLink} href={sitePath("home", siteLocale)} aria-label={content.brand.name}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               className={styles.guideLogo}
@@ -38,10 +38,10 @@ export function NotFoundContent({ locale }: { locale: Locale }) {
               : "The page you're looking for doesn't exist, was moved, or the URL is incorrect."}
           </p>
           <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginTop: 24 }}>
-            <Link className={`${styles.button} ${styles.buttonBlue}`} href={`/${locale}`}>
+            <Link className={`${styles.button} ${styles.buttonBlue}`} href={sitePath("home", siteLocale)}>
               {isEs ? "Ir al inicio" : "Go home"}
             </Link>
-            <Link className={styles.button} style={{ background: "#fff", color: "var(--ink)", border: "1px solid #d1d1d1" }} href={getPagePath(locale, "tienda")}>
+            <Link className={styles.button} style={{ background: "#fff", color: "var(--ink)", border: "1px solid #d1d1d1" }} href={sitePath("tienda", siteLocale)}>
               {isEs ? "Ver tienda" : "View store"}
             </Link>
           </div>

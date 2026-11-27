@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { getContent } from "./content";
 import styles from "./site.module.css";
 import { siteUrl } from "./data";
-import { getPagePath, type Locale } from "@/lib/i18n";
+import { defaultSiteLocale, sitePath, type Locale, type SiteLocale } from "@/lib/i18n";
 import type { StoreProductRecord } from "@/lib/store/types";
 import { withAffiliateTracking } from "@/lib/store/affiliate";
 import { categoryLabel } from "@/lib/store/category-labels";
@@ -38,12 +38,12 @@ function truncateText(value: string, maxLength: number) {
   return `${text.slice(0, Math.max(0, maxLength - 3)).trimEnd()}...`;
 }
 
-export function ProductDetail({ locale, product: record, similar }: Props) {
+export function ProductDetail({ locale, product: record, similar, siteLocale = defaultSiteLocale[locale] }: Props & { siteLocale?: SiteLocale }) {
   const content = getContent(locale);
   const store = content.pages.tienda;
   const product = mapProduct(record, locale);
   const similarProducts = similar.map((p) => mapProduct(p, locale));
-  const storePath = getPagePath(locale, "tienda");
+  const storePath = sitePath("tienda", siteLocale);
   const productUrl = `${siteUrl}${storePath}/${product.id}`;
   const [lightbox, setLightbox] = useState(false);
 
@@ -74,7 +74,7 @@ export function ProductDetail({ locale, product: record, similar }: Props) {
       <div className={styles.page}>
         <header className={styles.guideHeader}>
           <div className={styles.guideHeaderInner}>
-            <Link href={`/${locale}`} className={styles.guideLogoLink}>
+            <Link href={sitePath("home", siteLocale)} className={styles.guideLogoLink}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/sites/0noxtackore/logo.webp"

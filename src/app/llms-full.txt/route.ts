@@ -45,14 +45,15 @@ const content = `# 0NOXTACKORE — Full LLM Context
 
 ## Key URLs
 
-- [Home (ES)](${siteUrl}/es)
-- [Home (EN)](${siteUrl}/en)
-- [About (ES)](${siteUrl}/es/acerca)
-- [About (EN)](${siteUrl}/en/about)
-- [Laptop buying guide (ES)](${siteUrl}/es/guia)
-- [Laptop buying guide (EN)](${siteUrl}/en/guide)
-- [Store (ES)](${siteUrl}/es/tienda)
-- [Store (EN)](${siteUrl}/en/store)
+- [Home (es-VE)](${siteUrl}/home/es-ve)
+- [Home (en-US)](${siteUrl}/home/en-us)
+- [Home (es-CO)](${siteUrl}/home/es-co)
+- [About (es-VE)](${siteUrl}/about/es-ve)
+- [About (en-US)](${siteUrl}/about/en-us)
+- [Laptop buying guide (es-VE)](${siteUrl}/guide/es-ve)
+- [Laptop buying guide (en-US)](${siteUrl}/guide/en-us)
+- [Store (es-VE)](${siteUrl}/store/es-ve)
+- [Store (en-US)](${siteUrl}/store/en-us)
 - [Sitemap](${siteUrl}/sitemap.xml)
 - [LLMs summary](${siteUrl}/llms.txt)
 

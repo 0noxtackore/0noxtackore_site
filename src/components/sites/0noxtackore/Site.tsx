@@ -24,7 +24,7 @@ import { siteUrl, type Area } from "./data";
 import { HeroSlider } from "./HeroSlider";
 import { ShareButtons } from "./ShareButtons";
 import styles from "./site.module.css";
-import { getAreaKey, getPageKey, getPagePath, type Locale } from "@/lib/i18n";
+import { defaultSiteLocale, getAreaKey, getPageKey, hrefForSiteLocale, sitePath, type Locale, type SiteLocale } from "@/lib/i18n";
 
 function FacebookIcon() {
   return (
@@ -87,17 +87,16 @@ function useScrollToSection() {
   const pathname = usePathname();
 
   useEffect(() => {
-    const path = pathname.replace(/\/(es|en)(?=\/|$)/, "").replace(/\/+$/, "") || "/";
+    const segments = pathname.split("/").filter(Boolean);
+    const pageSegment = segments[0] ?? "";
+    const pageKey = getPageKey(pageSegment);
     let targetId: string | undefined;
 
-    if (path.startsWith("/areas/")) {
-      const slug = path.slice("/areas/".length);
-      const areaKey = getAreaKey(slug);
-      targetId = `area-${areaKey ?? slug}`;
+    if (pageSegment === "areas" && segments[2]) {
+      const areaKey = getAreaKey(segments[2]);
+      targetId = `area-${areaKey ?? segments[2]}`;
     } else {
-      const slug = path.slice(1);
-      const pageKey = getPageKey(slug);
-      targetId = sectionTargets[path] ?? (pageKey ? sectionTargets[`/${pageKey}`] : undefined);
+      targetId = pageKey ? sectionTargets[`/${pageKey}`] : undefined;
     }
 
     if (!targetId) return;
@@ -125,7 +124,7 @@ function BrandIntro({ text, name }: { text: string; name: string }) {
   );
 }
 
-export function Site({ locale }: { locale: Locale }) {
+export function Site({ locale, siteLocale = defaultSiteLocale[locale] }: { locale: Locale; siteLocale?: SiteLocale }) {
   useScrollToSection();
   const content = getContent(locale);
   const {
@@ -146,6 +145,10 @@ export function Site({ locale }: { locale: Locale }) {
     ui,
     share,
   } = content;
+
+  const siteNavLinks = navLinks.map((link) => ({ ...link, href: hrefForSiteLocale(link.href, siteLocale) }));
+  const siteMegaGroups = megaGroups.map((group) => ({ ...group, links: group.links.map((link) => ({ ...link, href: hrefForSiteLocale(link.href, siteLocale) })) }));
+  const siteFooterGroups = footerGroups.map((group) => ({ ...group, links: group.links.map((link) => ({ ...link, href: hrefForSiteLocale(link.href, siteLocale) })) }));
 
   const shareUrl = locale === "es" ? siteUrl : `${siteUrl}/en`;
   const homeUrl = `${siteUrl}/${locale}`;
@@ -183,7 +186,7 @@ export function Site({ locale }: { locale: Locale }) {
         <div className={styles.announceInner}>
           <span className={styles.announceStrong}>{brand.name}</span>
           <span>{brand.tagline}</span>
-          <Link className={styles.announceLink} href={`/${locale}/filosofia`}>
+          <Link className={styles.announceLink} href={sitePath("filosofia", siteLocale)}>
             {ui.announce}
           </Link>
         </div>
@@ -191,7 +194,7 @@ export function Site({ locale }: { locale: Locale }) {
 
       <header className={styles.header}>
         <div className={styles.headerInner}>
-          <Link className={styles.logoLink} href={`/${locale}`} aria-label={brand.name}>
+          <Link className={styles.logoLink} href={sitePath("home", siteLocale)} aria-label={brand.name}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               className={styles.logo}
@@ -204,7 +207,7 @@ export function Site({ locale }: { locale: Locale }) {
           </Link>
 
           <nav className={styles.nav} aria-label={locale === "es" ? "Navegación principal" : "Main navigation"}>
-            {navLinks.map((link) => (
+            {siteNavLinks.map((link) => (
               <Link key={link.href} className={styles.navLink} href={link.href}>
                 {link.label}
               </Link>
@@ -212,8 +215,8 @@ export function Site({ locale }: { locale: Locale }) {
           </nav>
 
           <div className={styles.actions}>
-            <NavButton label={ui.all} brandName={brand.name.toLowerCase()} groups={megaGroups} navLinks={navLinks} navLabel={locale === "es" ? "Navegación" : "Navigation"} />
-            <Link className={styles.contactButton} href={`/${locale}/contacto`}>
+            <NavButton label={ui.all} brandName={brand.name.toLowerCase()} groups={siteMegaGroups} navLinks={siteNavLinks} navLabel={locale === "es" ? "Navegación" : "Navigation"} />
+            <Link className={styles.contactButton} href={sitePath("contacto", siteLocale)}>
               {ui.contact}
             </Link>
           </div>
@@ -235,10 +238,10 @@ export function Site({ locale }: { locale: Locale }) {
                 <BrandIntro text={brand.intro} name={brand.name} />
               </p>
               <div className={styles.heroActions}>
-                <Link className={`${styles.button} ${styles.buttonBlue}`} href={`/${locale}/areas`}>
+                <Link className={`${styles.button} ${styles.buttonBlue}`} href={sitePath("areas", siteLocale)}>
                   {ui.heroExplore}
                 </Link>
-                <Link className={`${styles.button} ${styles.buttonOutline}`} href={`/${locale}/filosofia`}>
+                <Link className={`${styles.button} ${styles.buttonOutline}`} href={sitePath("filosofia", siteLocale)}>
                   {ui.heroPhilosophy}
                 </Link>
               </div>
@@ -367,7 +370,7 @@ export function Site({ locale }: { locale: Locale }) {
                   ))}
                 </div>
                 <div className={styles.recActions}>
-                  <Link className={`${styles.button} ${styles.buttonBlue}`} href={getPagePath(locale, "guia")}>
+                  <Link className={`${styles.button} ${styles.buttonBlue}`} href={sitePath("guia", siteLocale)}>
                     {ui.readGuide}
                   </Link>
                 </div>
@@ -534,7 +537,7 @@ export function Site({ locale }: { locale: Locale }) {
             <div className={styles.faqCta}>
               <p className={styles.faqCtaText}>{ui.faqCta}</p>
               <div className={styles.faqCtaActions}>
-                <Link className={`${styles.button} ${styles.buttonBlue}`} href={`/${locale}/social`}>
+                <Link className={`${styles.button} ${styles.buttonBlue}`} href={sitePath("home", siteLocale)}>
                   {ui.socialTitle}
                 </Link>
               </div>
@@ -599,7 +602,7 @@ export function Site({ locale }: { locale: Locale }) {
         brandName={brand.name}
         tagline={brand.tagline}
         approach={brand.approach}
-        groups={footerGroups}
+        groups={siteFooterGroups}
         claim={ui.footerClaim}
       />
     </div>

@@ -6,13 +6,13 @@ import { getContent } from "./content";
 import { ShareButtons } from "./ShareButtons";
 import styles from "./site.module.css";
 import { siteUrl } from "./data";
-import { getPagePath, type Locale } from "@/lib/i18n";
+import { defaultSiteLocale, sitePath, type Locale, type SiteLocale } from "@/lib/i18n";
 
-export function Guia({ locale }: { locale: Locale }) {
+export function Guia({ locale, siteLocale = defaultSiteLocale[locale] }: { locale: Locale; siteLocale?: SiteLocale }) {
   const content = getContent(locale);
   const guide = content.pages.guia;
   const { share } = content;
-  const guideUrl = `${siteUrl}${getPagePath(locale, "guia")}`;
+  const guideUrl = `${siteUrl}${sitePath("guia", siteLocale)}`;
   const structuredData = JSON.stringify({
     "@context": "https://schema.org",
     "@type": "Article",
@@ -63,7 +63,7 @@ export function Guia({ locale }: { locale: Locale }) {
 
       <header className={styles.guideHeader}>
         <div className={styles.guideHeaderInner}>
-          <Link className={styles.guideLogoLink} href={`/${locale}`} aria-label={content.brand.name}>
+          <Link className={styles.guideLogoLink} href={sitePath("home", siteLocale)} aria-label={content.brand.name}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               className={styles.guideLogo}
@@ -74,7 +74,7 @@ export function Guia({ locale }: { locale: Locale }) {
               decoding="async"
             />
           </Link>
-          <Link className={styles.guideBack} href={`/${locale}`}>
+          <Link className={styles.guideBack} href={sitePath("home", siteLocale)}>
             {guide.back}
           </Link>
         </div>
@@ -134,7 +134,7 @@ export function Guia({ locale }: { locale: Locale }) {
           <section className={styles.guideStoreNotice}>
             <h2 className={styles.guideH2}>{guide.storeTitle}</h2>
             <p className={styles.guideP}>{guide.storeText}</p>
-            <Link className={`${styles.button} ${styles.buttonBlue}`} href={getPagePath(locale, "tienda")}>
+            <Link className={`${styles.button} ${styles.buttonBlue}`} href={sitePath("tienda", siteLocale)}>
               {guide.storeCta}
             </Link>
           </section>

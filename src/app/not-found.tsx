@@ -1,27 +1,12 @@
 import Link from "next/link";
 import { headers } from "next/headers";
 
-function pickLocale(acceptLanguage: string | null): "es" | "en" {
-  if (!acceptLanguage) return "es";
-  const preferred = acceptLanguage
-    .split(",")
-    .map((part) => {
-      const [tag, qPart] = part.trim().split(";q=");
-      const q = qPart ? Number.parseFloat(qPart) : 1;
-      return { tag: tag.toLowerCase(), q: Number.isFinite(q) ? q : 0 };
-    })
-    .sort((a, b) => b.q - a.q);
-  for (const { tag } of preferred) {
-    if (tag.startsWith("en")) return "en";
-    if (tag.startsWith("es")) return "es";
-  }
-  return "es";
-}
+import { siteLocaleFromRequest } from "@/lib/i18n";
 
 export default async function RootNotFound() {
   const h = await headers();
-  const locale = pickLocale(h.get("accept-language"));
-  const isEs = locale === "es";
+  const siteLocale = siteLocaleFromRequest(h.get("cf-ipcountry"), h.get("accept-language"));
+  const isEs = siteLocale.startsWith("es");
 
   return (
     <main style={{ minHeight: "100vh", display: "grid", placeItems: "center", padding: 24, fontFamily: "system-ui, sans-serif", background: "#fff", color: "#0f1720" }}>
@@ -37,7 +22,7 @@ export default async function RootNotFound() {
         </p>
         <div style={{ display: "flex", gap: 12, marginTop: 24, flexWrap: "wrap" }}>
           <Link
-            href={isEs ? "/es" : "/en"}
+            href={isEs ? `/home/${siteLocale}` : `/home/${siteLocale}`}
             style={{ padding: "10px 16px", background: "#0078d4", color: "#fff", textDecoration: "none", borderRadius: 8 }}
           >
             {isEs ? "Ir al inicio" : "Go home"}

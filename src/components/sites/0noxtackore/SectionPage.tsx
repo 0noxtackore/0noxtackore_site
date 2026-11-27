@@ -5,7 +5,7 @@ import Link from "next/link";
 import { getContent } from "./content";
 import styles from "./site.module.css";
 import { sectionMeta, type SectionKey } from "./section-meta";
-import { getAreaSlug, type Locale } from "@/lib/i18n";
+import { defaultSiteLocale, siteAreaPath, sitePath, type Locale, type SiteLocale } from "@/lib/i18n";
 
 const SOCIALS = [
   { label: "YouTube", href: "https://www.youtube.com/@0noxtackore" },
@@ -13,7 +13,7 @@ const SOCIALS = [
   { label: "Instagram", href: "https://www.instagram.com/0noxtackore.dev/" },
 ];
 
-export function SectionPage({ locale, section }: { locale: Locale; section: SectionKey }) {
+export function SectionPage({ locale, section, siteLocale = defaultSiteLocale[locale] }: { locale: Locale; section: SectionKey; siteLocale?: SiteLocale }) {
   const content = getContent(locale);
   const meta = sectionMeta(locale, section);
   const back = locale === "es" ? "Volver al inicio" : "Back to home";
@@ -22,11 +22,11 @@ export function SectionPage({ locale, section }: { locale: Locale; section: Sect
     <div className={styles.page}>
       <header className={styles.guideHeader}>
         <div className={styles.guideHeaderInner}>
-          <Link className={styles.guideLogoLink} href={`/${locale}`}>
+          <Link className={styles.guideLogoLink} href={sitePath("home", siteLocale)}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/sites/0noxtackore/logo.webp" alt="0NOXTACKORE" className={styles.guideLogo} width={180} height={36} />
           </Link>
-          <Link href={`/${locale}`} className={styles.guideBack}>{back}</Link>
+          <Link href={sitePath("home", siteLocale)} className={styles.guideBack}>{back}</Link>
         </div>
       </header>
 
@@ -49,7 +49,7 @@ export function SectionPage({ locale, section }: { locale: Locale; section: Sect
               <div className={styles.chips}>
                 {content.recommendation.highlights.map((item) => <span key={item} className={styles.chip}>{item}</span>)}
               </div>
-              <Link className={`${styles.button} ${styles.buttonBlue}`} href={`/${locale}/${locale === "es" ? "guia" : "guide"}`}>
+              <Link className={`${styles.button} ${styles.buttonBlue}`} href={sitePath("guia", siteLocale)}>
                 {content.ui.readGuide}
               </Link>
             </>
@@ -97,7 +97,7 @@ export function SectionPage({ locale, section }: { locale: Locale; section: Sect
           {section === "areas" && (
             <div className={styles.cardGrid}>
               {content.areas.map((area) => (
-                <Link key={area.slug} className={styles.card} href={`/${locale}/areas/${getAreaSlug(locale, area.slug)}`}>
+                <Link key={area.slug} className={styles.card} href={siteAreaPath(area.slug, siteLocale)}>
                   <h2 className={styles.cardTitle}>{area.title}</h2>
                   <p className={styles.cardText}>{area.description}</p>
                 </Link>
