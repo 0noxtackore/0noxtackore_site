@@ -18,11 +18,12 @@ type Props = {
   similar: StoreProductRecord[];
 };
 
-function mapProduct(p: StoreProductRecord, locale: Locale) {
+function mapProduct(p: StoreProductRecord, locale: Locale, siteLocale: SiteLocale) {
+  const translated = p.translations?.[siteLocale];
   return {
     id: p.id,
-    name: locale === "es" ? p.nameEs : p.nameEn,
-    description: locale === "es" ? p.descriptionEs : p.descriptionEn,
+    name: translated?.name || (locale === "es" ? p.nameEs : p.nameEn),
+    description: translated?.description || (locale === "es" ? p.descriptionEs : p.descriptionEn),
     category: p.category,
     store: p.store,
     priceNote: locale === "es" ? p.priceNoteEs : p.priceNoteEn,
@@ -41,8 +42,8 @@ function truncateText(value: string, maxLength: number) {
 export function ProductDetail({ locale, product: record, similar, siteLocale = defaultSiteLocale[locale] }: Props & { siteLocale?: SiteLocale }) {
   const content = getContent(locale, siteLocale);
   const store = content.pages.tienda;
-  const product = mapProduct(record, locale);
-  const similarProducts = similar.map((p) => mapProduct(p, locale));
+  const product = mapProduct(record, locale, siteLocale);
+  const similarProducts = similar.map((p) => mapProduct(p, locale, siteLocale));
   const storePath = sitePath("tienda", siteLocale);
   const productUrl = `${siteUrl}${storePath}/${product.id}`;
   const [lightbox, setLightbox] = useState(false);

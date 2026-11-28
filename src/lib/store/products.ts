@@ -7,7 +7,8 @@ type FirestoreValue =
   | { booleanValue: boolean }
   | { integerValue: string }
   | { doubleValue: number }
-  | { nullValue: null };
+  | { nullValue: null }
+  | { mapValue: { fields?: Record<string, FirestoreValue> } };
 
 type FirestoreDoc = {
   name: string;
@@ -21,6 +22,21 @@ function str(fields: Record<string, FirestoreValue> | undefined, key: string): s
 function bool(fields: Record<string, FirestoreValue> | undefined, key: string): boolean {
   const v = fields?.[key];
   return v && "booleanValue" in v ? v.booleanValue : false;
+}
+
+function translationsOf(fields: Record<string, FirestoreValue> | undefined): StoreProductRecord["translations"] {
+  const value = fields?.translations;
+  if (!value || !("mapValue" in value)) return undefined;
+  const out: NonNullable<StoreProductRecord["translations"]> = {};
+  for (const [locale, localeValue] of Object.entries(value.mapValue.fields ?? {})) {
+    if (!("mapValue" in localeValue)) continue;
+    const localeFields = localeValue.mapValue.fields ?? {};
+    out[locale] = {
+      name: str(localeFields, "name") || undefined,
+      description: str(localeFields, "description") || undefined,
+    };
+  }
+  return Object.keys(out).length ? out : undefined;
 }
 
 function docToProduct(doc: FirestoreDoc): StoreProductRecord | null {
@@ -45,6 +61,7 @@ function docToProduct(doc: FirestoreDoc): StoreProductRecord | null {
     descriptionEn: str(f, "descriptionEn"),
     badgeEs: str(f, "badgeEs") || undefined,
     badgeEn: str(f, "badgeEn") || undefined,
+    translations: translationsOf(f),
     createdAt: str(f, "createdAt") || undefined,
     updatedAt: str(f, "updatedAt") || undefined,
   };

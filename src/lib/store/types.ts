@@ -16,6 +16,7 @@ export type StoreProductRecord = {
   descriptionEn: string;
   badgeEs?: string;
   badgeEn?: string;
+  translations?: Record<string, { name?: string; description?: string }>;
   createdAt?: string;
   updatedAt?: string;
 };

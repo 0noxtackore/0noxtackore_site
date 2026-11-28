@@ -43,18 +43,21 @@ export function Store({ locale, products: records, siteLocale = defaultSiteLocal
 
   const products = useMemo(
     () =>
-      records.map((p) => ({
+      records.map((p) => {
+        const translated = p.translations?.[siteLocale];
+        return {
         id: p.id,
-        name: locale === "es" ? p.nameEs : p.nameEn,
-        description: locale === "es" ? p.descriptionEs : p.descriptionEn,
+        name: translated?.name || (locale === "es" ? p.nameEs : p.nameEn),
+        description: translated?.description || (locale === "es" ? p.descriptionEs : p.descriptionEn),
         category: p.category,
         store: p.store,
         priceNote: locale === "es" ? p.priceNoteEs : p.priceNoteEn,
         url: withAffiliateTracking(p.affiliateUrl, p.store),
         image: p.imageUrl,
         badge: locale === "es" ? p.badgeEs : p.badgeEn,
-      })),
-    [locale, records],
+        };
+      }),
+    [locale, records, siteLocale],
   );
 
   const categories = useMemo(

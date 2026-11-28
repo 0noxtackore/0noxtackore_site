@@ -106,6 +106,7 @@ function toRecord(id: string, data: Record<string, unknown>): StoreProductRecord
     descriptionEn: s("descriptionEn"),
     badgeEs: s("badgeEs") || undefined,
     badgeEn: s("badgeEn") || undefined,
+    translations: (data.translations as StoreProductRecord["translations"]) || undefined,
     createdAt: s("createdAt") || undefined,
     updatedAt: s("updatedAt") || undefined,
   };
