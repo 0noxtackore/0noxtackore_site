@@ -23,9 +23,9 @@ const PAGES: { key: PageKey | "home"; priority: number; changeFrequency: "weekly
 ];
 
 function loc(path: string) { return `${base}${path}`; }
-function languages(paths: string[]) {
+function languages(paths: string[], locales: readonly string[] = INDEXED_LOCALES) {
   const out: Record<string, string> = {};
-  INDEXED_LOCALES.forEach((locale) => { out[locale.toUpperCase()] = loc(paths[INDEXED_LOCALES.indexOf(locale)]); });
+  locales.slice(0, paths.length).forEach((locale, i) => { out[locale.toUpperCase()] = loc(paths[i]); });
   out["x-default"] = loc(paths[0]);
   return out;
 }
@@ -63,15 +63,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   try {
     const products = await getActiveProducts();
     for (const product of products) {
-      const paths = INDEXED_LOCALES.map((siteLocale) => siteProductPath(product.id, siteLocale));
+      const productLocales = ["es-ve", "en-us"] as const;
+      const paths = productLocales.map((siteLocale) => siteProductPath(product.id, siteLocale));
       const modified = product.updatedAt ? new Date(product.updatedAt) : lastModified;
-      for (let i = 0; i < INDEXED_LOCALES.length; i++) {
+      for (let i = 0; i < productLocales.length; i++) {
         entries.push({
           url: loc(paths[i]),
           lastModified: modified,
           changeFrequency: "weekly",
           priority: 0.7,
-          alternates: { languages: languages(paths) },
+          alternates: { languages: languages(paths, productLocales) },
         });
       }
     }

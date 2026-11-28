@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
 import { AreaPage } from "@/components/sites/0noxtackore/AreaPage";
 import { getContent } from "@/components/sites/0noxtackore/content";
 import { ProductDetail } from "@/components/sites/0noxtackore/ProductDetail";
 import { getActiveProductById, getActiveProducts } from "@/lib/store/products";
-import { INDEXED_LOCALES, getAreaKey, isIndexedLocale, isSiteLocale, languageOf, siteAreaPath, siteProductPath } from "@/lib/i18n";
+import { defaultSiteLocale, INDEXED_LOCALES, getAreaKey, isIndexedLocale, isSiteLocale, languageOf, siteAreaPath, siteProductPath } from "@/lib/i18n";
 
 type Props = { params: Promise<{ page: string; siteLocale: string; slug: string }> };
 
@@ -15,6 +15,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const locale = languageOf(value);
 
   if (page === "store") {
+    if (value !== "es-ve" && value !== "en-us") return {};
     const product = await getActiveProductById(slug);
     if (!product) return {};
     const name = locale === "es" ? product.nameEs : product.nameEn;
@@ -25,7 +26,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       alternates: {
         canonical,
         languages: {
-          ...Object.fromEntries(INDEXED_LOCALES.map((loc) => [loc, siteProductPath(slug, loc)])),
+          "es-VE": siteProductPath(slug, "es-ve"),
+          "en-US": siteProductPath(slug, "en-us"),
           "x-default": siteProductPath(slug, "es-ve"),
         },
       },
@@ -61,6 +63,9 @@ export default async function DetailRoute({ params }: Props) {
   const locale = languageOf(value);
 
   if (page === "store") {
+    if (value !== "es-ve" && value !== "en-us") {
+      redirect(siteProductPath(slug, defaultSiteLocale[languageOf(value)]));
+    }
     const product = await getActiveProductById(slug);
     if (!product) notFound();
     const products = await getActiveProducts();

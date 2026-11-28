@@ -837,12 +837,44 @@ const en: Content = {
   },
 };
 
-import uiTranslations from "./ui-translations.json";
+import translations from "./ui-translations.json";
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function setPath(target: unknown, path: string[], value: string) {
+  let node = target;
+  for (let i = 0; i < path.length - 1; i++) {
+    const key = path[i];
+    const next = path[i + 1];
+    const makeContainer = () => (/^\d+$/.test(next) ? [] : {});
+    if (Array.isArray(node)) {
+      const index = Number(key);
+      if (!Number.isInteger(index)) return;
+      if (!node[index]) node[index] = makeContainer();
+      node = node[index];
+    } else if (isRecord(node)) {
+      if (!node[key]) node[key] = makeContainer();
+      node = node[key];
+    } else return;
+  }
+  const last = path[path.length - 1];
+  if (Array.isArray(node)) {
+    const index = Number(last);
+    if (Number.isInteger(index)) node[index] = value;
+  } else if (isRecord(node)) node[last] = value;
+}
 
 export function getContent(locale: Locale, siteLocale?: string): Content {
   const base = locale === "en" ? en : es;
   if (!siteLocale) return base;
-  const overrides = (uiTranslations as Record<string, Record<string, string>>)[siteLocale];
+  const overrides = (translations as Record<string, Record<string, string>>)[siteLocale];
   if (!overrides) return base;
-  return { ...base, ui: { ...base.ui, ...overrides } };
+
+  const merged = structuredClone(base) as unknown;
+  for (const [path, value] of Object.entries(overrides)) {
+    setPath(merged, path.split("."), value);
+  }
+  return merged as Content;
 }
